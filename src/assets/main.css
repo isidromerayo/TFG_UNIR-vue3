@@ -7,6 +7,12 @@
 
 @import './css/main.css';
 
+.color-vue-verde {
+  background-color: #42b883;
+}
+.color-vue-oscuro {
+  background-color: #35495e;
+}
 /*
 a,
 .green {
