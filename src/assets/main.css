@@ -13,6 +13,42 @@
 .color-vue-oscuro {
   background-color: #35495e;
 }
+.unir-logo {
+  background-color: aliceblue;
+}
+
+.icono-carrito {
+  font-size: 64px;
+}
+
+.navbar .get-a-quote,
+.navbar .get-a-quote:focus {
+background: #000;
+padding: 8px 20px;
+margin-left: 30px;
+border-radius: 4px;
+color: #fff;
+}
+
+.navbar .get-a-quote:hover,
+.navbar .get-a-quote:focus:hover {
+color: #fff;
+background: #0d6efd;
+}
+.cursos-destacados {
+  border: 2px red solid; 
+  border-radius: 5px;
+}
+
+.cursos-opiniones {
+  border: 2px orange solid; 
+  border-radius: 5px;
+}
+
+.cursos-actualizaciones {
+  border: 2px green solid; 
+  border-radius: 5px;
+}
 /*
 a,
 .green {
