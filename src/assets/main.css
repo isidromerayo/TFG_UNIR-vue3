@@ -1,13 +1,13 @@
-@import './base.css';
+@import './vendor/bootstrap/css/bootstrap.min.css';
+@import './vendor/bootstrap-icons/bootstrap-icons.css';
+@import './vendor/fontawesome-free/css/all.min.css';
+@import './vendor/glightbox/css/glightbox.min.css';
+@import './vendor/swiper/swiper-bundle.min.css';
+@import './vendor/aos/aos.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+@import './css/main.css';
 
-  font-weight: normal;
-}
-
+/*
 a,
 .green {
   text-decoration: none;
@@ -33,3 +33,4 @@ a,
     padding: 0 2rem;
   }
 }
+*/
