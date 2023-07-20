@@ -11,7 +11,7 @@ import { RouterLink, RouterView } from 'vue-router'
   <header id="header" class="header d-flex align-items-center fixed-top color-vue-verde">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <a href="index.html" class="logo d-flex align-items-center">
+      <a href="index.html" class="logo d-flex fix-home-menu align-items-center">
         <img alt="Vue logo" src="@/assets/logo.svg" class="unir-logo"/>
         <img src="@/assets/img/Unir_2021_logo.svg" alt="Logo UNIR" class="unir-logo" />
         <h1>TFG - FFJ: AEP</h1>
@@ -58,7 +58,7 @@ import { RouterLink, RouterView } from 'vue-router'
           <form action="#" class="form-search d-flex align-items-stretch mb-3">
             <!--<form action="#" class="form-search d-flex align-items-stretch mb-3" data-aos="fade-up" data-aos-delay="200">-->
             <input type="text" class="form-control" placeholder="nombre del curso" aria-label="buscador de cursos" />
-            <button type="submit" class="btn btn-primary">Search</button>
+            <button type="submit" class="btn btn-primary">Buscar</button>
           </form>
 
           <div class="row gy-4">
