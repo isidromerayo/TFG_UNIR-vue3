@@ -4,6 +4,9 @@
 
 @import './css/main.css';
 
+.fix-home-menu {
+  width: 100%;
+}
 .color-vue-verde {
   background-color: #42b883;
 }
