@@ -20,6 +20,18 @@
 .icono-carrito {
   font-size: 64px;
 }
+.pagina-datos {
+  margin-top: 10em;
+  margin-bottom: 2em;
+}
+
+.signup-form {
+  padding: 1em 2em;
+}
+
+.signup-form-button {
+  padding-top: 1em;
+}
 
 .navbar .get-a-quote,
 .navbar .get-a-quote:focus {

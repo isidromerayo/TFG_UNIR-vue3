@@ -1,22 +1,51 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+
+import RegistroComponent from '../components/RegistroComponent.vue'
+import HomeComponent from '../components/HomeComponent.vue'
+import ErrorComponent from '../components/ErrorComponent.vue'
+import AccesoComponent from '../components/AccesoComponent.vue'
+import CarritoComponent from '../components/CarritoComponent.vue'
+import CategoriasComponent from '../components/CategoriasComponent.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
+      path: '/home',
       name: 'home',
-      component: HomeView
+      component: HomeComponent
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/',
+      redirect: '/home'
+    },
+    {
+      path: '/categorias',
+      name: 'categorias',
+      component: CategoriasComponent
+    },
+    {
+      path: '/registro',
+      name: 'registro',
+      component: RegistroComponent
+    },
+    {
+      path: '/acceso',
+      name: 'acceso',
+      component: AccesoComponent
+    },
+    {
+      path: '/carrito',
+      name: 'carrito',
+      component: CarritoComponent
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '404',
+      component: ErrorComponent
     }
+    
   ]
 })
 
