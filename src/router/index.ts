@@ -6,6 +6,7 @@ import ErrorComponent from '../components/ErrorComponent.vue'
 import AccesoComponent from '../components/AccesoComponent.vue'
 import CarritoComponent from '../components/CarritoComponent.vue'
 import CategoriasComponent from '../components/CategoriasComponent.vue'
+import CategoriaComponent from '../components/CategoriaComponent.vue'
 
 
 const router = createRouter({
@@ -24,6 +25,11 @@ const router = createRouter({
       path: '/categorias',
       name: 'categorias',
       component: CategoriasComponent
+    },
+    {
+      path: '/categoria/:id',
+      name: 'categoria',
+      component: CategoriaComponent
     },
     {
       path: '/registro',
