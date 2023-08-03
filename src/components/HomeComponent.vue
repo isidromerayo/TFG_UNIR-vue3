@@ -13,7 +13,8 @@
             <p class="description">{{ curso.descripcion }}</p>
             <p class="description">valoración media: <b>{{ curso.valoracionMedia }}/5</b> / actualizado: {{
               curso.fechaActualizacion }}</p>
-            <a href="#"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
+              <RouterLink :to="`/curso/${curso.id}`"><span>Detalle</span><i
+                    class="bi bi-arrow-right"></i></RouterLink>
           </div>
         </div>
 
@@ -53,7 +54,9 @@
             <p class="description">actualizado: <b>{{ actualizacion.fechaActualizacion }}</b></p>
             <h4>{{ actualizacion.titulo }} </h4>
             <p class="description">{{ actualizacion.descripcion }}</p>
-            <a href="#"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
+            <RouterLink :to="`/curso/${actualizacion.id}`"><span>Detalle</span><i
+                    class="bi bi-arrow-right"></i></RouterLink>
+
           </div>
         </div>
 
