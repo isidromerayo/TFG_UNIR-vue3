@@ -18,6 +18,7 @@
                 class="bi bi-chevron-down dropdown-indicator"></i></router-link>
             <ul>
               <li v-for="categoria in categorias" :key="categoria"><router-link :to="{ name: 'categoria', params: {id: categoria.id}}">{{ categoria.nombre }}</router-link></li>
+              <li><router-link to="/categorias">...</router-link></li>
             </ul>
           </li>
           <li><router-link to="/carrito" active-class="active" title="carrito de la compra"><i class="bi bi-cart4" title="carito de la compra"

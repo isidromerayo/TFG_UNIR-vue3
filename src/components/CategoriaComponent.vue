@@ -10,7 +10,7 @@
                     Valoración media: {{ curso.valoracionMedia }} / precio: {{ curso.precio }}
                 </div>
                 <div>
-                    <RouterLink :to="`/curso/${curso.id}`"><span>ver cursos</span><i
+                    <RouterLink :to="`/curso/${curso.id}`"><span>detalle del curso</span><i
                     class="bi bi-arrow-right"></i></RouterLink>
                 </div>
             </section>
@@ -32,7 +32,12 @@ export default defineComponent({
         var categoria_id = this.$route.params.id;
         var categoria = this.getCategoriaId(categoria_id);
         var cursos = this.getCursosCategoriaId(categoria_id)
-
+    },
+    updated() {
+        var categoria_id = this.$route.params.id;
+        console.log('updated -> '+categoria_id)
+        //var categoria = this.getCategoriaId(categoria_id);
+        //var cursos = this.getCursosCategoriaId(categoria_id)
     },
     data() {
         return ({
