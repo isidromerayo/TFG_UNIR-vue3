@@ -17,10 +17,8 @@
           <li class="dropdown"><router-link to="/categorias" active-class="active"><span>Categorias</span><i
                 class="bi bi-chevron-down dropdown-indicator"></i></router-link>
             <ul>
-              <li><a href="#">Cat 1</a></li>
-              <li><a href="#">Cat 2</a></li>
-              <li><a href="#">Cat 3</a></li>
-              <li><a href="#">Cat 4</a></li>
+              <li v-for="categoria in categorias" :key="categoria"><router-link :to="{ name: 'categoria', params: {id: categoria.id}}">{{ categoria.nombre }}</router-link></li>
+              <li><router-link to="/categorias">...</router-link></li>
             </ul>
           </li>
           <li><router-link to="/carrito" active-class="active" title="carrito de la compra"><i class="bi bi-cart4" title="carito de la compra"
@@ -36,8 +34,25 @@
 
 </template>
 
-<script lang="ts" setup>
+<script lang="ts">
 
 import { RouterLink } from 'vue-router';
+import axios from 'axios';
+
+export default {
+  name: "HeaderComponent",
+  data() {
+    return ({
+      categorias: []
+    })
+  },
+  mounted() {
+    axios.get(`http://localhost:8080/api/categorias?sort=nombre&size=5`).then(response => {
+      this.categorias = response.data._embedded.categorias
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+}
 
 </script>

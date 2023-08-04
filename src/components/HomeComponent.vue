@@ -1,129 +1,101 @@
 <template>
-    <SliderComponent/>
-        <section class="featured-services">
-      <div class="container">
+  <SliderComponent />
+  <section class="featured-services portada-cards">
+    <div class="container">
 
-        <div class="row gy-4 cursos-destacados">
+      <div class="row gy-4 cursos-destacados">
+        <div>
+          <h1>Cursos destacados</h1>
+        </div>
+        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="curso in cursos">
           <div>
-            <h1>Cursos destacados</h1>
+            <h4>{{ curso.titulo }}</h4>
+            <p class="description">{{ curso.descripcion }}</p>
+            <p class="description">valoración media: <b>{{ curso.valoracionMedia }}/5</b> / actualizado: {{
+              curso.fechaActualizacion }}</p>
+              <RouterLink :to="`/curso/${curso.id}`"><span>Detalle</span><i
+                    class="bi bi-arrow-right"></i></RouterLink>
           </div>
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Lorem Ipsum</h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint
-                occaecati cupiditate non provident</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Dolor Sitema</h4>
-              <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                consequat tarad limino ata</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Sed ut perspiciatis</h4>
-              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
         </div>
 
       </div>
-    </section>
 
-    <section class="featured-services">
-      <div class="container">
+    </div>
+  </section>
 
-        <div class="row gy-4 cursos-opiniones">
-          <div>
-            <h1>Opiniones</h1>
-          </div>
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Voluptatum deleniti atque </h4>
-              <p class="description">Corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                provident</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
+  <section class="featured-services portada-cards">
+    <div class="container">
 
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Minim veniam</h4>
-              <p class="description">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
-                tarad limino ata</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Perspiciatis</h4>
-              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
+      <div class="row gy-4 cursos-opiniones">
+        <div>
+          <h1>Opiniones</h1>
         </div>
-      </div>
-    </section>
-
-    <section class="featured-services">
-      <div class="container">
-
-        <div class="row gy-4 cursos-actualizaciones">
+        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="valoracion in opiniones">
           <div>
-            <h1>Ultimas actualizaciones</h1>
-          </div>
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Voluptatum deleniti atque </h4>
-              <p class="description">Corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non
-                provident</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Minim veniam</h4>
-              <p class="description">Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
-                tarad limino ata</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 service-item d-flex">
-            <div>
-              <h4 class="title">Perspiciatis</h4>
-              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                fugiat nulla pariatur</p>
-              <a href="#" class="readmore stretched-link"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
-            </div>
+            <p class="description">Valoración: <b>{{ valoracion.puntuacion }}/5</b></p>
+            <p class="description">{{ valoracion.comentario }}</p>
+            <a href="#"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
           </div>
         </div>
-      </div>
-    </section>
 
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-services portada-cards">
+    <div class="container">
+
+      <div class="row gy-4 cursos-actualizaciones">
+        <div>
+          <h1>Ultimas actualizaciones</h1>
+        </div>
+        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="actualizacion in actualizaciones">
+          <div>
+            <p class="description">actualizado: <b>{{ actualizacion.fechaActualizacion }}</b></p>
+            <h4>{{ actualizacion.titulo }} </h4>
+            <p class="description">{{ actualizacion.descripcion }}</p>
+            <RouterLink :to="`/curso/${actualizacion.id}`"><span>Detalle</span><i
+                    class="bi bi-arrow-right"></i></RouterLink>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
 </template>
 
 <script lang="ts">
 
 import SliderComponent from './SliderComponent.vue'
+import axios from 'axios';
 
 export default {
-    name: "HomeComponent",
-    components: {SliderComponent},
-    methods: {
-    }
+  name: "HomeComponent",
+  components: { SliderComponent },
+  data() {
+    return ({
+      cursos: [],
+      opiniones: [],
+      actualizaciones: []
+    })
+  },
+  mounted() {
+    axios.get("http://localhost:8080/api/cursos/search/selectMorePoints").then(response => {
+      this.cursos = response.data._embedded.cursos
+    }).catch(error => {
+      console.log(error)
+    })
+    axios.get("http://localhost:8080/api/valoraciones/search/selectLastOpinions").then(response => {
+      this.opiniones = response.data._embedded.valoraciones
+    }).catch(error => {
+      console.log(error)
+    })
+    axios.get("http://localhost:8080/api/cursos/search/selectLastUpdates").then(response => {
+      this.actualizaciones = response.data._embedded.cursos;
+    }).catch(error => {
+      console.log(error)
+    })
+  }
 }
 </script>

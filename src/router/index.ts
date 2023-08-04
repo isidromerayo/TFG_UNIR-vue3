@@ -6,7 +6,8 @@ import ErrorComponent from '../components/ErrorComponent.vue'
 import AccesoComponent from '../components/AccesoComponent.vue'
 import CarritoComponent from '../components/CarritoComponent.vue'
 import CategoriasComponent from '../components/CategoriasComponent.vue'
-
+import CategoriaComponent from '../components/CategoriaComponent.vue'
+import CursoComponent from '../components/CursoComponent.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -24,6 +25,16 @@ const router = createRouter({
       path: '/categorias',
       name: 'categorias',
       component: CategoriasComponent
+    },
+    {
+      path: '/categoria/:id',
+      name: 'categoria',
+      component: CategoriaComponent
+    },
+    {
+      path: '/curso/:id',
+      name: 'curso',
+      component: CursoComponent
     },
     {
       path: '/registro',
