@@ -47,7 +47,7 @@ export default {
     })
   },
   mounted() {
-    axios.get("http://localhost:8080/api/categorias?sort=nombre&size=5").then(response => {
+    axios.get(`http://localhost:8080/api/categorias?sort=nombre&size=5`).then(response => {
       this.categorias = response.data._embedded.categorias
     }).catch(error => {
       console.log(error)
