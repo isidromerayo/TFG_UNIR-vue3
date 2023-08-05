@@ -11,7 +11,6 @@
                     class="bi bi-arrow-right"></i></RouterLink>
             </div>
         </section>
-        <pre>{{ categorias  }}</pre>
    
 </div>
 </template>

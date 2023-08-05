@@ -57,7 +57,6 @@ export default defineComponent({
         getCursosCategoriaId(categoria_id) {
             axios.get(`http://localhost:8080/api/categorias/${categoria_id}/cursos`).then(response => {
                 this.cursos = response.data._embedded.cursos
-                console.log(this.cursos)
             }).catch(error => {
                 console.log(error)
             })
