@@ -11,7 +11,6 @@
                     class="bi bi-arrow-right"></i></RouterLink>
             </div>
         </section>
-        <pre>{{ categorias  }}</pre>
    
 </div>
 </template>
@@ -19,6 +18,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import axios from 'axios';
+import { API_URL } from '../utils/constants.js'
+
 
 export default defineComponent({
     name: 'CategoriasComponent',
@@ -28,7 +29,7 @@ export default defineComponent({
     })
   },
   mounted() {
-    axios.get("http://localhost:8080/api/categorias?sort=nombre").then(response => {
+    axios.get(`${API_URL}categorias?sort=nombre`).then(response => {
                 this.categorias = response.data._embedded.categorias
             }).catch(error => {
                 console.log(error)

@@ -8,14 +8,11 @@
           <p>Facere distinctio molestiae nisi fugit tenetur repellat non praesentium nesciunt optio quis sit odio nemo
             quisquam. eius quos reiciendis eum vel eum voluptatem eum maiores eaque id optio ullam occaecati odio est
             possimus vel reprehenderit</p>
-          <form action="#" class="form-search d-flex align-items-stretch mb-3">
-            <input type="text" class="form-control" placeholder="nombre del curso" aria-label="buscador de cursos" />
+          <form action="" @submit.prevent="buscarCursos" class="form-search d-flex align-items-stretch mb-3">
+            <input type="text" class="form-control" v-model="search" placeholder="nombre del curso" aria-label="buscador de cursos" />
             <button type="submit" class="btn btn-primary">Buscar</button>
           </form>
-
           <div class="row gy-4">
-
-
 
           </div>
         </div>
@@ -31,10 +28,24 @@
 </template>
 
 <script lang="ts">
+import { useRouter } from 'vue-router';
+import { ref, defineComponent } from 'vue';
 
-export default {
+export default defineComponent({
     name: "SliderComponent",
-    methods: {
-    }
-}
+    setup() {
+      const search = ref('');
+      const router = useRouter();
+
+      const buscarCursos = () => {
+        router.push("/buscar/"+search.value)
+      }
+
+      return {
+        search,
+        buscarCursos
+      }
+    },
+
+})
 </script>

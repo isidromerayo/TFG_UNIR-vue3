@@ -8,6 +8,9 @@ import CarritoComponent from '../components/CarritoComponent.vue'
 import CategoriasComponent from '../components/CategoriasComponent.vue'
 import CategoriaComponent from '../components/CategoriaComponent.vue'
 import CursoComponent from '../components/CursoComponent.vue';
+import MisCursosComponent from  '../components/MisCursosComponent.vue';
+import MisDatosComponent from '../components/MisDatosComponent.vue'
+import BusquedaComponent from '../components/BusquedaComponent.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +40,11 @@ const router = createRouter({
       component: CursoComponent
     },
     {
+      path: '/buscar/:search',
+      name: 'busqueda',
+      component: BusquedaComponent
+    },
+    {
       path: '/registro',
       name: 'registro',
       component: RegistroComponent
@@ -51,6 +59,16 @@ const router = createRouter({
       name: 'carrito',
       component: CarritoComponent
     },
+    {
+      path: '/mis-cursos',
+      name: 'mis-cursos',
+      component: MisCursosComponent
+    },
+    {
+      path: '/mis-datos',
+      name: 'mis-datos',
+      component: MisDatosComponent
+    },    
     {
       path: '/:pathMatch(.*)*',
       name: '404',
