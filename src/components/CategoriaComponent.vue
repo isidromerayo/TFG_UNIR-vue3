@@ -25,6 +25,8 @@
 <script lang="ts">
 import { defineComponent,ref } from 'vue';
 import axios from 'axios';
+import { API_URL } from '../utils/constants.js'
+
 
 export default defineComponent({
     name: "CategoriaComponent",
@@ -35,10 +37,11 @@ export default defineComponent({
     },
     updated() {
         var categoria_id = this.$route.params.id;
-        console.log('updated -> '+categoria_id)
-        //var categoria = this.getCategoriaId(categoria_id);
-        //var cursos = this.getCursosCategoriaId(categoria_id)
+        //console.log('updated -> '+categoria_id)
+        // this.getCategoriaId(categoria_id);
+        // this.getCursosCategoriaId(categoria_id)
     },
+
     data() {
         return ({
             categoria_id: null,
@@ -48,14 +51,14 @@ export default defineComponent({
     },
     methods: {
         getCategoriaId(categoria_id) {
-            axios.get(`http://localhost:8080/api/categorias/${categoria_id}`).then(response => {
+            axios.get(`${API_URL}categorias/${categoria_id}`).then(response => {
                 this.categoria = response.data
             }).catch(error => {
                 console.log(error)
             })
         },
         getCursosCategoriaId(categoria_id) {
-            axios.get(`http://localhost:8080/api/categorias/${categoria_id}/cursos`).then(response => {
+            axios.get(`${API_URL}categorias/${categoria_id}/cursos`).then(response => {
                 this.cursos = response.data._embedded.cursos
             }).catch(error => {
                 console.log(error)

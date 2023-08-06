@@ -18,6 +18,8 @@ import { defineComponent,ref } from 'vue';
 import axios from 'axios';
 import {mapActions} from 'vuex';
 import Swal from 'sweetalert2';
+import { API_URL } from '../utils/constants.js'
+
 
 export default defineComponent({
     name: "CursoComponent",
@@ -35,7 +37,7 @@ export default defineComponent({
     methods: {
         ...mapActions(["addCursoCarrito"]),
         getCursosId(curso_id) {
-            axios.get(`http://localhost:8080/api/cursos/${curso_id}`).then(response => {
+            axios.get(`${API_URL}cursos/${curso_id}`).then(response => {
                 this.curso = response.data
             }).catch(error => {
                 console.log(error)

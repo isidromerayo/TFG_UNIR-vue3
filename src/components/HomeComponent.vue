@@ -69,6 +69,7 @@
 
 import SliderComponent from './SliderComponent.vue'
 import axios from 'axios';
+import { API_URL } from '../utils/constants.js'
 
 export default {
   name: "HomeComponent",
@@ -81,17 +82,22 @@ export default {
     })
   },
   mounted() {
-    axios.get("http://localhost:8080/api/cursos/search/selectMorePoints").then(response => {
+    const url_cursos = `${API_URL}cursos/search/selectMorePoints`;
+    axios.get(url_cursos).then(response => {
       this.cursos = response.data._embedded.cursos
     }).catch(error => {
       console.log(error)
     })
-    axios.get("http://localhost:8080/api/valoraciones/search/selectLastOpinions").then(response => {
+    const url_valoraciones = `${API_URL}valoraciones/search/selectLastOpinions`;
+
+    axios.get(url_valoraciones).then(response => {
       this.opiniones = response.data._embedded.valoraciones
     }).catch(error => {
       console.log(error)
     })
-    axios.get("http://localhost:8080/api/cursos/search/selectLastUpdates").then(response => {
+    const url_actualizaciones = `${API_URL}cursos/search/selectLastUpdates`;
+
+    axios.get(url_actualizaciones).then(response => {
       this.actualizaciones = response.data._embedded.cursos;
     }).catch(error => {
       console.log(error)
