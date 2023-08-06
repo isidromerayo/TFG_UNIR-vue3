@@ -3,13 +3,15 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     usuario: [],
+    isLoggedIn: false,
     carrito: [],
     totalCarrito: 0
   },
   getters: {
     carrito: state => state.carrito,
     usuario: state => state.usuario,
-    totalCarrito: state => state.totalCarrito
+    totalCarrito: state => state.totalCarrito,
+    isLoggedIn: state => state.isLoggedIn
   },
   mutations: { // actualiza estados
     setCarrito(state, payload) {
@@ -20,6 +22,9 @@ export default createStore({
     },
     setTotalCarrito(state, payload) {
       state.totalCarrito = payload
+    },
+    setIsLoggedIn(state, payload) {
+      state.isLoggedIn = payload
     }
   },
   actions: {
