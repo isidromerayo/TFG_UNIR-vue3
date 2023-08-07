@@ -60,6 +60,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { removeToken, getToken, setToken } from '../services/session.ts'
 
 import * as Yup from 'yup'
 import axios from 'axios';
@@ -70,7 +71,6 @@ export default defineComponent({
     setup() {
         let formData = ref({ nombre: '', apellidos: '', email: '', password: '' })
         let formError = ref({});
-        let loading = ref(false);
 
         const router = useRouter()
 
@@ -93,7 +93,7 @@ export default defineComponent({
                 await schemaForm.validate(formData.value, { abortEarly: false, strict: false })
                 try {
                     axios.post(`http://localhost:8080/api/usuarios`, formData.value).then(response => {
-                        console.log(response)
+                        //console.log(response)
                         Swal.fire('Alta', 'Se ha registrado su usuario correctamente, recibirá un correo para confirmar el alta');
                         borrarForm()
                         router.push("/acceso")  
@@ -115,12 +115,10 @@ export default defineComponent({
                 });
 
             }
-            loading.value = false
         }
         return {
             formData,
             formError,
-            loading,
             borrarForm,
             onRegister
         }

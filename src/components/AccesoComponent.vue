@@ -24,6 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router';
+import { setUser , setToken } from '../services/session.ts'
 
 import * as Yup from 'yup'
 import axios from 'axios';
@@ -46,11 +47,11 @@ export default defineComponent({
             axios.post("http://localhost:8080/api/auth", formLogin.value).then(response => {
                 console.log(response.data)
                 console.log(response.headers)
-                // mensaje de OK y redireccionar a parte privada
                 Swal.fire('Acceso', 'Logeado correctamente');
-                sessionStorage.setItem("usuario",JSON.stringify(response.data))
-                sessionStorage.setItem("isLoggedIn","true")
-                router.push('/mis-cursos')
+                setToken(response.data.token);
+                setUser(JSON.stringify(response.data));
+                //router.push('/mis-cursos')
+                location.replace('/mis-cursos')
             }).catch(error => {
                 Swal.fire('Problemas acceso', 'No se ha podido logear, revise usuario/contraseña', 'error');
 
