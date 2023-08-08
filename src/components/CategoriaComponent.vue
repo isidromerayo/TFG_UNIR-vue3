@@ -2,7 +2,8 @@
     <div class="container pagina-datos">
         <h1>Categoria <span class="destacar-palabra">{{ categoria.nombre }}</span>, sus cursos...</h1>
         <div>
-            <section class="listado-categorias" v-for="curso in cursos" :key="curso.id">
+            <template  v-for="curso in cursos" :key="curso.id">
+            <section class="listado-categorias">
                 <div>
                     <h2>{{ curso.titulo }}</h2>
                 </div>
@@ -14,7 +15,7 @@
                     class="bi bi-arrow-right"></i></RouterLink>
                 </div>
             </section>
-
+            </template>
         </div>
         <div class="sin-resultados" v-if="cursos.length < 0">
             Sin cursos en esta categoría
@@ -23,48 +24,54 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref } from 'vue';
+import { defineComponent,ref,onMounted } from 'vue';
 import axios from 'axios';
 import { API_URL } from '../utils/constants.js'
+import { useRoute } from 'vue-router';
 
 
 export default defineComponent({
     name: "CategoriaComponent",
-    mounted() {
-        var categoria_id = this.$route.params.id;
-        var categoria = this.getCategoriaId(categoria_id);
-        var cursos = this.getCursosCategoriaId(categoria_id)
-    },
-    updated() {
-        var categoria_id = this.$route.params.id;
-        //console.log('updated -> '+categoria_id)
-        // this.getCategoriaId(categoria_id);
-        // this.getCursosCategoriaId(categoria_id)
-    },
-
-    data() {
-        return ({
-            categoria_id: null,
-            categoria: [],
-            cursos: []
-        })
-    },
-    methods: {
-        getCategoriaId(categoria_id) {
-            axios.get(`${API_URL}categorias/${categoria_id}`).then(response => {
-                this.categoria = response.data
-            }).catch(error => {
-                console.log(error)
-            })
+    watch: {
+    $route(to, from) {
+            this.getCategoriaId(to.params.id)
+            this.getCursosCategoriaId(to.params.id)
         },
-        getCursosCategoriaId(categoria_id) {
-            axios.get(`${API_URL}categorias/${categoria_id}/cursos`).then(response => {
-                this.cursos = response.data._embedded.cursos
+    },
+    setup() {
+        let categoria = ref({})
+        let cursos = ref([])
+
+        const { params} = useRoute();
+
+
+        onMounted(() => {
+            getCategoriaId(params.id)
+            getCursosCategoriaId(params.id)
+        });
+
+        const getCategoriaId = (categoria_id) => {
+            axios.get(`${API_URL}categorias/${categoria_id}`).then(response => {
+                categoria.value = response.data
             }).catch(error => {
                 console.log(error)
             })
         }
-    }
 
-})
+        const getCursosCategoriaId = (categoria_id) => {
+            axios.get(`${API_URL}categorias/${categoria_id}/cursos`).then(response => {
+                cursos.value = response.data._embedded.cursos
+            }).catch(error => {
+                console.log(error)
+            })
+        }
+
+        return {
+            categoria,
+            cursos,
+            getCursosCategoriaId,
+            getCategoriaId
+        }
+    }
+});
 </script>

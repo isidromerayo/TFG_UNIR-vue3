@@ -16,14 +16,16 @@
           <li class="dropdown"><router-link to="/categorias" active-class="active"><span>Categorias</span><i
                 class="bi bi-chevron-down dropdown-indicator"></i></router-link>
             <ul>
-              <li v-for="categoria in categorias" :key="categoria"><router-link
+              <template v-for="categoria in categorias" :key="categoria.id">
+              <li ><router-link
                   :to="{ name: 'categoria', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link></li>
+                </template>                  
               <li><router-link to="/categorias">...</router-link></li>
             </ul>
           </li>
           <li><router-link to="/carrito" active-class="active" title="carrito de la compra"><i class="bi bi-cart4"
                 title="carito de la compra" aria-hidden="true"> carrito</i></router-link></li>
-          <li><router-link to="/registro" v-if="!isLogin || isLogin === 'false'"
+          <li><router-link to="/registro" v-if="!isLoggedIn"
               active-class="active">Registro</router-link></li>
           <li><router-link to="/acceso" v-if="!isLoggedIn" class="get-a-quote" active-class="active">Acceso</router-link>
           </li>
