@@ -25,6 +25,7 @@
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router';
 import { setUser , setToken } from '../services/session.ts'
+import { API_URL } from '../utils/constants.js'
 
 import * as Yup from 'yup'
 import axios from 'axios';
@@ -44,7 +45,7 @@ export default defineComponent({
         })
 
         const loginUsuario = () => {
-            axios.post("http://localhost:8080/api/auth", formLogin.value).then(response => {
+            axios.post(`${API_URL}auth`, formLogin.value).then(response => {
                 console.log(response.data)
                 console.log(response.headers)
                 Swal.fire('Acceso', 'Logeado correctamente');

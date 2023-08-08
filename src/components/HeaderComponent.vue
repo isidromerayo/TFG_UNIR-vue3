@@ -55,6 +55,8 @@ import axios from 'axios';
 import { ref, defineComponent, onMounted, onUpdated } from 'vue';
 import Swal from 'sweetalert2';
 import { removeToken, getToken, removeUser } from '../services/session.ts'
+import { API_URL } from '../utils/constants.js'
+
 
 export default defineComponent({
   name: 'HeaderComponent',
@@ -63,7 +65,8 @@ export default defineComponent({
     let isLoggedIn = ref(false);
 
     onMounted(() => {
-      axios.get(`http://localhost:8080/api/categorias?sort=nombre&size=5`).then(response => {
+      isLoggedIn.value = getToken()
+      axios.get(`${API_URL}categorias?sort=nombre&size=5`).then(response => {
         categorias.value = response.data._embedded.categorias
       }).catch(error => {
         console.log(error)
@@ -88,33 +91,5 @@ export default defineComponent({
       isLoggedIn
     }
   }
-  /*
-  data() {
-    return ({
-      categorias: [],
-      isLogin: getToken()
-    })
-  },
-  mounted() {
-    axios.get(`http://localhost:8080/api/categorias?sort=nombre&size=5`).then(response => {
-      this.categorias = response.data._embedded.categorias
-    }).catch(error => {
-      console.log(error)
-    })
-  },
-  updated() {
-  //console.log('onUpdated')
-  },
-  methods: {
-
-    logout() {
-      this.isLogin = "false"
-      
-      Swal.fire('Acceso','Cierre de sesion correcta');
-      this.$router.push("/home")
-    }
-  }
-  */
 })
-
 </script>
