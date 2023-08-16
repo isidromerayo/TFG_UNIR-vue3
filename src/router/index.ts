@@ -12,6 +12,8 @@ import MisCursosComponent from  '../components/MisCursosComponent.vue';
 import MisDatosComponent from '../components/MisDatosComponent.vue'
 import BusquedaComponent from '../components/BusquedaComponent.vue'
 
+import { getToken } from '../services/session.ts'
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -62,12 +64,26 @@ const router = createRouter({
     {
       path: '/mis-cursos',
       name: 'mis-cursos',
-      component: MisCursosComponent
+      component: MisCursosComponent,
+      beforeEnter: (to, from, next) => {
+        if (getToken()) {
+          next();
+        } else {
+          router.push("/acceso")
+        }
+      }
     },
     {
       path: '/mis-datos',
       name: 'mis-datos',
-      component: MisDatosComponent
+      component: MisDatosComponent,
+      beforeEnter: (to, from, next) => {
+        if (getToken()) {
+          next();
+        } else {
+          router.push("/acceso")
+        }
+      }
     },    
     {
       path: '/:pathMatch(.*)*',

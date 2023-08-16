@@ -8,17 +8,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, computed } from 'vue'
-
-import axios from 'axios';
-import Swal from 'sweetalert2';
+import { defineComponent } from 'vue'
+import { getUser } from '../services/session.ts'
 
 export default defineComponent({
     name: 'MisDatosComponent',
     setup() {
-        const usuario = JSON.parse(sessionStorage.getItem("usuario"));
+        const usuario = JSON.parse(getUser());
         return {
-            isLogin: sessionStorage.getItem("isLoggedIn"),
             usuario  
         }
     }

@@ -26,6 +26,7 @@ import { defineComponent, onMounted, computed, ref } from 'vue';
 
 import { useRoute } from 'vue-router';
 import axios from 'axios';
+import { API_URL } from '../utils/constants.js'
 
 
 export default defineComponent({
@@ -36,7 +37,7 @@ export default defineComponent({
         const cursos = ref()
 
         const buscarCursosPorTexto = (query_string: string) => {
-            axios.get(`http://localhost:8080/api/cursos/search/findByTituloContaining?titulo=${query_string}`).then(response => {
+            axios.get(`${API_URL}cursos/search/findByTituloContaining?titulo=${query_string}`).then(response => {
                 cursos.value = response.data._embedded.cursos
             })
         }

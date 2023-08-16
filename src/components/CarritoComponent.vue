@@ -8,14 +8,15 @@
       <div v-if="carrito.length !== 0">
         <h2>Cursos a comprar</h2>
         <ul v-for="item in carrito">
-          <li>{{ item.titulo }} - {{ item.precio }} <button class="btn btn-warning borrar-curso-carrito" @click="borrarProducto(item)">borrar</button>
+          <li>{{ item.titulo }} - {{ item.precio }} <button class="btn btn-warning borrar-curso-carrito"
+              @click="borrarProducto(item)">borrar</button>
           </li>
         </ul>
         <div class="total-carrito">Total: <span class="destacar-info">{{ totalCompra }}</span></div>
         <div class="boton-comprar">
-                <button class="btn btn-primary" @click="comprar">comprar</button>
+          <button class="btn btn-primary" @click="comprar">comprar</button>
 
-            </div>
+        </div>
       </div>
     </section>
 
@@ -24,8 +25,10 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, computed } from 'vue';
-import { useStore, mapGetters } from 'vuex';
+import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
+import { getToken } from '../services/session.ts'
+import { useRouter } from 'vue-router';
 
 
 export default defineComponent({
@@ -33,32 +36,42 @@ export default defineComponent({
 
   setup() {
     const store = useStore()
-    
+
     const carrito = computed(() => store.state.carrito)
     const totalCompra = computed(() => store.state.totalCarrito)
+
+    const router = useRouter();
+
     const comprar = () => {
-      
-      Swal.fire({
-              title: '¿Estas seguro de realizar la compra?',
-              text: "No se puede deshacer",
-              type: 'warning',
-              showCancelButton: true
-            }).then((result) => {
-               if(result.isConfirmed) {
-                console.log("inicio de transacción de compra")
-                store.dispatch("cleanCarrito")
-               }
-               else {
-                 console.log("cancelamos la compra, seguimos con el carrito")
-               }
-            }).catch((error)=>{
-              console.log(error)
-            });
+
+      if (!getToken()) {
+        Swal.fire({ title: 'Debe tener iniciada sesión para comprar' })
+        router.push("/acceso");
+      }
+      else {
+        Swal.fire({
+          title: '¿Estas seguro de realizar la compra?',
+          text: "No se puede deshacer",
+          type: 'warning',
+          showCancelButton: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            console.log("inicio de transacción de compra")
+            store.dispatch("cleanCarrito")
+            router.push("/mis-cursos");
+          }
+          else {
+            console.log("cancelamos la compra, seguimos con el carrito")
+          }
+        }).catch((error) => {
+          console.log(error)
+        });
+      }
     }
     const borrarProducto = (item) => {
-        store.dispatch("removeCursoCarrito",item)
+      store.dispatch("removeCursoCarrito", item)
     }
-    
+
     return {
       carrito,
       comprar,

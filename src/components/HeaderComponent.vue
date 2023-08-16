@@ -16,26 +16,31 @@
           <li class="dropdown"><router-link to="/categorias" active-class="active"><span>Categorias</span><i
                 class="bi bi-chevron-down dropdown-indicator"></i></router-link>
             <ul>
-              <li v-for="categoria in categorias" :key="categoria"><router-link
+              <template v-for="categoria in categorias" :key="categoria.id">
+              <li ><router-link
                   :to="{ name: 'categoria', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link></li>
+                </template>                  
               <li><router-link to="/categorias">...</router-link></li>
             </ul>
           </li>
           <li><router-link to="/carrito" active-class="active" title="carrito de la compra"><i class="bi bi-cart4"
                 title="carito de la compra" aria-hidden="true"> carrito</i></router-link></li>
-          <li><router-link to="/registro" v-if="!isLogin || isLogin==='false'" active-class="active">Registro</router-link></li>
-          <li><router-link to="/acceso" v-if="isLogin==='false'" class="get-a-quote" active-class="active">Acceso</router-link></li>
-          <li class="dropdown" v-if="isLogin==='true'">
-           <router-link to="/mis-datos" active-class="active">
-              <span><i class="bi bi-file-person iconos-menu"> Privado</i></span>
-              <i class="bi bi-chevron-down dropdown-indicator"></i></router-link>
-           <ul>
-              <li><router-link to="/mis-datos" active-class="active">Mis datos</router-link></li>
-              <li><router-link to="/mis-cursos" active-class="active">Mis cursos</router-link></li>
-              <li><a href="#" @click="logout()">Desconectar</a></li>
-            </ul>
+          <li><router-link to="/registro" v-if="!isLoggedIn"
+              active-class="active">Registro</router-link></li>
+          <li><router-link to="/acceso" v-if="!isLoggedIn" class="get-a-quote" active-class="active">Acceso</router-link>
           </li>
-
+          <template v-if="isLoggedIn">
+            <li class="dropdown">
+              <router-link to="/mis-datos" active-class="active">
+                <span><i class="bi bi-file-person iconos-menu"> Privado</i></span>
+                <i class="bi bi-chevron-down dropdown-indicator"></i></router-link>
+              <ul>
+                <li><router-link to="/mis-datos" active-class="active">Mis datos</router-link></li>
+                <li><router-link to="/mis-cursos" active-class="active">Mis cursos</router-link></li>
+                <li><a href="#" @click="logout()">Desconectar</a></li>
+              </ul>
+            </li>
+          </template>
 
         </ul>
       </nav><!-- .navbar -->
@@ -45,40 +50,46 @@
 
 <script lang="ts">
 
-import { RouterLink, useRoute, useRouter } from 'vue-router';
+import { RouterLink } from 'vue-router';
 import axios from 'axios';
-import { ref, defineComponent, computed } from 'vue';
+import { ref, defineComponent, onMounted, onUpdated } from 'vue';
 import Swal from 'sweetalert2';
+import { removeToken, getToken, removeUser } from '../services/session.ts'
+import { API_URL } from '../utils/constants.js'
 
-export default {
-  name: "HeaderComponent",
-  data() {
-    return ({
-      categorias: [],
-      isLogin: sessionStorage.getItem("isLoggedIn")
+
+export default defineComponent({
+  name: 'HeaderComponent',
+  setup() {
+    let categorias = ref([])
+    let isLoggedIn = ref(false);
+
+    onMounted(() => {
+      isLoggedIn.value = getToken()
+      axios.get(`${API_URL}categorias?sort=nombre&size=5`).then(response => {
+        categorias.value = response.data._embedded.categorias
+      }).catch(error => {
+        console.log(error)
+      })
+
+      
     })
-  },
-  mounted() {
-    axios.get(`http://localhost:8080/api/categorias?sort=nombre&size=5`).then(response => {
-      this.categorias = response.data._embedded.categorias
-    }).catch(error => {
-      console.log(error)
+    onUpdated(() =>{
+      isLoggedIn.value = getToken()
     })
-  },
-  updated() {
-  console.log('onUpdated')
 
-  },
-  methods: {
+    const logout = () => {
+      removeToken()
+      removeUser()
+      Swal.fire('Acceso', 'Cierre de sesion correcta');
+      location.replace("/home")
+    }
 
-    logout() {
-      this.isLogin = "false"
-      sessionStorage.setItem("isLoggedIn","false")
-      sessionStorage.removeItem("usuario")
-      Swal.fire('Acceso','Cierre de sesion correcta');
-      this.$router.push("/home")
+    return {
+      categorias,
+      logout,
+      isLoggedIn
     }
   }
-}
-
+})
 </script>
