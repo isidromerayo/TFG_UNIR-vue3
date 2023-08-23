@@ -34,7 +34,7 @@
           <div>
             <p class="description">Valoración: <b>{{ valoracion.puntuacion }}/5</b></p>
             <p class="description">{{ valoracion.comentario }}</p>
-            <a href="#"><span>Detalle</span><i class="bi bi-arrow-right"></i></a>
+            <RouterLink :to="`/valoracion/${valoracion.id}`"><span>Detalle</span><i class="bi bi-arrow-right"></i></RouterLink>
           </div>
         </div>
 
