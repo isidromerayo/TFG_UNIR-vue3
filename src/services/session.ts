@@ -1,21 +1,23 @@
-import { TOKEN, USER } from '../utils/constants.js'
+import { TOKEN, USER } from '../utils/constants'
+
+type Nullable<T> = T | undefined | null;
 
 export function setToken(token: string):void {
-    sessionStorage.setItem(TOKEN, token)
+    localStorage.setItem(TOKEN, token)
 }
-export  function getToken():string {
-    return sessionStorage.getItem(TOKEN);
+export  function getToken():Nullable<string> {
+    return localStorage.getItem(TOKEN);
 }
 export function removeToken():void {
-    sessionStorage.removeItem(TOKEN);
+    localStorage.removeItem(TOKEN);
 }
 
 export function setUser(user: string):void {
-    sessionStorage.setItem(USER, user)
+    localStorage.setItem(USER, user)
 }
-export  function getUser():string {
-    return sessionStorage.getItem(USER);
+export  function getUser():Nullable<string> {
+    return localStorage.getItem(USER);
 }
 export function removeUser():void {
-    sessionStorage.removeItem(USER);
+    localStorage.removeItem(USER);
 }
