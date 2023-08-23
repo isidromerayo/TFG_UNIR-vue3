@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 import { getToken } from '../services/session.ts'

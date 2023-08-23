@@ -26,12 +26,10 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 import { API_URL } from '../utils/constants.js'
 
-import * as Yup from 'yup'
 import axios from 'axios';
-import Swal from 'sweetalert2';
 
 export default defineComponent({
     name: 'ValoracionComponent',
@@ -45,7 +43,6 @@ export default defineComponent({
         onMounted(() => {
             getValoracionPorId(params.id)
             getValoracionPorIdCurso(params.id)
-            //getValoracionPorId(params.id)
         });
 
         const getValoracionPorId = (id:string)  => {
