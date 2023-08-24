@@ -60,9 +60,6 @@ export default defineComponent({
             store.dispatch("cleanCarrito")
             router.push("/mis-cursos");
           }
-          else {
-            console.log("cancelamos la compra, seguimos con el carrito")
-          }
         }).catch((error) => {
           console.log(error)
         });

@@ -86,14 +86,12 @@ export default defineComponent({
             formError.value = {}
         }
         const onRegister = async () => {
-            console.log(formData.value)
             formError.value = {};
             loading.value = true;
             try {
                 await schemaForm.validate(formData.value, { abortEarly: false, strict: false })
                 try {
                     axios.post(`${API_URL}/usuarios`, formData.value).then(response => {
-                        //console.log(response)
                         Swal.fire('Alta', 'Se ha registrado su usuario correctamente, recibirá un correo para confirmar el alta');
                         borrarForm()
                         router.push("/acceso")  
