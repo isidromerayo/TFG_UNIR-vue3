@@ -5,17 +5,18 @@
         <div v-if="alumno" class="datos-alumno">
             {{ alumno.nombre }} {{ alumno.apellidos }}
         </div>
-        <div v-if="valoracion" class="info-comentario">
-            {{ valoracion.comentario }}
-        </div>
         <div class="info-valoracion">
             Valoración <span class="valoracion-puntos">{{valoracion.puntuacion}}/5</span> / Fecha <span class="fecha">{{ valoracion.fecha}}</span>
+        </div>
+        <div v-if="valoracion" class="info-comentario">
+            {{ valoracion.comentario }}
         </div>
         <div v-if="curso" class="info-curso">
             Curso de <RouterLink :to="`/curso/${curso.id}`" class="">
                 <span class="">{{ curso.titulo }}</span>
             </RouterLink> actualizado 
             <span class="">{{ curso.fechaActualizacion}}</span> 
+            valoración media <span class="destacar-info">{{ curso.valoracionMedia }}</span>, 
             profesor/a <span v-if="curso.instructor">
                 {{ curso.instructor.nombre + ' ' +  curso.instructor.apellidos  }}</span>
         </div>
@@ -43,6 +44,7 @@ export default defineComponent({
         onMounted(() => {
             getValoracionPorId(params.id)
             getValoracionPorIdCurso(params.id)
+            getValoracionPorIdUsuario(params.id)
         });
 
         const getValoracionPorId = (id:string)  => {
@@ -54,14 +56,18 @@ export default defineComponent({
         }
         const getValoracionPorIdCurso = (id:string) => {
             axios.get(`${API_URL}valoraciones/${id}/curso`).then(response => {
-                console.log(response.data)
                 curso.value = response.data
+                console.log(response.data)
             }).catch(error => {
                 console.log(error)
             }) 
         }
         const getValoracionPorIdUsuario = (id:string) => {
-
+            axios.get(`${API_URL}valoraciones/${id}/estudiante`).then(response => {
+                alumno.value = response.data
+            }).catch(error => {
+                console.log(error)
+            }) 
         }
 
         return {
