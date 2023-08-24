@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, computed } from 'vue';
+import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
 import { getToken } from '../services/session.ts'
@@ -59,9 +59,6 @@ export default defineComponent({
             console.log("inicio de transacción de compra")
             store.dispatch("cleanCarrito")
             router.push("/mis-cursos");
-          }
-          else {
-            console.log("cancelamos la compra, seguimos con el carrito")
           }
         }).catch((error) => {
           console.log(error)

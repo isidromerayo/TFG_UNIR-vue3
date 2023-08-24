@@ -46,8 +46,6 @@ export default defineComponent({
 
         const loginUsuario = () => {
             axios.post(`${API_URL}auth`, formLogin.value).then(response => {
-                console.log(response.data)
-                console.log(response.headers)
                 Swal.fire('Acceso', 'Logeado correctamente');
                 setToken(response.data.token);
                 setUser(JSON.stringify(response.data));

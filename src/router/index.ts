@@ -11,6 +11,7 @@ import CursoComponent from '../components/CursoComponent.vue';
 import MisCursosComponent from  '../components/MisCursosComponent.vue';
 import MisDatosComponent from '../components/MisDatosComponent.vue'
 import BusquedaComponent from '../components/BusquedaComponent.vue'
+import ValoracionComponent from '@/components/ValoracionComponent.vue'
 
 import { getToken } from '../services/session.ts'
 
@@ -40,6 +41,11 @@ const router = createRouter({
       path: '/curso/:id',
       name: 'curso',
       component: CursoComponent
+    },
+    {
+      path: '/valoracion/:id',
+      name: 'valoracion',
+      component: ValoracionComponent
     },
     {
       path: '/buscar/:search',

@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref } from 'vue';
+import { defineComponent } from 'vue';
 import axios from 'axios';
 import {mapActions} from 'vuex';
 import Swal from 'sweetalert2';

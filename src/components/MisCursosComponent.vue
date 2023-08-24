@@ -11,15 +11,15 @@
 import { defineComponent, ref, computed } from 'vue'
 
 import axios from 'axios';
-import Swal from 'sweetalert2';
+import { USER } from '@/utils/constants';
 
 export default defineComponent({
     name: 'MisCursosComponent',
     setup() {
         
         return {
-            isLogin: sessionStorage.getItem("isLoggedIn"),
-            usuario: sessionStorage.getItem("usuario")   
+            isLogin: localStorage.getItem("isLoggedIn"),
+            usuario: localStorage.getItem(USER)   
         }
     }
 })

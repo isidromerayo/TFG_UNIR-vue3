@@ -2,19 +2,21 @@
     <div class="pagina-datos container">
     <h1>Mis datos</h1>
     <section class="detalle-curso">
-<pre>{{ usuario }}</pre>
+        <p>{{ usuario.fullname }}</p>
+        <p>{{ usuario.username }}</p>
     </section>
 </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { getUser } from '../services/session.ts'
 
 export default defineComponent({
     name: 'MisDatosComponent',
     setup() {
-        const usuario = JSON.parse(getUser());
+        const usuario = ref({})
+        usuario.value = JSON.parse(getUser());
         return {
             usuario  
         }

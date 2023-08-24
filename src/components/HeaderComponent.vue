@@ -65,7 +65,7 @@ export default defineComponent({
     let isLoggedIn = ref(false);
 
     onMounted(() => {
-      isLoggedIn.value = getToken()
+      isLoggedIn.value = (getToken()) ? true : false;
       axios.get(`${API_URL}categorias?sort=nombre&size=5`).then(response => {
         categorias.value = response.data._embedded.categorias
       }).catch(error => {
@@ -75,7 +75,7 @@ export default defineComponent({
       
     })
     onUpdated(() =>{
-      isLoggedIn.value = getToken()
+      isLoggedIn.value = (getToken()) ? true : false;
     })
 
     const logout = () => {
