@@ -52,13 +52,13 @@ export default defineComponent({
         Swal.fire({
           title: '¿Estas seguro de realizar la compra?',
           text: "No se puede deshacer",
-          type: 'warning',
           showCancelButton: true
         }).then((result) => {
           if (result.isConfirmed) {
             console.log("inicio de transacción de compra")
             store.dispatch("cleanCarrito")
             router.push("/mis-cursos");
+            Swal.fire('Compra','Procesada la compra correctamente');
           }
         }).catch((error) => {
           console.log(error)
