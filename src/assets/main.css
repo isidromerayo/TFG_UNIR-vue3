@@ -138,6 +138,9 @@
 .borrar-curso-carrito {
   margin-left: 1em;
 }
+.curso-carrito {
+  margin: 0.5em 1em;
+}
 .total-carrito {
   color: #000;
   font-style: italic;
