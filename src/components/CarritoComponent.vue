@@ -7,8 +7,8 @@
       </div>
       <div v-if="carrito.length !== 0">
         <h2>Cursos a comprar</h2>
-        <ul v-for="item in carrito">
-          <li>{{ item.titulo }} - {{ item.precio }} <button class="btn btn-warning borrar-curso-carrito"
+        <ul>
+          <li v-for="item in carrito" class="curso-carrito" :key="item.id">{{ item.titulo }} - {{ item.precio }} <button class="btn btn-warning borrar-curso-carrito"
               @click="borrarProducto(item)">borrar</button>
           </li>
         </ul>
@@ -27,7 +27,7 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
-import { getToken } from '../services/session.ts'
+import { getToken } from '../services/session'
 import { useRouter } from 'vue-router';
 
 
@@ -65,7 +65,7 @@ export default defineComponent({
         });
       }
     }
-    const borrarProducto = (item) => {
+    const borrarProducto = (item:any) => {
       store.dispatch("removeCursoCarrito", item)
     }
 

@@ -24,7 +24,7 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router';
-import { setUser , setToken } from '../services/session.ts'
+import { setUser , setToken } from '../services/session'
 import { API_URL } from '../utils/constants.js'
 
 import * as Yup from 'yup'

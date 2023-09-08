@@ -13,7 +13,7 @@ import MisDatosComponent from '../components/MisDatosComponent.vue'
 import BusquedaComponent from '../components/BusquedaComponent.vue'
 import ValoracionComponent from '@/components/ValoracionComponent.vue'
 
-import { getToken } from '../services/session.ts'
+import { getToken } from '../services/session'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

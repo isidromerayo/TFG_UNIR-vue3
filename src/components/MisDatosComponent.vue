@@ -10,12 +10,12 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { getUser } from '../services/session.ts'
+import { getUser } from '../services/session'
 
 export default defineComponent({
     name: 'MisDatosComponent',
     setup() {
-        const usuario = ref({})
+        const usuario = ref({fullname:'',username:''})
         usuario.value = JSON.parse(getUser());
         return {
             usuario  

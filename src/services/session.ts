@@ -15,8 +15,12 @@ export function removeToken():void {
 export function setUser(user: string):void {
     localStorage.setItem(USER, user)
 }
-export  function getUser():Nullable<string> {
-    return localStorage.getItem(USER);
+export  function getUser():string {
+    const usrTmp = localStorage.getItem(USER);
+    if ( usrTmp === undefined || usrTmp === null) {
+        return '';
+    }
+    return usrTmp;
 }
 export function removeUser():void {
     localStorage.removeItem(USER);
