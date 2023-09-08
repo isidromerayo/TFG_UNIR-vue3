@@ -17,8 +17,8 @@
                 class="bi bi-chevron-down dropdown-indicator"></i></router-link>
             <ul>
               <template v-for="categoria in categorias" :key="categoria.id">
-              <li ><router-link
-                  :to="{ name: 'categoria', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link></li>
+              <li><router-link :to="{ name: 'categoria', params: { id: categoria.id } }">{{ categoria.nombre }}</router-link>
+               </li>
                 </template>                  
               <li><router-link to="/categorias">...</router-link></li>
             </ul>
@@ -54,14 +54,15 @@ import { RouterLink } from 'vue-router';
 import axios from 'axios';
 import { ref, defineComponent, onMounted, onUpdated } from 'vue';
 import Swal from 'sweetalert2';
-import { removeToken, getToken, removeUser } from '../services/session.ts'
-import { API_URL } from '../utils/constants.js'
+import { removeToken, getToken, removeUser } from '../services/session'
+import { API_URL } from '../utils/constants'
+import { Categoria } from '../model/categoria'
 
 
 export default defineComponent({
   name: 'HeaderComponent',
   setup() {
-    let categorias = ref([])
+    let categorias = ref<Array<Categoria>>([])
     let isLoggedIn = ref(false);
 
     onMounted(() => {

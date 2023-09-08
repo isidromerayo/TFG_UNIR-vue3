@@ -39,12 +39,13 @@ export default defineComponent({
         let curso: any = ref({})
         let valoracion: any = ref({})
 
-        const { params} = useRoute();
+        const route:any = useRoute();
 
         onMounted(() => {
-            getValoracionPorId(params.id)
-            getValoracionPorIdCurso(params.id)
-            getValoracionPorIdUsuario(params.id)
+            const id = route.params.id;
+            getValoracionPorId(id)
+            getValoracionPorIdCurso(id)
+            getValoracionPorIdUsuario(id)
         });
 
         const getValoracionPorId = (id:string)  => {

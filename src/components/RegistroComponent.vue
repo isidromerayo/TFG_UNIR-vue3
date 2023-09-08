@@ -4,9 +4,6 @@
         <div class="col-lg-8">
             <form action="" class="signup-form" @submit.prevent="onRegister">
                 <h1 class="title">Registro de usuario</h1>
-                <!--<div v-for="(error,index) in formError" :key="index">
-          <span class="error">{{error}}</span><br/>
-        </div>-->
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="nombre" class="label">Nombre (*)</label>
@@ -44,8 +41,7 @@
                         (*) campos obligatorios
                     </div>
                     <div class="text-center signup-form-button">
-                        <button type="submit" class="btn btn-primary" aria-label="registrarse en el portal"
-                            :class="{ loading }">Registrar</button>
+                        <button type="submit" class="btn btn-primary" aria-label="registrarse en el portal">Registrar</button>
                         <button type="button" class="btn btn-warning borrar-form"
                             aria-label="limpiar formulario de registro" @click="borrarForm">Borrar</button>
                     </div>
@@ -70,7 +66,8 @@ export default defineComponent({
     name: 'RegistroComponent',
     setup() {
         let formData = ref({ nombre: '', apellidos: '', email: '', password: '' })
-        let formError = ref({});
+        let formError: {[index: string]:any} = ref({ nombre: '', apellidos: '', email: '', password: '' });
+        let loading = ref(false)
 
         const router = useRouter()
 
@@ -83,10 +80,10 @@ export default defineComponent({
         })
         const borrarForm = () => {
             formData.value = { nombre: '', apellidos: '', email: '', password: '' }
-            formError.value = {}
+            formError.value = { nombre: '', apellidos: '', email: '', password: '' }
         }
         const onRegister = async () => {
-            formError.value = {};
+            formError.value = { nombre: '', apellidos: '', email: '', password: '' };
             loading.value = true;
             try {
                 await schemaForm.validate(formData.value, { abortEarly: false, strict: false })
@@ -108,7 +105,7 @@ export default defineComponent({
                 }
             } catch (e: any) {
                 console.dir(e)
-                e.inner.forEach(element => {
+                e.inner.forEach((element:{[index: string]:any}) => {
                     formError.value[element.path] = element.message
                 });
 

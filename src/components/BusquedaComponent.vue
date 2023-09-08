@@ -33,7 +33,7 @@ export default defineComponent({
     name: 'BusqueComponent',
     setup() {
         const route = useRoute()
-        const query_string = ref(route.params.search);
+        const query_string:any = ref(route.params.search);
         const cursos = ref()
 
         const buscarCursosPorTexto = (query_string: string) => {

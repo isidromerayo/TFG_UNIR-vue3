@@ -27,7 +27,7 @@
 import { defineComponent, computed } from 'vue';
 import { useStore } from 'vuex';
 import Swal from 'sweetalert2';
-import { getToken } from '../services/session.ts'
+import { getToken } from '../services/session'
 import { useRouter } from 'vue-router';
 
 
@@ -65,7 +65,7 @@ export default defineComponent({
         });
       }
     }
-    const borrarProducto = (item) => {
+    const borrarProducto = (item:any) => {
       store.dispatch("removeCursoCarrito", item)
     }
 

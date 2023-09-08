@@ -1,6 +1,6 @@
 <template>
     <div class="container pagina-datos">
-        <h1>Categoria <span class="destacar-palabra">{{ categoria.nombre }}</span>, sus cursos...</h1>
+        <h1>Categoria <span class="destacar-palabra">{{ categoria?.nombre }}</span>, sus cursos...</h1>
         <div>
             <template  v-for="curso in cursos" :key="curso.id">
             <section class="listado-categorias">
@@ -28,7 +28,8 @@ import { defineComponent,ref,onMounted } from 'vue';
 import axios from 'axios';
 import { API_URL } from '../utils/constants.js'
 import { useRoute } from 'vue-router';
-
+import {Curso} from '../model/curso'
+import { Categoria } from '@/model/categoria';
 
 export default defineComponent({
     name: "CategoriaComponent",
@@ -39,10 +40,10 @@ export default defineComponent({
         },
     },
     setup() {
-        let categoria = ref({})
-        let cursos = ref([])
+        const categoria = ref<Categoria>()
+        const cursos = ref<Array<Curso>>([])
 
-        const { params} = useRoute();
+        const { params}:{params:any} = useRoute();
 
 
         onMounted(() => {
@@ -50,7 +51,7 @@ export default defineComponent({
             getCursosCategoriaId(params.id)
         });
 
-        const getCategoriaId = (categoria_id) => {
+        const getCategoriaId = (categoria_id:number) => {
             axios.get(`${API_URL}categorias/${categoria_id}`).then(response => {
                 categoria.value = response.data
             }).catch(error => {
@@ -58,7 +59,7 @@ export default defineComponent({
             })
         }
 
-        const getCursosCategoriaId = (categoria_id) => {
+        const getCursosCategoriaId = (categoria_id:number) => {
             axios.get(`${API_URL}categorias/${categoria_id}/cursos`).then(response => {
                 cursos.value = response.data._embedded.cursos
             }).catch(error => {

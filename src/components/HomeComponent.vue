@@ -69,19 +69,21 @@
 
 import SliderComponent from './SliderComponent.vue'
 import axios from 'axios';
-import { API_URL } from '../utils/constants.js'
+import { API_URL } from '../utils/constants'
+import { Actualizacion } from '../model/actualizacion'
 
 export default {
   name: "HomeComponent",
   components: { SliderComponent },
   data() {
     return ({
-      cursos: [],
-      opiniones: [],
-      actualizaciones: []
+      cursos: [{id:'',titulo:'',descripcion:'',fechaActualizacion:'',valoracionMedia:''}],
+      opiniones: [{id:'',comentario:'',puntuacion:''}],
+      actualizaciones: this.actualizaciones
     })
   },
   mounted() {
+    let actualizaciones: Actualizacion[] = []
     const url_cursos = `${API_URL}cursos/search/selectMorePoints`;
     axios.get(url_cursos).then(response => {
       this.cursos = response.data._embedded.cursos
