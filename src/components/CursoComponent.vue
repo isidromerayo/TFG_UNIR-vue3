@@ -51,7 +51,6 @@ export default defineComponent({
         }
 
         const addCursoCarritoEvent = (curso:Curso) => {
-            console.log(curso)
             store.dispatch("addCursoCarrito",curso)
         }
         return {

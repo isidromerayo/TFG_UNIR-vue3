@@ -58,7 +58,6 @@ export default defineComponent({
         const getValoracionPorIdCurso = (id:string) => {
             axios.get(`${API_URL}valoraciones/${id}/curso`).then(response => {
                 curso.value = response.data
-                console.log(response.data)
             }).catch(error => {
                 console.log(error)
             }) 
