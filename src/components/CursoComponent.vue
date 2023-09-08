@@ -16,12 +16,12 @@
 </template>
 
 <script lang="ts">
-import { ref, defineComponent, onMounted, computed } from 'vue';
+import { ref, defineComponent, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { API_URL } from '../utils/constants'
-import { mapActions } from 'vuex'
+import { useStore } from 'vuex'
 import { Curso } from '../model/curso'
 
 export default defineComponent({
@@ -31,7 +31,9 @@ export default defineComponent({
         const route = useRoute()
         let curso_id = route.params['id'] as string;
         const curso = ref<Curso>(new Curso());
-
+        
+        const store = useStore()
+        
         onMounted(() => {
             getCursosId(curso_id);
 
@@ -49,8 +51,8 @@ export default defineComponent({
         }
 
         const addCursoCarritoEvent = (curso:Curso) => {
-            //this.$store.commit('addCursoCarrito',curso)
-            mapActions(["addCursoCarrito"])
+            console.log(curso)
+            store.dispatch("addCursoCarrito",curso)
         }
         return {
             curso,
