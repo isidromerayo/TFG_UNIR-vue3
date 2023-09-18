@@ -1,7 +1,7 @@
 <template>
     <div class="pagina-datos container">
     <h1>Mis cursos</h1>
-    <section class="detalle-curso">
+    <section class="detalle-curso card">
 
     </section>
 </div>

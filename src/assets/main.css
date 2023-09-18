@@ -181,3 +181,8 @@ background: #0d6efd;
   border: 2px green solid; 
   border-radius: 5px;
 }
+.perfil-datos {
+  font-size: 1.1em; 
+  font-weight: bold;
+  padding-bottom: 0.25em;
+}
