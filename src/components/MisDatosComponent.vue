@@ -1,9 +1,11 @@
 <template>
     <div class="pagina-datos container">
     <h1>Mis datos</h1>
-    <section class="detalle-curso">
-        <p>{{ usuario.fullname }}</p>
-        <p>{{ usuario.username }}</p>
+    <section class="detalle-curso card">
+        <div class="perfil-datos">Nombre y apellidos</div>
+        <div>{{ usuario.fullname }}</div>
+        <div class="perfil-datos">Correo electrónico</div>
+        <div>{{ usuario.username }}</div>
     </section>
 </div>
 </template>
