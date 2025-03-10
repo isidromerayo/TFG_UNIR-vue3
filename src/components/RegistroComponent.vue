@@ -85,14 +85,18 @@ export default defineComponent({
         const onRegister = async () => {
             formError.value = { nombre: '', apellidos: '', email: '', password: '' };
             loading.value = true;
+            console.log('Form data:', formData.value);
             try {
                 await schemaForm.validate(formData.value, { abortEarly: false, strict: false })
                 try {
+                    console.log('Sending POST request to /usuarios');
                     axios.post(`${API_URL}/usuarios`, formData.value).then(response => {
+                        console.log('Response:', response);
                         Swal.fire('Alta', 'Se ha registrado su usuario correctamente, recibirá un correo para confirmar el alta');
                         borrarForm()
                         router.push("/acceso")  
                     }).catch(error => {
+                        console.error('Error:', error);
                         Swal.fire(
                             'Alta de usuario',
                             'Ha habido problemas con su registro: ' + error.response.data.message,
@@ -101,7 +105,7 @@ export default defineComponent({
                         console.log(error.response.data.message)
                     })
                 } catch (error) {
-                    console.log(error)
+                    console.error('Error:', error);
                 }
             } catch (e: any) {
                 console.dir(e)
