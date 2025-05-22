@@ -1,188 +1,35 @@
-@import './vendor/bootstrap/css/bootstrap.min.css';
-@import './vendor/bootstrap-icons/bootstrap-icons.css';
-@import './vendor/fontawesome-free/css/all.min.css';
+@import './base.css';
 
-@import './css/main.css';
-
-.fix-home-menu {
-  width: 100%;
-}
-.color-vue-verde {
-  background-color: #42b883;
-}
-.color-vue-oscuro {
-  background-color: #35495e;
-}
-.unir-logo {
-  background-color: aliceblue;
-}
-
-.icono-carrito {
-  font-size: 64px;
-}
-
-.pagina-datos {
-  margin-top: 10em;
-  margin-bottom: 2em;
-}
-
-
-.icono-carrito {
-  font-size: 24px;
-}
-
-.listado-categorias {
-  border-top: 1px #b52e31 dotted;
-  padding: 2em !important;
-}
-
-.detalle-curso, .portada-cards, .detalle_opinion {
-  padding: 2.5em !important;
-}
-.sin-resultados {
-  padding: 1em 2em;
-  margin: 0.5em;
-  font-size: 1.2em;
-}
-.mensaje-add-carrito {
-  border: 1px green dotted;
-  color: aliceblue;
-  background-color: green;
-  padding: 0.5em;
-}
-.sent-message {
-  border: 1px cornflowerblue dotted;
-  color: white;
-  font-weight: bold;
-  text-align: center;
-  padding: 0.25em 0.5em;
-  background-color: cornflowerblue;
-  border-radius: 0.25em;
-}
-.datos-alumno {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #0d6efd;
-  padding-bottom: 0.5em;
-}
-.valoracion-puntos {
-  color: goldenrod;
-  font-weight: bold;
-}
-.fecha {
-  color: olivedrab;
-  font-weight: bold;
-  font-style: italic;
-}
-
-.info-comentario {
-  border: 0.1em #b52e31 solid;
-  font-style: italic;
-  padding: 0.5em 1em;
-  border-radius: 5px;
-  margin-bottom: 0.5em;
-}
-.info-valoracion {
-  margin-bottom: 0.5em;
-}
-.destacar-palabra {
-  color: #778fe5;
-  font-style: italic;
-}
-.destacar-info {
-  font-weight: bolder;
-}
-.info-instructor {
-  border: 1px #b52e31 dotted;
-  padding: 0.5em 1em;
-  border-radius: 5px;
-}
-.pagina-datos {
-  margin-top: 10em;
-  margin-bottom: 2em;
-}
-
-.error-form {
-  color: red;
-  font-weight: bold;
-}
-.info-form {
-  padding-top: 1em;
-  font-style: italic;
-}
-
-.borrar-form {
-  margin-left: 1em;
-}
-
-.signup-form {
-  padding: 1em 2em;
-}
-.signup-form-button {
-  padding-top: 1em;
-}
-
-.form-signin {
-  width: 100%;
-  max-width: 330px;
+#app {
+  max-width: 1280px;
   margin: 0 auto;
-}
-.btn-login {
-  width: 100%;
-}
-
-.form-signin > div {
-  padding: 0.5em 1em;
+  padding: 2rem;
+  font-weight: normal;
 }
 
-.borrar-curso-carrito {
-  margin-left: 1em;
-}
-.curso-carrito {
-  margin: 0.5em 1em;
-}
-.total-carrito {
-  color: #000;
-  font-style: italic;
-  font-size: 1.2em;
+a,
+.green {
+  text-decoration: none;
+  color: hsla(160, 100%, 37%, 1);
+  transition: 0.4s;
+  padding: 3px;
 }
 
-.iconos-menu {
-  font-size: 1.1em !important;
-}
-.boton-comprar {
-  padding: 2em;
-}
-.navbar .get-a-quote,
-.navbar .get-a-quote:focus {
-background: #000;
-padding: 8px 20px;
-margin-left: 30px;
-border-radius: 4px;
-color: #fff;
+@media (hover: hover) {
+  a:hover {
+    background-color: hsla(160, 100%, 37%, 0.2);
+  }
 }
 
-.navbar .get-a-quote:hover,
-.navbar .get-a-quote:focus:hover {
-color: #fff;
-background: #0d6efd;
-}
-.cursos-destacados {
-  border: 2px red solid; 
-  border-radius: 5px;
-}
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
 
-.cursos-opiniones {
-  border: 2px orange solid; 
-  border-radius: 5px;
-}
-
-.cursos-actualizaciones {
-  border: 2px green solid; 
-  border-radius: 5px;
-}
-.perfil-datos {
-  font-size: 1.1em; 
-  font-weight: bold;
-  padding-bottom: 0.25em;
+  #app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 2rem;
+  }
 }
