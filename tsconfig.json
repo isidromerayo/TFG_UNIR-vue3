@@ -10,5 +10,11 @@
     {
       "path": "./tsconfig.vitest.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "typeRoots": [
+      "./node_modules/vuex/types",
+      "./node_modules/@types"
+    ]
+  }
 }
