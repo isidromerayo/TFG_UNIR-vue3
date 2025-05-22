@@ -1,75 +1,59 @@
 import { createStore } from 'vuex'
 
-export default createStore({
+interface RootState {
+  carrito: any[]
+  usuario: any
+  totalCarrito: number
+  isLoggedIn: boolean
+}
+
+export default createStore<RootState>({
   state: {
-    usuario: [],
-    isLoggedIn: false,
     carrito: [],
-    totalCarrito: 0
+    usuario: null,
+    totalCarrito: 0,
+    isLoggedIn: false
   },
   getters: {
-    carrito: state => state.carrito,
-    usuario: state => state.usuario,
-    totalCarrito: state => state.totalCarrito,
-    isLoggedIn: state => state.isLoggedIn
+    carrito: (state: RootState) => state.carrito,
+    usuario: (state: RootState) => state.usuario,
+    totalCarrito: (state: RootState) => state.totalCarrito,
+    isLoggedIn: (state: RootState) => state.isLoggedIn
   },
-  mutations: { // actualiza estados
-    setCarrito(state, payload) {
+  mutations: {
+    setCarrito(state: RootState, payload: any[]) {
       state.carrito = payload
     },
-    setUsuario(state, payload) {
+    setUsuario(state: RootState, payload: any) {
       state.usuario = payload
     },
-    setTotalCarrito(state, payload) {
+    setTotalCarrito(state: RootState, payload: number) {
       state.totalCarrito = payload
     },
-    setIsLoggedIn(state, payload) {
+    setIsLoggedIn(state: RootState, payload: boolean) {
       state.isLoggedIn = payload
     }
   },
   actions: {
-    addCursoCarrito({ commit }, params) {
-      try {
-        const resultTemp = [] as any[];
-        let total = 0;
-        this.state.carrito.forEach((curso: any, index: number) => {
-          if (curso.id !== params.id) {
-            resultTemp.push(curso)
-            total += curso.precio
-          }
-        })
-        resultTemp.push(params)
-        total += params.precio
-        commit("setCarrito", resultTemp)
-        commit("setTotalCarrito", total)
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    removeCursoCarrito({ commit }, params) {
-      try {
-        const resultTemp = [] as any[];
-        let total = 0;
-        this.state.carrito.forEach((curso: any, index: number) => {
-          if (curso.id !== params.id) {
-            resultTemp.push(curso)
-            total += curso.precio
-          }
+    addCursoCarrito({ commit, state }: { commit: Function; state: RootState }, params: any) {
+      const curso = params.curso
+      const precio = params.precio
 
-        })
-        commit("setCarrito", resultTemp)
-        commit("setTotalCarrito", total)
-
-      }
-      catch (error) {
-        console.log(error)
-      }
+      commit('setCarrito', [...state.carrito, { curso, precio }])
+      commit('setTotalCarrito', state.totalCarrito + precio)
     },
-    cleanCarrito({ commit }, params) {
-      commit("setCarrito", [])
-      commit("setTotalCarrito", 0)
+    removeCursoCarrito({ commit, state }: { commit: Function; state: RootState }, params: any) {
+      const curso = params.curso
+      const precio = params.precio
+
+      const newCarrito = state.carrito.filter((item: any) => item.curso !== curso)
+      commit('setCarrito', newCarrito)
+      commit('setTotalCarrito', state.totalCarrito - precio)
+    },
+    cleanCarrito({ commit }: { commit: Function }, params: any) {
+      commit('setCarrito', [])
+      commit('setTotalCarrito', 0)
     }
-
   },
   modules: {
   }
