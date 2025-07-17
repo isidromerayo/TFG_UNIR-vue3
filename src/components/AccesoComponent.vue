@@ -36,7 +36,6 @@ export default defineComponent({
     setup() {
         let formLogin = ref({ email: '', password: '' })
         let formError = ref({});
-        const router = useRouter();
 
         const schemaForm = Yup.object().shape({
             email: Yup.string().email().required(),
