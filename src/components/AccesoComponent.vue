@@ -23,25 +23,19 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { useRouter } from 'vue-router';
 import { setUser , setToken } from '../services/session'
 import { API_URL } from '../utils/constants.js'
 
-import * as Yup from 'yup'
 import axios from 'axios';
 import Swal from 'sweetalert2';
 
 export default defineComponent({
     name: 'AccesoComponent',
     setup() {
-        let formLogin = ref({ email: '', password: '' })
-        let formError = ref({});
+        const formLogin = ref({ email: '', password: '' })
+        const formError = ref({});
 
-        const schemaForm = Yup.object().shape({
-            email: Yup.string().email().required(),
-            password: Yup.string().required()
-
-        })
+        // Removed unused schemaForm assignment
 
         const loginUsuario = () => {
             axios.post(`${API_URL}auth`, formLogin.value).then(response => {

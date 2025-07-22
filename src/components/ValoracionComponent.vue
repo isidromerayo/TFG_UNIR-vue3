@@ -36,8 +36,8 @@ export default defineComponent({
     name: 'ValoracionComponent',
     setup() {
         const alumno: any = ref({})
-        let curso: any = ref({})
-        let valoracion: any = ref({})
+        const curso: any = ref({})
+        const valoracion: any = ref({})
 
         const route:any = useRoute();
 

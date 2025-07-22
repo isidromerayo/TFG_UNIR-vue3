@@ -12,7 +12,7 @@ declare module 'vuex' {
     state: S
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   export * from '../node_modules/vuex/types/index.d.ts';
 }
 

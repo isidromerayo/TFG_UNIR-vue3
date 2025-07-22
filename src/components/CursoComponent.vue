@@ -29,7 +29,7 @@ export default defineComponent({
     props: ["carrito"],
     setup() {
         const route = useRoute()
-        let curso_id = route.params['id'] as string;
+        const curso_id = route.params['id'] as string;
         const curso = ref<Curso>(new Curso());
         
         const store = useStore()
