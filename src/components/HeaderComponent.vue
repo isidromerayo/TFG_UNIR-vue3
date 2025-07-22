@@ -62,8 +62,8 @@ import { Categoria } from '../model/categoria'
 export default defineComponent({
   name: 'HeaderComponent',
   setup() {
-    let categorias = ref<Array<Categoria>>([])
-    let isLoggedIn = ref(false);
+    const categorias = ref<Array<Categoria>>([])
+    const isLoggedIn = ref(false);
 
     onMounted(() => {
       isLoggedIn.value = (getToken()) ? true : false;

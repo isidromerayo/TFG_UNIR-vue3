@@ -83,7 +83,7 @@ export default {
     })
   },
   mounted() {
-    let actualizaciones: Actualizacion[] = []
+    const actualizaciones: Actualizacion[] = []
     const url_cursos = `${API_URL}cursos/search/selectMorePoints`;
     axios.get(url_cursos).then(response => {
       this.cursos = response.data._embedded.cursos

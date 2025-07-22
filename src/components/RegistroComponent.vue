@@ -65,9 +65,9 @@ import Swal from 'sweetalert2';
 export default defineComponent({
     name: 'RegistroComponent',
     setup() {
-        let formData = ref({ nombre: '', apellidos: '', email: '', password: '' })
-        let formError: {[index: string]:any} = ref({ nombre: '', apellidos: '', email: '', password: '' });
-        let loading = ref(false)
+        const formData = ref({ nombre: '', apellidos: '', email: '', password: '' })
+        const formError: {[index: string]:any} = ref({ nombre: '', apellidos: '', email: '', password: '' });
+        const loading = ref(false)
 
         const router = useRouter()
 

@@ -27,7 +27,7 @@ const Data = {
     // make it clear we only want one instance per element
     // can be removed later when multiple key/instances are fine to be used
     if (!instanceMap.has(key) && instanceMap.size !== 0) {
-      // eslint-disable-next-line no-console
+       
       console.error(`Bootstrap doesn't allow more than one instance per element. Bound instance: ${Array.from(instanceMap.keys())[0]}.`);
       return;
     }
@@ -204,7 +204,7 @@ const noop = () => {};
  * @see https://www.charistheo.io/blog/2021/02/restart-a-css-animation-with-javascript/#restarting-a-css-animation
  */
 const reflow = element => {
-  element.offsetHeight; // eslint-disable-line no-unused-expressions
+  element.offsetHeight;  
 };
 
 const getjQuery = () => {
