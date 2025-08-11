@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.x'
+
+    - name: Install dependencies
+      run: npm install --force
+
+    - name: Build
+      run: npm run build
+
+    - name: Run tests (headless)
+      run: npm run test-headless-cc
+
+    - name: Audit vulnerabilities
+      run: |
+        npm audit || EXIT_CODE=$?
+        if [ $EXIT_CODE -ne 0 ]; then
+          echo "npm audit found vulnerabilities."
+        else
+          echo "npm audit found no vulnerabilities."
+        fi
