@@ -14,27 +14,48 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup Node.js
-      uses: actions/setup-node@v2
+      uses: actions/setup-node@v4
       with:
         node-version: '20.x'
 
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
     - name: Install dependencies
-      run: npm install --force
+      run: pnpm install --frozen-lockfile
+
+    - name: Type check
+      run: pnpm run type-check
 
     - name: Build
-      run: npm run build
+      run: pnpm run build
 
-    - name: Run tests (headless)
-      run: npm run test-headless-cc
+    - name: Run tests
+      run: pnpm run test-headless-cc
 
     - name: Audit vulnerabilities
       run: |
-        npm audit || EXIT_CODE=$?
+        pnpm audit || EXIT_CODE=$?
         if [ $EXIT_CODE -ne 0 ]; then
-          echo "npm audit found vulnerabilities."
+          echo "pnpm audit found vulnerabilities."
         else
-          echo "npm audit found no vulnerabilities."
+          echo "pnpm audit found no vulnerabilities."
         fi

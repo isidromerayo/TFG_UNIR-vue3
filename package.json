@@ -8,11 +8,15 @@
     "build": "vite build",
     "preview": "vite preview",
     "test:unit": "vitest",
+    "test-headless": "vitest run",
     "test-headless-cc": "vitest run --coverage",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/"
+    "format": "prettier --write src/",
+    "security": "./scripts/security-check.sh",
+    "security:audit": "pnpm audit",
+    "security:outdated": "pnpm outdated"
   },
   "dependencies": {
     "vue": "^3.5.17"

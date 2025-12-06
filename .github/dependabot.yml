@@ -1,11 +1,48 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://docs.github.com/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
-
 version: 2
 updates:
-  - package-ecosystem: "" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Mantener dependencias de npm actualizadas
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    open-pull-requests-limit: 10
+    groups:
+      # Agrupar actualizaciones de Vue
+      vue:
+        patterns:
+          - "vue"
+          - "@vue/*"
+          - "vue-*"
+      # Agrupar actualizaciones de Vite
+      vite:
+        patterns:
+          - "vite"
+          - "vite-*"
+          - "@vitejs/*"
+      # Agrupar actualizaciones de testing
+      testing:
+        patterns:
+          - "vitest"
+          - "@vitest/*"
+          - "@testing-library/*"
+          - "cypress"
+      # Agrupar actualizaciones de TypeScript
+      typescript:
+        patterns:
+          - "typescript"
+          - "@types/*"
+          - "@typescript-eslint/*"
+          - "@tsconfig/*"
+      # Agrupar actualizaciones de ESLint
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@vue/eslint-*"
+      # Agrupar actualizaciones menores y patches
+      npm_and_yarn:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"

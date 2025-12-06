@@ -1,0 +1,233 @@
+name: Security Audit
+
+on:
+  # Ejecutar diariamente a las 2 AM UTC
+  schedule:
+    - cron: '0 2 * * *'
+  
+  # Ejecutar en push a main y PRs
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  
+  # Permitir ejecución manual
+  workflow_dispatch:
+
+jobs:
+  security-audit:
+    name: Security Vulnerability Scan
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+      
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+      
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      
+      # 1. Auditoría con pnpm (npm Advisory Database)
+      - name: pnpm audit
+        id: pnpm-audit
+        run: |
+          echo "## pnpm audit results" >> $GITHUB_STEP_SUMMARY
+          pnpm audit --json > pnpm-audit.json || true
+          
+          if [ -s pnpm-audit.json ]; then
+            VULNS=$(jq '.metadata.vulnerabilities' pnpm-audit.json)
+            echo "Vulnerabilities found: $VULNS" >> $GITHUB_STEP_SUMMARY
+            echo "vulnerabilities=$VULNS" >> $GITHUB_OUTPUT
+          else
+            echo "No vulnerabilities found" >> $GITHUB_STEP_SUMMARY
+            echo "vulnerabilities=0" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # 2. Auditoría con npm (comparación)
+      - name: npm audit
+        id: npm-audit
+        run: |
+          echo "## npm audit results" >> $GITHUB_STEP_SUMMARY
+          npm audit --json > npm-audit.json || true
+          
+          if [ -s npm-audit.json ]; then
+            VULNS=$(jq '.metadata.vulnerabilities' npm-audit.json 2>/dev/null || echo "0")
+            echo "Vulnerabilities found: $VULNS" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "No vulnerabilities found" >> $GITHUB_STEP_SUMMARY
+          fi
+        continue-on-error: true
+      
+      # 3. Verificar dependencias desactualizadas
+      - name: Check outdated dependencies
+        id: outdated
+        run: |
+          echo "## Outdated dependencies" >> $GITHUB_STEP_SUMMARY
+          pnpm outdated --format json > outdated.json || true
+          
+          if [ -s outdated.json ]; then
+            COUNT=$(jq 'length' outdated.json 2>/dev/null || echo "0")
+            echo "Found $COUNT outdated packages" >> $GITHUB_STEP_SUMMARY
+            echo "count=$COUNT" >> $GITHUB_OUTPUT
+          else
+            echo "All dependencies are up to date" >> $GITHUB_STEP_SUMMARY
+            echo "count=0" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+      
+      # 4. Auditoría con Snyk (si está configurado)
+      - name: Snyk Security Scan
+        id: snyk
+        if: ${{ secrets.SNYK_TOKEN != '' }}
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high --json-file-output=snyk-report.json
+      
+      # 5. Auditoría con OSV Scanner
+      - name: OSV Scanner
+        id: osv
+        uses: google/osv-scanner-action@v1
+        continue-on-error: true
+        with:
+          scan-args: |-
+            --lockfile=pnpm-lock.yaml
+            --format=json
+            --output=osv-report.json
+      
+      # 6. Upload artifacts para análisis
+      - name: Upload security reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: |
+            pnpm-audit.json
+            npm-audit.json
+            outdated.json
+            snyk-report.json
+            osv-report.json
+          retention-days: 30
+      
+      # 7. Crear issue si hay vulnerabilidades críticas
+      - name: Create issue for critical vulnerabilities
+        if: steps.pnpm-audit.outputs.vulnerabilities != '0' || failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = '🔒 Security Alert: Vulnerabilities Detected';
+            const body = `
+            ## Security Audit Results
+            
+            **Date**: ${new Date().toISOString()}
+            **Workflow**: ${context.workflow}
+            **Run**: ${context.runNumber}
+            
+            ### Summary
+            - pnpm audit: ${{ steps.pnpm-audit.outputs.vulnerabilities }} vulnerabilities
+            - Outdated packages: ${{ steps.outdated.outputs.count }}
+            
+            ### Actions Required
+            1. Review the security reports in the workflow artifacts
+            2. Update vulnerable dependencies
+            3. Run \`pnpm audit\` locally for details
+            4. Check Snyk dashboard if configured
+            
+            ### Quick Fix
+            \`\`\`bash
+            # Update dependencies
+            pnpm update
+            
+            # Verify
+            pnpm audit
+            pnpm test-headless
+            pnpm build
+            \`\`\`
+            
+            [View Workflow Run](${context.payload.repository.html_url}/actions/runs/${context.runId})
+            `;
+            
+            // Check if issue already exists
+            const issues = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              labels: 'security'
+            });
+            
+            const existingIssue = issues.data.find(issue => issue.title === title);
+            
+            if (!existingIssue) {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title: title,
+                body: body,
+                labels: ['security', 'automated']
+              });
+            }
+      
+      # 8. Comentar en PR si hay vulnerabilidades
+      - name: Comment on PR
+        if: github.event_name == 'pull_request' && steps.pnpm-audit.outputs.vulnerabilities != '0'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const comment = `
+            ## 🔒 Security Audit Results
+            
+            ⚠️ **Vulnerabilities detected**: ${{ steps.pnpm-audit.outputs.vulnerabilities }}
+            
+            Please review and fix security issues before merging.
+            
+            ### Quick commands
+            \`\`\`bash
+            pnpm audit
+            pnpm outdated
+            pnpm update
+            \`\`\`
+            `;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            });
+      
+      # 9. Fallar el workflow si hay vulnerabilidades críticas
+      - name: Fail on critical vulnerabilities
+        if: steps.pnpm-audit.outputs.vulnerabilities != '0'
+        run: |
+          echo "::error::Critical vulnerabilities found. Please fix before merging."
+          exit 1
