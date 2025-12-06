@@ -1,0 +1,765 @@
+# 🤖 AGENTS.md - Contexto Completo del Proyecto Vue3
+
+## 📋 Información General
+
+**Proyecto**: TFG UNIR - Frontend Vue3  
+**Framework**: Vue 3.5.25 + Vite 6.4.1  
+**Lenguaje**: TypeScript 5.8.3  
+**Package Manager**: pnpm 10.x  
+**Propósito**: Aplicación web frontend para sistema de gestión de cursos online
+
+---
+
+## 🏗️ Arquitectura del Proyecto
+
+### Stack Tecnológico
+
+**Core**:
+- Vue 3.5.25 (Composition API)
+- Vite 6.4.1 (Build tool)
+- TypeScript 5.8.3
+- Vue Router 4.6.3
+- Vuex 4.1.0 (State management)
+
+**UI/UX**:
+- SweetAlert2 11.26.4 (Alertas)
+- CSS/SCSS personalizado
+
+**HTTP Client**:
+- Axios 1.13.2
+
+**Testing**:
+- Vitest 3.2.4 (Unit tests)
+- @vitest/ui 3.2.4 (Test UI)
+- @vitest/coverage-v8 3.2.4 (Coverage)
+- @testing-library/vue 8.1.0
+- @testing-library/jest-dom 6.9.1
+- Cypress 14.5.4 (E2E tests)
+
+**Linting & Formatting**:
+- ESLint 9.39.1
+- eslint-plugin-vue 10.3.0
+- Prettier 3.6.2
+
+**Validation**:
+- Yup 1.7.1
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+TFG_UNIR-vue3/
+├── .github/
+│   ├── workflows/
+│   │   ├── node.js.yml          # CI/CD workflow
+│   │   ├── security.yml         # Security audit workflow
+│   │   └── codeql.yml          # CodeQL analysis
+│   └── dependabot.yml          # Dependabot configuration
+│
+├── cypress/                     # E2E tests
+│   ├── e2e/                    # Test specs
+│   ├── fixtures/               # Test data
+│   └── support/                # Support files
+│
+├── public/                      # Static assets
+│   └── favicon.ico
+│
+├── scripts/                     # Utility scripts
+│   └── security-check.sh       # Multi-tool security audit
+│
+├── src/
+│   ├── assets/                 # Images, fonts, etc.
+│   ├── components/             # Vue components
+│   │   ├── AccesoComponent.vue
+│   │   ├── BusquedaComponent.vue
+│   │   ├── CarritoComponent.vue
+│   │   ├── CategoriaComponent.vue
+│   │   ├── CursoComponent.vue
+│   │   ├── FooterComponent.vue
+│   │   ├── HeaderComponent.vue
+│   │   ├── HomeComponent.vue
+│   │   ├── MisCursosComponent.vue
+│   │   ├── MisDatosComponent.vue
+│   │   ├── RegistroComponent.vue
+│   │   ├── SliderComponent.vue
+│   │   └── ValoracionComponent.vue
+│   │
+│   ├── model/                  # Data models
+│   ├── router/                 # Vue Router configuration
+│   │   └── index.ts
+│   ├── services/               # API services
+│   │   └── session.ts
+│   ├── stores/                 # Vuex store
+│   │   └── index.ts
+│   ├── types/                  # TypeScript types
+│   │   └── vuex.d.ts
+│   ├── utils/                  # Utility functions
+│   ├── views/                  # Page views
+│   ├── App.vue                 # Root component
+│   └── main.ts                 # Application entry point
+│
+├── tests/
+│   ├── unit/                   # Unit tests
+│   │   └── componentes/
+│   │       ├── AccesoComponent.spec.ts
+│   │       ├── BusquedaComponent.spec.ts
+│   │       ├── CarritoComponent.spec.ts
+│   │       └── SliderComponent.spec.ts
+│   └── setup.ts                # Test setup
+│
+├── .eslintrc.cjs               # ESLint config (legacy)
+├── .gitignore                  # Git ignore rules
+├── .npmrc                      # pnpm configuration
+├── .prettierrc.json            # Prettier config
+├── cypress.config.ts           # Cypress configuration
+├── env.d.ts                    # Environment types
+├── eslint.config.ts            # ESLint config (flat)
+├── index.html                  # HTML entry point
+├── migrate-to-pnpm.sh          # Migration script
+├── package.json                # Dependencies & scripts
+├── pnpm-lock.yaml              # pnpm lockfile
+├── pnpm-workspace.yaml         # pnpm workspace config
+├── tsconfig.json               # TypeScript config
+├── tsconfig.app.json           # App TypeScript config
+├── tsconfig.node.json          # Node TypeScript config
+├── tsconfig.vitest.json        # Vitest TypeScript config
+├── vite.config.ts              # Vite configuration
+├── vitest.config.ts            # Vitest configuration
+├── vitest.setup.ts             # Vitest setup
+└── vuex.d.ts                   # Vuex type declarations
+```
+
+---
+
+## 🔧 Scripts Disponibles
+
+### Desarrollo
+
+```bash
+# Servidor de desarrollo (http://localhost:5173)
+pnpm dev
+
+# Build de producción
+pnpm build
+
+# Preview del build
+pnpm preview
+```
+
+### Testing
+
+```bash
+# Tests unitarios con watch mode
+pnpm test:unit
+
+# Tests unitarios headless
+pnpm test-headless
+
+# Tests con coverage
+pnpm test-headless-cc
+
+# Cypress E2E (interactivo)
+pnpm cypress:open
+
+# Cypress E2E (headless)
+pnpm cypress:run
+```
+
+### Calidad de Código
+
+```bash
+# Type checking
+pnpm type-check
+
+# Linter (con autofix)
+pnpm lint
+
+# Formatter
+pnpm format
+```
+
+### Seguridad
+
+```bash
+# Auditoría completa multi-herramienta
+pnpm security
+
+# Solo pnpm audit
+pnpm security:audit
+
+# Ver dependencias desactualizadas
+pnpm security:outdated
+```
+
+---
+
+## 🎨 Componentes Principales
+
+### 1. HomeComponent.vue
+- **Propósito**: Página principal con slider y listado de cursos
+- **Features**: Categorías, cursos destacados, actualizaciones
+- **Estado**: Usa Vuex store
+
+### 2. AccesoComponent.vue
+- **Propósito**: Login de usuarios
+- **Features**: Validación de formulario, gestión de sesión
+- **Servicios**: session.ts
+
+### 3. RegistroComponent.vue
+- **Propósito**: Registro de nuevos usuarios
+- **Features**: Validación con Yup, formulario multi-campo
+- **Validación**: Email, contraseña, términos
+
+### 4. CarritoComponent.vue
+- **Propósito**: Carrito de compras
+- **Features**: Gestión de items, cálculo de totales, checkout
+- **Estado**: Vuex store
+
+### 5. CursoComponent.vue
+- **Propósito**: Detalle de curso individual
+- **Features**: Información completa, añadir al carrito
+- **Routing**: Parámetro dinámico `:id`
+
+### 6. BusquedaComponent.vue
+- **Propósito**: Búsqueda de cursos
+- **Features**: Filtrado, resultados dinámicos
+- **Routing**: Query parameter
+
+### 7. CategoriaComponent.vue
+- **Propósito**: Listado de cursos por categoría
+- **Features**: Filtrado por categoría
+- **Routing**: Parámetro `:id`
+
+### 8. ValoracionComponent.vue
+- **Propósito**: Sistema de valoraciones de cursos
+- **Features**: Rating, comentarios
+- **Routing**: Parámetro `:id`
+
+### 9. MisCursosComponent.vue
+- **Propósito**: Cursos del usuario autenticado
+- **Features**: Listado personal, acceso a contenido
+
+### 10. MisDatosComponent.vue
+- **Propósito**: Perfil y datos del usuario
+- **Features**: Edición de información personal
+
+### 11. HeaderComponent.vue
+- **Propósito**: Navegación principal
+- **Features**: Menú, carrito, usuario
+
+### 12. FooterComponent.vue
+- **Propósito**: Pie de página
+- **Features**: Links, información
+
+### 13. SliderComponent.vue
+- **Propósito**: Carrusel de imágenes
+- **Features**: Navegación automática/manual
+
+---
+
+## 🔄 Estado Global (Vuex)
+
+### Store Structure
+
+```typescript
+// stores/index.ts
+{
+  state: {
+    // Estado de la aplicación
+  },
+  mutations: {
+    // Mutaciones síncronas
+  },
+  actions: {
+    // Acciones asíncronas
+  },
+  getters: {
+    // Computed properties
+  }
+}
+```
+
+### Uso en Componentes
+
+```typescript
+import { useStore } from 'vuex'
+
+const store = useStore()
+// Acceder al estado
+store.state.property
+// Commit mutations
+store.commit('mutationName', payload)
+// Dispatch actions
+store.dispatch('actionName', payload)
+```
+
+---
+
+## 🛣️ Routing
+
+### Configuración (router/index.ts)
+
+```typescript
+const routes = [
+  { path: '/', component: HomeComponent },
+  { path: '/acceso', component: AccesoComponent },
+  { path: '/registro', component: RegistroComponent },
+  { path: '/carrito', component: CarritoComponent },
+  { path: '/curso/:id', component: CursoComponent },
+  { path: '/busqueda', component: BusquedaComponent },
+  { path: '/categoria/:id', component: CategoriaComponent },
+  { path: '/valoracion/:id', component: ValoracionComponent },
+  { path: '/mis-cursos', component: MisCursosComponent },
+  { path: '/mis-datos', component: MisDatosComponent },
+]
+```
+
+### Navegación Programática
+
+```typescript
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+router.push('/path')
+router.push({ name: 'routeName', params: { id: 123 } })
+```
+
+---
+
+## 🌐 Servicios API
+
+### session.ts
+
+```typescript
+// Gestión de sesión de usuario
+export const sessionService = {
+  login(credentials),
+  logout(),
+  getCurrentUser(),
+  isAuthenticated()
+}
+```
+
+### Axios Configuration
+
+```typescript
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: process.env.VUE_APP_API_URL,
+  timeout: 10000,
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+```
+
+---
+
+## ✅ Testing
+
+### Unit Tests (Vitest)
+
+**Ubicación**: `tests/unit/componentes/`
+
+**Configuración**: `vitest.config.ts`
+
+**Ejemplo**:
+```typescript
+import { describe, it, expect } from 'vitest'
+import { mount } from '@vue/test-utils'
+import Component from '@/components/Component.vue'
+
+describe('Component', () => {
+  it('renders properly', () => {
+    const wrapper = mount(Component)
+    expect(wrapper.text()).toContain('Expected text')
+  })
+})
+```
+
+**Ejecutar**:
+```bash
+pnpm test:unit          # Watch mode
+pnpm test-headless      # Single run
+pnpm test-headless-cc   # With coverage
+```
+
+### E2E Tests (Cypress)
+
+**Ubicación**: `cypress/e2e/`
+
+**Configuración**: `cypress.config.ts`
+
+**Ejecutar**:
+```bash
+pnpm cypress:open   # Interactive
+pnpm cypress:run    # Headless
+```
+
+---
+
+## 🔒 Seguridad
+
+### Infraestructura Multi-Capa
+
+**1. Local Development**:
+```bash
+pnpm security              # Auditoría completa
+pnpm security:audit        # Solo pnpm audit
+pnpm security:outdated     # Dependencias desactualizadas
+```
+
+**2. CI/CD** (`.github/workflows/security.yml`):
+- Ejecución diaria automática (2 AM UTC)
+- Ejecución en push/PR
+- 5 herramientas: pnpm audit, npm audit, Snyk, OSV Scanner, outdated check
+- Generación de reportes JSON
+- Creación automática de issues
+- Comentarios en PRs
+
+**3. Dependabot** (`.github/dependabot.yml`):
+- Checks diarios
+- Agrupación inteligente (Vue, Vite, Testing, TypeScript, ESLint)
+- Límite de 10 PRs abiertas
+
+**4. CodeQL**:
+- Análisis de código estático
+- Detección de vulnerabilidades
+
+### Estado Actual
+
+```
+✅ 0 vulnerabilidades conocidas
+✅ 668 paquetes instalados
+✅ Todas las dependencias actualizadas
+✅ Monitoreo continuo activo
+```
+
+---
+
+## 🚀 CI/CD
+
+### Workflow Principal (`.github/workflows/node.js.yml`)
+
+**Triggers**:
+- Push a `main`
+- Pull requests a `main`
+
+**Pipeline**:
+1. Checkout code
+2. Setup Node.js 20.x
+3. Install pnpm 10.x
+4. Setup pnpm cache
+5. Install dependencies (frozen-lockfile)
+6. Type check
+7. Build
+8. Run tests with coverage
+9. Security audit
+
+**Beneficios**:
+- ✅ Builds reproducibles
+- ✅ Instalación rápida con caché
+- ✅ Verificación automática de calidad
+- ✅ Detección temprana de errores
+
+---
+
+## 📦 Gestión de Dependencias
+
+### pnpm
+
+**Ventajas**:
+- ⚡ Instalación ~2x más rápida que npm
+- 💾 Ahorro significativo de espacio en disco
+- 🔒 Lockfile más estricto y seguro
+- 🎯 Mejor manejo de peer dependencies
+
+**Configuración** (`.npmrc`):
+```ini
+auto-install-peers=true
+strict-peer-dependencies=false
+shamefully-hoist=false
+node-linker=isolated
+```
+
+**Comandos Comunes**:
+```bash
+pnpm install              # Instalar dependencias
+pnpm add <pkg>           # Añadir dependencia
+pnpm add -D <pkg>        # Añadir dev dependency
+pnpm remove <pkg>        # Remover dependencia
+pnpm update              # Actualizar dependencias
+pnpm update --latest     # Actualizar a últimas versiones
+pnpm outdated            # Ver dependencias desactualizadas
+pnpm audit               # Auditoría de seguridad
+```
+
+---
+
+## 🔧 Configuración de TypeScript
+
+### tsconfig.json (Base)
+- Target: ES2020
+- Module: ESNext
+- Strict mode: enabled
+- Path aliases: `@/*` → `./src/*`
+
+### tsconfig.app.json
+- Configuración para código de aplicación
+- Include: `src/**/*`, `env.d.ts`
+
+### tsconfig.node.json
+- Configuración para scripts de Node
+- Include: `vite.config.ts`, `vitest.config.ts`
+
+### tsconfig.vitest.json
+- Configuración para tests
+- Include: `tests/**/*`, `vitest.setup.ts`
+
+---
+
+## 🎨 Estilos y CSS
+
+### Estrategia
+- CSS/SCSS en componentes Vue (scoped)
+- Estilos globales en `src/assets/`
+- Variables CSS para temas
+
+### Ejemplo
+```vue
+<style scoped>
+.component {
+  /* Estilos específicos del componente */
+}
+</style>
+```
+
+---
+
+## 🐛 Debugging
+
+### Vue DevTools
+- Instalar extensión de navegador
+- Inspeccionar componentes, estado, eventos
+
+### Vite DevTools
+- Plugin: `vite-plugin-vue-devtools`
+- Análisis de performance, componentes
+
+### Console Logging
+```typescript
+console.log('Debug:', data)
+console.error('Error:', error)
+console.warn('Warning:', warning)
+```
+
+---
+
+## 📝 Convenciones de Código
+
+### Nomenclatura
+
+**Componentes**:
+- PascalCase: `MyComponent.vue`
+- Sufijo Component: `HeaderComponent.vue`
+
+**Archivos TypeScript**:
+- camelCase: `myService.ts`
+- kebab-case para tests: `my-component.spec.ts`
+
+**Variables y Funciones**:
+- camelCase: `myVariable`, `myFunction()`
+
+**Constantes**:
+- UPPER_SNAKE_CASE: `API_BASE_URL`
+
+### Estructura de Componentes
+
+```vue
+<script setup lang="ts">
+// 1. Imports
+import { ref, computed, onMounted } from 'vue'
+
+// 2. Props & Emits
+const props = defineProps<{
+  title: string
+}>()
+
+const emit = defineEmits<{
+  (e: 'update', value: string): void
+}>()
+
+// 3. Reactive state
+const count = ref(0)
+
+// 4. Computed properties
+const doubleCount = computed(() => count.value * 2)
+
+// 5. Methods
+const increment = () => {
+  count.value++
+}
+
+// 6. Lifecycle hooks
+onMounted(() => {
+  console.log('Component mounted')
+})
+</script>
+
+<template>
+  <!-- Template -->
+</template>
+
+<style scoped>
+/* Styles */
+</style>
+```
+
+---
+
+## 🔄 Workflow de Desarrollo
+
+### 1. Crear Feature Branch
+```bash
+git checkout -b feature/my-feature
+```
+
+### 2. Desarrollo
+```bash
+pnpm dev                 # Servidor de desarrollo
+pnpm type-check          # Verificar tipos
+pnpm lint                # Linter
+```
+
+### 3. Testing
+```bash
+pnpm test:unit           # Tests unitarios
+pnpm test-headless-cc    # Tests con coverage
+```
+
+### 4. Build
+```bash
+pnpm build               # Build de producción
+```
+
+### 5. Commit
+```bash
+git add .
+git commit -m "feat: add new feature"
+```
+
+### 6. Push y PR
+```bash
+git push origin feature/my-feature
+# Crear Pull Request en GitHub
+```
+
+---
+
+## 📚 Recursos
+
+### Documentación Oficial
+- [Vue 3](https://vuejs.org/)
+- [Vite](https://vitejs.dev/)
+- [Vue Router](https://router.vuejs.org/)
+- [Vuex](https://vuex.vuejs.org/)
+- [Vitest](https://vitest.dev/)
+- [Cypress](https://www.cypress.io/)
+- [pnpm](https://pnpm.io/)
+
+### Guías del Proyecto
+- [PULL_REQUEST.md](./PULL_REQUEST.md) - Documentación de PR
+- [README.md](./README.md) - Documentación principal
+- [migrate-to-pnpm.sh](./migrate-to-pnpm.sh) - Script de migración
+
+---
+
+## 🤝 Contribución
+
+### Checklist Pre-Commit
+
+- [ ] ✅ Type check pasa: `pnpm type-check`
+- [ ] ✅ Linter pasa: `pnpm lint`
+- [ ] ✅ Tests pasan: `pnpm test-headless`
+- [ ] ✅ Build exitoso: `pnpm build`
+- [ ] ✅ Sin vulnerabilidades: `pnpm audit`
+
+### Checklist Pre-PR
+
+- [ ] ✅ Rama actualizada con main
+- [ ] ✅ Commits bien estructurados
+- [ ] ✅ Documentación actualizada
+- [ ] ✅ Tests añadidos/actualizados
+- [ ] ✅ Sin conflictos
+
+---
+
+## 🎯 Mejores Prácticas
+
+### Vue 3 Composition API
+
+1. **Usar `<script setup>`** para sintaxis más limpia
+2. **Reactive refs** con `ref()` y `reactive()`
+3. **Computed properties** con `computed()`
+4. **Lifecycle hooks** con `onMounted()`, `onUnmounted()`, etc.
+5. **Props typing** con TypeScript
+
+### TypeScript
+
+1. **Tipar todo** - props, emits, variables, funciones
+2. **Evitar `any`** - usar tipos específicos
+3. **Interfaces** para objetos complejos
+4. **Type guards** para validación en runtime
+
+### Testing
+
+1. **Test unitarios** para lógica de negocio
+2. **Test de componentes** para UI
+3. **E2E tests** para flujos críticos
+4. **Coverage** mínimo del 80%
+
+### Performance
+
+1. **Lazy loading** de componentes y rutas
+2. **Computed properties** en lugar de methods para cálculos
+3. **v-show vs v-if** según caso de uso
+4. **Debounce** en inputs de búsqueda
+
+---
+
+## 📊 Métricas del Proyecto
+
+| Métrica | Valor |
+|---------|-------|
+| Componentes | 13 |
+| Tests unitarios | 17 |
+| Cobertura | TBD |
+| Dependencias | 668 |
+| Vulnerabilidades | 0 |
+| Tamaño del build | ~60 KB |
+
+---
+
+## 🔮 Roadmap
+
+### Completado ✅
+- [x] Migración a pnpm
+- [x] Infraestructura de seguridad
+- [x] CI/CD con GitHub Actions
+- [x] Tests unitarios básicos
+- [x] Documentación completa
+
+### Pendiente 📋
+- [ ] Aumentar cobertura de tests
+- [ ] Implementar tests E2E con Cypress
+- [ ] Optimización de bundle size
+- [ ] PWA capabilities
+- [ ] Internacionalización (i18n)
+
+---
+
+**Última actualización**: 6 de diciembre de 2025  
+**Versión**: 0.1.0  
+**Mantenedor**: @isidromerayo
