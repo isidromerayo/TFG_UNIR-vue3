@@ -309,9 +309,17 @@ Esta PR representa una **mejora significativa** en la infraestructura del proyec
 ---
 
 **Autor**: @isidromerayo  
+**Colaborador**: Kiro AI (Asistente de desarrollo)  
 **Fecha**: 6 de diciembre de 2025  
 **Rama**: `migrate-to-pnpm` → `main`  
 **Commits**: 6
+
+---
+
+## 👥 Contribuidores
+
+- **[@isidromerayo](https://github.com/isidromerayo)** - Autor principal y desarrollador del TFG
+- **Kiro AI** - Asistente de desarrollo, migración a pnpm, configuración de seguridad y documentación
 
 ---
 
