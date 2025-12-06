@@ -1,3 +1,4 @@
+import type { Linter } from 'eslint'
 import { globalIgnores } from 'eslint/config'
 import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
 import pluginVue from 'eslint-plugin-vue'
@@ -25,4 +26,4 @@ export default defineConfigWithVueTs(
     files: ['src/**/__tests__/*'],
   },
   skipFormatting,
-)
+) as Linter.Config[]
