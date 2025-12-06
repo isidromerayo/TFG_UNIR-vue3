@@ -88,6 +88,45 @@ Esta PR implementa la migración completa del proyecto de **npm a pnpm** e intro
 "security:outdated": "pnpm outdated"
 ```
 
+### 4. Documentación Exhaustiva
+
+**Archivos creados/actualizados**:
+
+1. ✅ **AGENTS.md** (765 líneas)
+   - Contexto completo del proyecto para agentes IA
+   - Arquitectura y stack tecnológico
+   - Estructura detallada de componentes (13 componentes)
+   - Guías de desarrollo y mejores prácticas
+   - Configuración de TypeScript, Vuex, Router
+   - Testing y debugging
+   - Convenciones de código
+   - Workflow de desarrollo completo
+
+2. ✅ **README.md** - Actualizado completamente
+   - Información del proyecto TFG UNIR
+   - Comandos de pnpm (no npm)
+   - Sección de seguridad y mantenimiento
+   - Sección de CI/CD
+   - Guías de instalación y desarrollo
+   - Testing (unitarios y E2E)
+   - IDE setup recomendado
+   - Enlaces a documentación
+
+3. ✅ **PULL_REQUEST.md** - Este documento
+   - Descripción completa de cambios
+   - Métricas y verificaciones
+   - Guía de migración para el equipo
+   - Checklist pre/post-merge
+
+4. ✅ **Archivos de configuración**
+   - `.npmrc` - Configuración de pnpm
+   - `pnpm-workspace.yaml` - Workspace config
+   - `migrate-to-pnpm.sh` - Script de migración
+   - `scripts/security-check.sh` - Auditoría local
+   - `.github/workflows/node.js.yml` - CI/CD actualizado
+   - `.github/workflows/security.yml` - Security workflow
+   - `.github/dependabot.yml` - Dependabot config
+
 ---
 
 ## ✅ Verificación
@@ -116,13 +155,14 @@ Esta PR implementa la migración completa del proyecto de **npm a pnpm** e intro
 
 | Métrica | Valor |
 |---------|-------|
-| Commits | 3 |
-| Archivos modificados | 3 |
-| Archivos nuevos | 6 |
+| Commits | 6 |
+| Archivos modificados | 4 |
+| Archivos nuevos | 8 |
 | Tests | 17/17 ✅ |
 | Vulnerabilidades actuales | 0 |
 | Paquetes instalados | 668 |
 | Tiempo de instalación | ~50% más rápido |
+| Documentación | AGENTS.md (765 líneas), README actualizado |
 
 ---
 
@@ -271,4 +311,15 @@ Esta PR representa una **mejora significativa** en la infraestructura del proyec
 **Autor**: @isidromerayo  
 **Fecha**: 6 de diciembre de 2025  
 **Rama**: `migrate-to-pnpm` → `main`  
-**Commits**: 3
+**Commits**: 6
+
+---
+
+## 📝 Commits Incluidos
+
+1. `eb300ba` - chore: prepare migration to pnpm
+2. `e6bf2b1` - chore: complete migration to pnpm
+3. `367503e` - ci: update workflows to use pnpm and add security infrastructure
+4. `b645293` - docs: add PR documentation
+5. `ea931d0` - docs: add comprehensive AGENTS.md documentation
+6. `75740ad` - docs: update README with pnpm commands and project information
