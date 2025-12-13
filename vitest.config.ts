@@ -28,7 +28,7 @@ export default defineConfig({
     },
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'html', 'lcov'],
       reportsDirectory: './coverage',
       all: true,
       include: ['src/**/*.{ts,vue}'],
@@ -44,6 +44,15 @@ export default defineConfig({
         'src/assets/**',
         '**/__tests__/**',
       ],
+      // Configuración específica para SonarQube
+      thresholds: {
+        global: {
+          branches: 80,
+          functions: 80,
+          lines: 80,
+          statements: 80
+        }
+      }
     },
     // Configuración para soportar Vue Router
     testTimeout: 10000,
