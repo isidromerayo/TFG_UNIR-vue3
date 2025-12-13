@@ -6,7 +6,7 @@ Este documento explica la configuración de SonarQube para el proyecto Vue3 fron
 
 ### `sonar-project.properties`
 Configuración principal de SonarQube con:
-- **Proyecto**: `tfg-unir-vue3`
+- **Proyecto**: `isidromerayo_TFG_UNIR-vue3`
 - **Organización**: `isidromerayo` (⚠️ **CRÍTICO**: Esta propiedad es obligatoria para SonarQube Cloud)
 - Exclusión de regla S2068 (hard-coded passwords) para archivos de test
 - Configuración de rutas LCOV para cobertura de código
@@ -14,7 +14,7 @@ Configuración principal de SonarQube con:
 
 **Configuración actual**:
 ```properties
-sonar.projectKey=tfg-unir-vue3
+sonar.projectKey=isidromerayo_TFG_UNIR-vue3
 sonar.organization=isidromerayo
 sonar.projectName=TFG UNIR Vue3 Frontend
 sonar.projectVersion=1.0
@@ -98,9 +98,9 @@ jobs:
 ```
 
 ### Enlaces Importantes
-- **SonarQube Cloud**: https://sonarcloud.io/project/overview?id=tfg-unir-vue3
+- **SonarQube Cloud**: https://sonarcloud.io/project/overview?id=isidromerayo_TFG_UNIR-vue3
 - **GitHub Actions**: Ver pestaña "Actions" del repositorio
-- **Project Key**: `tfg-unir-vue3`
+- **Project Key**: `isidromerayo_TFG_UNIR-vue3`
 - **Organization**: `isidromerayo`
 
 ## Métricas de Cobertura Actuales
