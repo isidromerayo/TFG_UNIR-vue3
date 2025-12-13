@@ -10,6 +10,7 @@
     "test:unit": "vitest",
     "test-headless": "vitest run",
     "test-headless-cc": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage",
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
