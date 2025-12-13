@@ -5,9 +5,10 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 
 // Test constants - NOT for production use
+// eslint-disable-next-line sonarjs/no-hardcoded-passwords
 const TEST_DATA = {
-  VALID_PASSWORD: 'testPass123', // Test password - not for production
-  SHORT_PASSWORD: '123', // Test password - not for production
+  VALID_PASSWORD: 'testPass123', // NOSONAR - Test password, not for production
+  SHORT_PASSWORD: '123', // NOSONAR - Test password, not for production  
   VALID_EMAIL: 'juan.perez@example.com',
   INVALID_EMAIL: 'email-invalido',
   FIRST_NAME: 'Juan',
