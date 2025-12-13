@@ -1,0 +1,15 @@
+# SonarQube ignore patterns
+
+# Node modules and dependencies
+node_modules/
+dist/
+coverage/
+
+# Build artifacts
+*.min.js
+*.bundle.js
+
+# Test files with acceptable hard-coded test data
+# (These files may contain test passwords and mock data)
+tests/**/*.spec.ts
+tests/**/*.test.ts

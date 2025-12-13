@@ -398,6 +398,143 @@ pnpm cypress:open   # Interactive
 pnpm cypress:run    # Headless
 ```
 
+### 🧪 Flujo de Desarrollo de Tests
+
+#### **Proceso para Añadir Tests a Componentes**
+
+**1. Identificar Componentes sin Tests**
+```bash
+# Ejecutar cobertura para ver qué falta
+pnpm run test-headless-cc
+
+# Revisar reporte de cobertura
+# Buscar componentes con 0% cobertura
+```
+
+**2. Crear Test para Nuevo Componente**
+```bash
+# Estructura de archivo de test
+tests/unit/componentes/[ComponentName].spec.ts
+```
+
+**3. Plantilla Base de Test**
+```typescript
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { mount } from '@vue/test-utils'
+import ComponentName from '@/components/ComponentName.vue'
+
+// Mocks necesarios
+vi.mock('sweetalert2', () => ({
+  default: { fire: vi.fn() }
+}))
+
+describe('ComponentName', () => {
+  let wrapper: any
+
+  beforeEach(() => {
+    wrapper = mount(ComponentName)
+    vi.clearAllMocks()
+  })
+
+  it('renderiza correctamente', () => {
+    expect(wrapper.exists()).toBe(true)
+    expect(wrapper.text()).toContain('Expected text')
+  })
+
+  // Más tests específicos...
+})
+```
+
+**4. Ejecutar Tests Después de Cada Creación**
+```bash
+# SIEMPRE ejecutar después de crear/modificar tests
+pnpm run test-headless
+
+# Verificar que todos pasan
+# Si fallan, arreglar antes de continuar
+```
+
+**5. Verificar Cobertura Mejorada**
+```bash
+# Ejecutar con cobertura
+pnpm run test-headless-cc
+
+# Verificar mejora en el reporte
+# Objetivo: >80% cobertura por componente
+```
+
+#### **Tipos de Tests por Componente**
+
+**Componentes de UI Simples** (Footer, Header):
+- Renderizado correcto
+- Estructura HTML
+- Contenido estático
+- Enlaces/navegación
+
+**Componentes con Formularios** (Registro, Acceso):
+- Validación de campos
+- Envío de formulario
+- Manejo de errores
+- Estados de carga
+
+**Componentes con Estado** (Carrito, Búsqueda):
+- Estado inicial
+- Cambios de estado
+- Interacciones del usuario
+- Integración con store
+
+**Componentes con API** (Cursos, Categorías):
+- Carga de datos
+- Estados de loading/error
+- Manejo de respuestas
+- Mocks de axios
+
+#### **Mejores Prácticas de Testing**
+
+**✅ Hacer**:
+- Ejecutar tests después de cada cambio
+- Mockear dependencias externas (axios, sweetalert2)
+- Testear comportamiento, no implementación
+- Usar nombres descriptivos para tests
+- Verificar cobertura regularmente
+
+**❌ No Hacer**:
+- Commitear código con tests fallando
+- Testear detalles de implementación
+- Ignorar warnings de tests
+- Crear tests sin assertions
+- Saltarse la verificación de cobertura
+
+#### **Comandos de Testing Workflow**
+
+```bash
+# 1. Crear nuevo test
+touch tests/unit/componentes/NewComponent.spec.ts
+
+# 2. Ejecutar tests (OBLIGATORIO después de cada cambio)
+pnpm run test-headless
+
+# 3. Verificar cobertura
+pnpm run test-headless-cc
+
+# 4. Si todo pasa, continuar con desarrollo
+# 5. Si fallan, arreglar antes de commit
+```
+
+#### **Métricas de Calidad**
+
+**Objetivos de Cobertura**:
+- **Componentes**: >90%
+- **Servicios**: >80%
+- **Utils**: >95%
+- **General**: >70%
+
+**Estado Actual**:
+- Tests totales: 41
+- Archivos de test: 8
+- Cobertura general: 47.18%
+- Componentes testeados: 8/18
+
 ---
 
 ## 🔒 Seguridad
@@ -633,11 +770,27 @@ pnpm type-check          # Verificar tipos
 pnpm lint                # Linter
 ```
 
-### 3. Testing
+### 3. Testing (OBLIGATORIO)
 ```bash
-pnpm test:unit           # Tests unitarios
-pnpm test-headless-cc    # Tests con coverage
+# Si añades/modificas componentes, crear/actualizar tests
+# Ubicación: tests/unit/componentes/[ComponentName].spec.ts
+
+# Ejecutar tests después de cada cambio
+pnpm run test-headless
+
+# Verificar cobertura
+pnpm run test-headless-cc
+
+# REGLA: No continuar si los tests fallan
+# OBJETIVO: Mantener >70% cobertura general
 ```
+
+**Flujo de Testing**:
+1. **Crear test** para nuevo componente
+2. **Ejecutar** `pnpm run test-headless` 
+3. **Verificar** que todos los tests pasan
+4. **Revisar cobertura** con `pnpm run test-headless-cc`
+5. **Arreglar** cualquier test que falle antes de continuar
 
 ### 4. Build
 ```bash
