@@ -4,6 +4,16 @@ import RegistroComponent from '@/components/RegistroComponent.vue'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 
+// Test constants - NOT for production use
+const TEST_DATA = {
+  VALID_PASSWORD: 'testPass123', // Test password - not for production
+  SHORT_PASSWORD: '123', // Test password - not for production
+  VALID_EMAIL: 'juan.perez@example.com',
+  INVALID_EMAIL: 'email-invalido',
+  FIRST_NAME: 'Juan',
+  LAST_NAME: 'Pérez García'
+} as const
+
 // Mock de sweetalert2
 vi.mock('sweetalert2', () => ({
   default: {
@@ -67,13 +77,13 @@ describe('RegistroComponent', () => {
 
   it('limpia el formulario al hacer click en Borrar', async () => {
     // Llenar el formulario
-    await wrapper.find('input[name="nombre"]').setValue('Juan')
+    await wrapper.find('input[name="nombre"]').setValue(TEST_DATA.FIRST_NAME)
     await wrapper.find('input[name="apellidos"]').setValue('Pérez')
     await wrapper.find('input[name="email"]').setValue('juan@example.com')
-    await wrapper.find('input[name="pass"]').setValue('password123')
+    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.VALID_PASSWORD)
     
     // Verificar que los campos tienen valores
-    expect(wrapper.vm.formData.nombre).toBe('Juan')
+    expect(wrapper.vm.formData.nombre).toBe(TEST_DATA.FIRST_NAME)
     expect(wrapper.vm.formData.apellidos).toBe('Pérez')
     
     // Hacer click en borrar
@@ -88,10 +98,10 @@ describe('RegistroComponent', () => {
 
   it('registra usuario correctamente con datos válidos', async () => {
     // Llenar formulario con datos válidos
-    await wrapper.find('input[name="nombre"]').setValue('Juan')
-    await wrapper.find('input[name="apellidos"]').setValue('Pérez García')
-    await wrapper.find('input[name="email"]').setValue('juan.perez@example.com')
-    await wrapper.find('input[name="pass"]').setValue('password123')
+    await wrapper.find('input[name="nombre"]').setValue(TEST_DATA.FIRST_NAME)
+    await wrapper.find('input[name="apellidos"]').setValue(TEST_DATA.LAST_NAME)
+    await wrapper.find('input[name="email"]').setValue(TEST_DATA.VALID_EMAIL)
+    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.VALID_PASSWORD)
     
     // Mock respuesta exitosa
     vi.mocked(axios.post).mockResolvedValue({ data: { id: 1 } })
@@ -104,10 +114,10 @@ describe('RegistroComponent', () => {
       expect(axios.post).toHaveBeenCalledWith(
         expect.stringContaining('/usuarios'),
         {
-          nombre: 'Juan',
-          apellidos: 'Pérez García',
-          email: 'juan.perez@example.com',
-          password: 'password123'
+          nombre: TEST_DATA.FIRST_NAME,
+          apellidos: TEST_DATA.LAST_NAME,
+          email: TEST_DATA.VALID_EMAIL,
+          password: TEST_DATA.VALID_PASSWORD
         }
       )
     })
@@ -124,10 +134,10 @@ describe('RegistroComponent', () => {
 
   it('maneja errores de registro', async () => {
     // Llenar formulario con datos válidos
-    await wrapper.find('input[name="nombre"]').setValue('Juan')
+    await wrapper.find('input[name="nombre"]').setValue(TEST_DATA.FIRST_NAME)
     await wrapper.find('input[name="apellidos"]').setValue('Pérez')
     await wrapper.find('input[name="email"]').setValue('juan@example.com')
-    await wrapper.find('input[name="pass"]').setValue('password123')
+    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.VALID_PASSWORD)
     
     // Mock respuesta de error
     const errorResponse = {
@@ -154,10 +164,10 @@ describe('RegistroComponent', () => {
 
   it('valida formato de email', async () => {
     // Llenar formulario con email inválido
-    await wrapper.find('input[name="nombre"]').setValue('Juan')
+    await wrapper.find('input[name="nombre"]').setValue(TEST_DATA.FIRST_NAME)
     await wrapper.find('input[name="apellidos"]').setValue('Pérez')
-    await wrapper.find('input[name="email"]').setValue('email-invalido')
-    await wrapper.find('input[name="pass"]').setValue('password123')
+    await wrapper.find('input[name="email"]').setValue(TEST_DATA.INVALID_EMAIL)
+    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.VALID_PASSWORD)
     
     // Enviar formulario
     await wrapper.find('form').trigger('submit.prevent')
@@ -172,10 +182,10 @@ describe('RegistroComponent', () => {
 
   it('valida longitud mínima de contraseña', async () => {
     // Llenar formulario con contraseña muy corta
-    await wrapper.find('input[name="nombre"]').setValue('Juan')
+    await wrapper.find('input[name="nombre"]').setValue(TEST_DATA.FIRST_NAME)
     await wrapper.find('input[name="apellidos"]').setValue('Pérez')
     await wrapper.find('input[name="email"]').setValue('juan@example.com')
-    await wrapper.find('input[name="pass"]').setValue('123') // Menos de 4 caracteres
+    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.SHORT_PASSWORD) // Menos de 4 caracteres
     
     // Enviar formulario
     await wrapper.find('form').trigger('submit.prevent')
