@@ -1,0 +1,22 @@
+{
+  "report-dir": "coverage/cypress",
+  "temp-dir": ".nyc_output",
+  "exclude": [
+    "**/*.test.{js,ts,vue}",
+    "**/*.spec.{js,ts,vue}",
+    "**/*.cy.{js,ts,vue}",
+    "**/cypress/**",
+    "**/coverage/**",
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/*.config.{js,ts}",
+    "**/*.d.ts",
+    "src/main.ts"
+  ],
+  "extension": [
+    ".js",
+    ".ts",
+    ".vue"
+  ],
+  "all": true
+}
