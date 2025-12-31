@@ -35,14 +35,14 @@ export default createStore<RootState>({
     }
   },
   actions: {
-    addCursoCarrito({ commit, state }: { commit: Function; state: RootState }, params: any) {
+    addCursoCarrito({ commit, state }: { commit: (mutation: string, payload?: any) => void; state: RootState }, params: any) {
       const curso = params.curso
       const precio = params.precio
 
       commit('setCarrito', [...state.carrito, { curso, precio }])
       commit('setTotalCarrito', state.totalCarrito + precio)
     },
-    removeCursoCarrito({ commit, state }: { commit: Function; state: RootState }, params: any) {
+    removeCursoCarrito({ commit, state }: { commit: (mutation: string, payload?: any) => void; state: RootState }, params: any) {
       const curso = params.curso
       const precio = params.precio
 
@@ -50,7 +50,7 @@ export default createStore<RootState>({
       commit('setCarrito', newCarrito)
       commit('setTotalCarrito', state.totalCarrito - precio)
     },
-    cleanCarrito({ commit }: { commit: Function }, params: any) {
+    cleanCarrito({ commit }: { commit: (mutation: string, payload?: any) => void }, params: any) {
       commit('setCarrito', [])
       commit('setTotalCarrito', 0)
     }
