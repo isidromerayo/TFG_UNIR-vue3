@@ -36,13 +36,12 @@ export default defineConfig({
         'node_modules/',
         'dist/',
         '**/*.d.ts',
-        '**/types.ts',
         'src/main.ts',
-        'src/App.vue',
-        'src/router/**',
-        'src/stores/**',
         'src/assets/**',
         '**/__tests__/**',
+        '**/cypress/**',
+        'src/types/**',
+        'src/model/**',
       ],
       // Configuración específica para SonarQube
       thresholds: {
