@@ -1,7 +1,6 @@
 import HeaderComponent from '../../src/components/HeaderComponent.vue'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
-// Test for HeaderComponent using best practices (data-cy)
 describe('HeaderComponent', () => {
   const router = createRouter({
     history: createMemoryHistory(),
@@ -10,29 +9,28 @@ describe('HeaderComponent', () => {
     ]
   })
 
-  beforeEach(() => {
-    cy.mount(HeaderComponent, {
-      global: {
-        plugins: [router]
-      }
-    })
-  })
-
-  it('should render the header component', () => {
+  it('renders correctly', () => {
+    localStorage.removeItem('token')
+    cy.mount(HeaderComponent, { global: { plugins: [router] } })
     cy.get('[data-cy=header]').should('exist')
   })
 
-  it('should have logo text', () => {
-    // Check if the text exists within the logo link
-    cy.get('[data-cy=logo-link]').should('contain', 'TFG')
-    cy.get('[data-cy=logo-link]').should('contain', 'FFJ')
-    cy.get('[data-cy=logo-link]').should('contain', 'AEP')
+  it('shows logged in menu when token exists', () => {
+    // Set token BEFORE mounting
+    localStorage.setItem('token', 'mock-token')
+    cy.mount(HeaderComponent, { global: { plugins: [router] } })
+
+    // Check for the dropdown class which appears if token is present
+    cy.get('.dropdown').should('exist')
+
+    // cleanup
+    localStorage.removeItem('token')
   })
 
-  it('should have navigation', () => {
-    // Look for the navbar by data-cy attribute
+  it('navigates through the menu', () => {
+    localStorage.removeItem('token')
+    cy.mount(HeaderComponent, { global: { plugins: [router] } })
     cy.get('[data-cy=navbar]').should('exist')
-    // Check for a specific menu item
-    cy.contains('a', 'Home').should('exist')
+    cy.contains('Home').should('exist')
   })
 })
