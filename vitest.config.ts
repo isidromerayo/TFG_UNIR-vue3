@@ -23,14 +23,15 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './tests/setup.ts',
-    deps: {
-      inline: ['@vue/test-utils', 'vue', 'vue-router', 'pinia'],
+    server: {
+      deps: {
+        inline: ['@vue/test-utils', 'vue', 'vue-router', 'pinia'],
+      },
     },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
       reportsDirectory: './coverage',
-      all: true,
       include: ['src/**/*.{ts,vue}'],
       exclude: [
         'node_modules/',
