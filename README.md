@@ -19,7 +19,7 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 - **State Management**: Vuex 4.1.0
 - **HTTP Client**: Axios 1.13.2
 - **UI/Alerts**: SweetAlert2 11.26.4
-- **Testing**: Vitest + Testing Library, Cypress
+- **Testing**: Vitest + Testing Library, Cypress (E2E & Component Testing)
 
 ## 📦 Instalación
 
@@ -103,6 +103,16 @@ pnpm cypress:open
 
 # Headless
 pnpm cypress:run
+
+### Tests de Componentes (Cypress)
+
+```bash
+# Interactivo
+pnpm cypress:component:open
+
+# Headless
+pnpm cypress:component
+```
 ```
 
 ## 📁 Estructura del Proyecto
@@ -211,11 +221,19 @@ pnpm build
 
 El proyecto incluye workflows de CI/CD configurados en `.github/workflows/`:
 
-#### Pipeline Principal (node.js.yml)
+#### Pipeline de Tests (tests.yml)
 
 Se ejecuta automáticamente en:
-- Push a `main`
-- Pull requests a `main`
+- Push a `main`, `develop`
+- Pull requests a `main`, `develop`
+
+**Pasos**:
+1. **Unit Tests (Vitest)**: Ejecuta tests unitarios con cobertura.
+2. **Component Tests (Cypress)**: Ejecuta tests de componentes en aislamiento.
+3. **E2E Tests (Cypress)**: Ejecuta tests de extremo a extremo sobre el build de producción.
+4. **Coverage Report**: Fusiona los reportes de Vitest y Cypress para un reporte unificado.
+
+#### Pipeline Principal (node.js.yml)
 
 **Pasos**:
 1. **Checkout** - Descarga el código

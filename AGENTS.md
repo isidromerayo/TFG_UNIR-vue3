@@ -34,7 +34,7 @@
 - @vitest/coverage-v8 3.2.4 (Coverage)
 - @testing-library/vue 8.1.0
 - @testing-library/jest-dom 6.9.1
-- Cypress 14.5.4 (E2E tests)
+- Cypress 15.8.1 (E2E & Component Testing)
 
 **Linting & Formatting**:
 - ESLint 9.39.1
@@ -530,10 +530,10 @@ pnpm run test-headless-cc
 - **General**: >70%
 
 **Estado Actual**:
-- Tests totales: 41
-- Archivos de test: 8
-- Cobertura general: 47.18%
-- Componentes testeados: 8/18
+- Tests totales: 76 (73 Unitarios + 3 Componente)
+- Archivos de test: 20
+- Cobertura general: ~70% (Progreso activo)
+- Componentes testeados: 13/18
 
 ---
 
@@ -886,9 +886,9 @@ git push origin feature/my-feature
 
 | Métrica | Valor |
 |---------|-------|
-| Componentes | 13 |
-| Tests unitarios | 17 |
-| Cobertura | TBD |
+| Componentes | 18 |
+| Tests totales | 76 |
+| Cobertura | ~70% |
 | Dependencias | 668 |
 | Vulnerabilidades | 0 |
 | Tamaño del build | ~60 KB |
@@ -905,14 +905,15 @@ git push origin feature/my-feature
 - [x] Documentación completa
 
 ### Pendiente 📋
-- [ ] Aumentar cobertura de tests
-- [ ] Implementar tests E2E con Cypress
+- [ ] Aumentar cobertura de tests (>90%)
+- [x] Implementar tests de componentes con Cypress
+- [ ] Implementar tests E2E con Cypress (flujos críticos)
 - [ ] Optimización de bundle size
 - [ ] PWA capabilities
 - [ ] Internacionalización (i18n)
 
 ---
 
-**Última actualización**: 6 de diciembre de 2025  
+**Última actualización**: 1 de enero de 2026  
 **Versión**: 0.1.0  
 **Mantenedor**: @isidromerayo

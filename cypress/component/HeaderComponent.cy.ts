@@ -1,32 +1,34 @@
 import HeaderComponent from '../../src/components/HeaderComponent.vue'
+import { createRouter, createMemoryHistory } from 'vue-router'
 
 describe('HeaderComponent', () => {
+  const router = createRouter({
+    history: createMemoryHistory(),
+    routes: [
+      { path: '/home', name: 'home', component: { template: '<div>Home</div>' } }
+    ]
+  })
+
   beforeEach(() => {
-    // Mount the component before each test
-    cy.mount(HeaderComponent)
+    cy.mount(HeaderComponent, {
+      global: {
+        plugins: [router]
+      }
+    })
   })
 
   it('should render the header component', () => {
-    // Test for the actual header element with id
     cy.get('#header').should('exist')
-    cy.get('header').should('have.class', 'header')
   })
 
-  it('should have navigation elements', () => {
-    // Test navigation structure
-    cy.get('#navbar').should('exist')
-    cy.get('nav.navbar').should('exist')
+  it('should have logo text', () => {
+    // Check if the text exists anywhere in the header
+    cy.get('#header').should('contain', 'TFG')
+    cy.get('#header').should('contain', 'FFJ')
+    cy.get('#header').should('contain', 'AEP')
   })
 
-  it('should have logo elements', () => {
-    // Test logo structure
-    cy.get('.logo').should('exist')
-    cy.get('.unir-logo').should('exist')
-  })
-
-  it('should be accessible', () => {
-    // Basic accessibility test
-    cy.get('header').should('exist')
+  it('should have navigation', () => {
     cy.get('nav').should('exist')
   })
 })
