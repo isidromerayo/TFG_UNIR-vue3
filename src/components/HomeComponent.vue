@@ -7,7 +7,7 @@
         <div>
           <h1>Cursos destacados</h1>
         </div>
-        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="curso in cursos">
+        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="curso in cursos" :key="curso.id">
           <div>
             <h4>{{ curso.titulo }}</h4>
             <p class="description">{{ curso.descripcion }}</p>
@@ -30,7 +30,7 @@
         <div>
           <h1>Opiniones</h1>
         </div>
-        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="valoracion in opiniones">
+        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="valoracion in opiniones" :key="valoracion.id">
           <div>
             <p class="description">Valoración: <b>{{ valoracion.puntuacion }}/5</b></p>
             <p class="description">{{ valoracion.comentario }}</p>
@@ -49,7 +49,7 @@
         <div>
           <h1>Ultimas actualizaciones</h1>
         </div>
-        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="actualizacion in actualizaciones">
+        <div class="col-lg-4 col-md-6 service-item d-flex" v-for="actualizacion in actualizaciones" :key="actualizacion.id">
           <div>
             <p class="description">actualizado: <b>{{ actualizacion.fechaActualizacion }}</b></p>
             <h4>{{ actualizacion.titulo }} </h4>

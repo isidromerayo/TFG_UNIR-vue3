@@ -15,6 +15,8 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -39,23 +41,103 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
+    - name: Cache Cypress binary
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
+
     - name: Install dependencies
       run: pnpm install --frozen-lockfile
+
+    - name: Install Cypress binary
+      run: pnpm cypress install
 
     - name: Type check
       run: pnpm run type-check
 
+    - name: Lint
+      run: pnpm lint
+
     - name: Build
       run: pnpm run build
 
-    - name: Run tests
-      run: pnpm run test-headless-cc
+    - name: Run Vitest tests with coverage
+      run: pnpm test-headless-cc
 
-    - name: Audit vulnerabilities
+    - name: Run Cypress component tests with coverage
+      run: pnpm cypress:component:coverage
+
+    - name: Merge coverage reports
+      run: |
+        # Create merged coverage directory
+        mkdir -p coverage/merged
+        
+        # Copy Vitest coverage
+        if [ -d "coverage" ] && [ -f "coverage/lcov.info" ]; then
+          cp coverage/lcov.info coverage/merged/vitest-lcov.info || true
+        fi
+        
+        # Copy Cypress coverage
+        if [ -d "coverage/cypress" ] && [ -f "coverage/cypress/lcov.info" ]; then
+          cp coverage/cypress/lcov.info coverage/merged/cypress-lcov.info || true
+        fi
+        
+        # Merge coverage files if both exist
+        if [ -f "coverage/merged/vitest-lcov.info" ] && [ -f "coverage/merged/cypress-lcov.info" ]; then
+          npx lcov-result-merger 'coverage/merged/*-lcov.info' coverage/merged/lcov.info
+        elif [ -f "coverage/merged/vitest-lcov.info" ]; then
+          cp coverage/merged/vitest-lcov.info coverage/merged/lcov.info
+        elif [ -f "coverage/merged/cypress-lcov.info" ]; then
+          cp coverage/merged/cypress-lcov.info coverage/merged/lcov.info
+        fi
+
+    - name: Run Cypress component tests (verification)
+      run: pnpm cypress:component
+
+    - name: Security audit
       run: |
         pnpm audit || EXIT_CODE=$?
         if [ $EXIT_CODE -ne 0 ]; then
-          echo "pnpm audit found vulnerabilities."
+          echo "::warning::pnpm audit found vulnerabilities"
+          pnpm audit --json > audit-results.json || true
         else
-          echo "pnpm audit found no vulnerabilities."
+          echo "✅ pnpm audit found no vulnerabilities"
         fi
+
+    - name: Check if coverage file exists
+      id: coverage-check
+      run: |
+        if [ -f "./coverage/merged/lcov.info" ]; then
+          echo "coverage-exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "coverage-exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Comment coverage on PR
+      if: github.event_name == 'pull_request' && steps.coverage-check.outputs.coverage-exists == 'true'
+      uses: romeovs/lcov-reporter-action@v0.3.1
+      continue-on-error: true
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coverage/merged/lcov.info
+        delete-old-comments: true
+
+    - name: SonarQube Scan
+      uses: SonarSource/sonarqube-scan-action@v6
+      env:
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: |
+          coverage/
+          cypress/screenshots/
+          cypress/videos/
+        retention-days: 30

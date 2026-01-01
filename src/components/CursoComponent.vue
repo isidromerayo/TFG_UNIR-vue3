@@ -51,7 +51,7 @@ export default defineComponent({
         }
 
         const addCursoCarritoEvent = (curso:Curso) => {
-            store.dispatch("addCursoCarrito",curso)
+            store.dispatch("addCursoCarrito", { curso: curso, precio: curso.precio })
         }
         return {
             curso,

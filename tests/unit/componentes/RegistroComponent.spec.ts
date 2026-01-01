@@ -5,7 +5,6 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 
 // Test constants - NOT for production use
-// eslint-disable-next-line sonarjs/no-hardcoded-passwords
 const TEST_DATA = {
   VALID_PASSWORD: 'testPass123', // NOSONAR - Test password, not for production
   SHORT_PASSWORD: '123', // NOSONAR - Test password, not for production  

@@ -1,0 +1,287 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  unit-tests:
+    name: Unit Tests (Vitest)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Run Vitest tests with coverage
+      run: pnpm test-headless-cc
+
+    - name: Upload Vitest coverage artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: vitest-coverage
+        path: coverage/
+        retention-days: 7
+
+  component-tests:
+    name: Component Tests (Cypress)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Cache Cypress binary
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Install Cypress binary
+      run: pnpm cypress install
+
+    - name: Run Cypress component tests
+      run: pnpm cypress:component:coverage
+
+    - name: Upload Cypress coverage artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-coverage
+        path: coverage/cypress/
+        retention-days: 7
+
+    - name: Upload Cypress artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: cypress-artifacts
+        path: |
+          cypress/screenshots/
+          cypress/videos/
+        retention-days: 7
+
+  e2e-tests:
+    name: E2E Tests (Cypress)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Cache Cypress binary
+      uses: actions/cache@v4
+      with:
+        path: ~/.cache/Cypress
+        key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-cypress-
+
+    - name: Install dependencies
+      run: pnpm install --frozen-lockfile
+
+    - name: Install Cypress binary
+      run: pnpm cypress install
+
+    - name: Build application
+      run: pnpm build
+
+    - name: Start application
+      run: pnpm preview &
+      
+    - name: Wait for application to be ready
+      run: |
+        timeout 60 bash -c 'until curl -f http://localhost:4173; do sleep 2; done'
+
+    - name: Run Cypress E2E tests
+      run: pnpm cypress:e2e
+
+    - name: Upload E2E artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: e2e-artifacts
+        path: |
+          cypress/screenshots/
+          cypress/videos/
+        retention-days: 7
+
+  coverage-report:
+    name: Coverage Report
+    runs-on: ubuntu-latest
+    needs: [unit-tests, component-tests]
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20.x'
+
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+
+    - name: Download Vitest coverage artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: vitest-coverage
+        path: coverage/
+
+    - name: Download Cypress coverage artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: cypress-coverage
+        path: coverage/cypress/
+      continue-on-error: true
+
+    - name: Install lcov-result-merger
+      run: npm install -g lcov-result-merger
+
+    - name: Merge coverage reports
+      run: |
+        mkdir -p coverage/merged
+        
+        # Copy Vitest coverage
+        if [ -f "coverage/lcov.info" ]; then
+          cp coverage/lcov.info coverage/merged/vitest-lcov.info
+        fi
+        
+        # Copy Cypress coverage
+        if [ -f "coverage/cypress/lcov.info" ]; then
+          cp coverage/cypress/lcov.info coverage/merged/cypress-lcov.info
+        fi
+        
+        # Merge if both exist
+        if [ -f "coverage/merged/vitest-lcov.info" ] && [ -f "coverage/merged/cypress-lcov.info" ]; then
+          lcov-result-merger 'coverage/merged/*-lcov.info' coverage/merged/lcov.info
+        elif [ -f "coverage/merged/vitest-lcov.info" ]; then
+          cp coverage/merged/vitest-lcov.info coverage/merged/lcov.info
+        elif [ -f "coverage/merged/cypress-lcov.info" ]; then
+          cp coverage/merged/cypress-lcov.info coverage/merged/lcov.info
+        fi
+
+    - name: Check if coverage file exists
+      id: coverage-check
+      run: |
+        if [ -f "./coverage/merged/lcov.info" ]; then
+          echo "coverage-exists=true" >> $GITHUB_OUTPUT
+        else
+          echo "coverage-exists=false" >> $GITHUB_OUTPUT
+        fi
+
+    - name: Comment coverage on PR
+      if: steps.coverage-check.outputs.coverage-exists == 'true'
+      uses: romeovs/lcov-reporter-action@v0.3.1
+      continue-on-error: true
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+        lcov-file: ./coverage/merged/lcov.info
+        delete-old-comments: true
+        title: "📊 Merged Coverage Report (Vitest + Cypress)"
+
+  test-summary:
+    name: Test Summary
+    runs-on: ubuntu-latest
+    needs: [unit-tests, component-tests, e2e-tests]
+    if: always()
+    
+    steps:
+    - name: Test Results Summary
+      run: |
+        echo "## 🧪 Test Results Summary" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "| Test Type | Status |" >> $GITHUB_STEP_SUMMARY
+        echo "|-----------|--------|" >> $GITHUB_STEP_SUMMARY
+        echo "| Unit Tests (Vitest) | ${{ needs.unit-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| Component Tests (Cypress) | ${{ needs.component-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "| E2E Tests (Cypress) | ${{ needs.e2e-tests.result == 'success' && '✅ Passed' || '❌ Failed' }} |" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        
+        if [[ "${{ needs.unit-tests.result }}" == "success" && "${{ needs.component-tests.result }}" == "success" && "${{ needs.e2e-tests.result }}" == "success" ]]; then
+          echo "🎉 All tests passed!" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "⚠️ Some tests failed. Please check the individual job results." >> $GITHUB_STEP_SUMMARY
+        fi

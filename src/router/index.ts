@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter as createVueRouter, createWebHistory } from 'vue-router'
 
 import RegistroComponent from '../components/RegistroComponent.vue'
 import HomeComponent from '../components/HomeComponent.vue'
@@ -15,7 +15,7 @@ import ValoracionComponent from '@/components/ValoracionComponent.vue'
 
 import { getToken } from '../services/session'
 
-const router = createRouter({
+export const createRouter = () => createVueRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -75,7 +75,7 @@ const router = createRouter({
         if (getToken()) {
           next();
         } else {
-          router.push("/acceso")
+          next("/acceso")
         }
       }
     },
@@ -87,7 +87,7 @@ const router = createRouter({
         if (getToken()) {
           next();
         } else {
-          router.push("/acceso")
+          next("/acceso")
         }
       }
     },    
@@ -99,5 +99,7 @@ const router = createRouter({
     
   ]
 })
+
+const router = createRouter()
 
 export default router
