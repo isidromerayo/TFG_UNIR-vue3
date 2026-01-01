@@ -18,19 +18,19 @@ describe('HeaderComponent', () => {
   })
 
   it('should render the header component', () => {
-    cy.get('#header').should('exist')
+    cy.get('[data-cy=header]').should('exist')
   })
 
   it('should have logo text', () => {
-    // Check if the text exists anywhere in the header
-    cy.get('#header').should('contain', 'TFG')
-    cy.get('#header').should('contain', 'FFJ')
-    cy.get('#header').should('contain', 'AEP')
+    // Check if the text exists within the logo link
+    cy.get('[data-cy=logo-link]').should('contain', 'TFG')
+    cy.get('[data-cy=logo-link]').should('contain', 'FFJ')
+    cy.get('[data-cy=logo-link]').should('contain', 'AEP')
   })
 
   it('should have navigation', () => {
-    // Look for the navbar by ID
-    cy.get('#navbar').should('exist')
+    // Look for the navbar by data-cy attribute
+    cy.get('[data-cy=navbar]').should('exist')
     // Check for a specific menu item
     cy.contains('a', 'Home').should('exist')
   })

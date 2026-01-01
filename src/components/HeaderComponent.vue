@@ -1,8 +1,8 @@
 <template>
-  <header id="header" class="header d-flex align-items-center fixed-top color-vue-verde">
+  <header id="header" data-cy="header" class="header d-flex align-items-center fixed-top color-vue-verde">
     <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
 
-      <router-link to="/home" class="logo d-flex fix-home-menu align-items-center">
+      <router-link to="/home" data-cy="logo-link" class="logo d-flex fix-home-menu align-items-center">
         <img alt="Vue logo" src="@/assets/logo.svg" class="unir-logo" />
         <img src="@/assets/img/Unir_2021_logo.svg" alt="Logo UNIR" class="unir-logo" />
         <h1>TFG - FFJ: AEP</h1>
@@ -10,7 +10,7 @@
 
       <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
       <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
-      <nav id="navbar" class="navbar">
+      <nav id="navbar" data-cy="navbar" class="navbar">
         <ul>
           <li><router-link to="/home" active-class="active">Home</router-link></li>
           <li class="dropdown"><router-link to="/categorias" active-class="active"><span>Categorias</span><i
