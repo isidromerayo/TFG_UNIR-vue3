@@ -9,6 +9,8 @@
 
 Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gestión de cursos online.
 
+> 📊 **Estado de Cobertura**: El proyecto mantiene un objetivo de cobertura superior al **80% en código nuevo**, validado a través de SonarQube, utilizando una combinación de Vitest para lógica/estructura y Cypress para componentes críticos.
+
 ## 🚀 Tecnologías
 
 - **Framework**: Vue 3.5.25

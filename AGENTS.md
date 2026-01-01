@@ -103,8 +103,10 @@ TFG_UNIR-vue3/
 │   ├── unit/                   # Unit tests
 │   │   └── componentes/
 │   │       ├── AccesoComponent.spec.ts
+│   │       ├── AppComponent.spec.ts    # Minimalist test for structural coverage
 │   │       ├── BusquedaComponent.spec.ts
 │   │       ├── CarritoComponent.spec.ts
+│   │       ├── FooterComponent.spec.ts  # Minimalist test for structural coverage
 │   │       └── SliderComponent.spec.ts
 │   └── setup.ts                # Test setup
 │
@@ -365,16 +367,28 @@ const api = axios.create({
 
 **Configuración**: `vitest.config.ts`
 
-**Ejemplo**:
-```typescript
-import { describe, it, expect } from 'vitest'
-import { mount } from '@vue/test-utils'
-import Component from '@/components/Component.vue'
+**Estrategia de Cobertura Minimalista**:
+Para componentes estructurales (como `App.vue` o `FooterComponent.vue`) donde el "coste/beneficio" de un test complejo es bajo, se utilizan tests minimalistas que aseguran el renderizado básico. Esto garantiza cobertura de líneas sin introducir complejidad de mocks innecesaria.
 
-describe('Component', () => {
-  it('renders properly', () => {
-    const wrapper = mount(Component)
-    expect(wrapper.text()).toContain('Expected text')
+**Ejemplo Minimalista (`tests/unit/componentes/AppComponent.spec.ts`)**:
+```typescript
+import { shallowMount } from '@vue/test-utils'
+import App from '@/App.vue'
+import { describe, it, expect, vi } from 'vitest'
+
+vi.mock('vue-router', () => ({
+  RouterView: { template: '<div></div>' },
+  RouterLink: { template: '<a></a>' }
+}))
+
+describe('App.vue', () => {
+  it('se renderiza correctamente', () => {
+    const wrapper = shallowMount(App, {
+      global: {
+        stubs: { HeaderComponent: true, FooterComponent: true, RouterView: true }
+      }
+    })
+    expect(wrapper.exists()).toBe(true)
   })
 })
 ```
@@ -383,19 +397,22 @@ describe('Component', () => {
 ```bash
 pnpm test:unit          # Watch mode
 pnpm test-headless      # Single run
-pnpm test-headless-cc   # With coverage
+pnpm test-headless-cc   # With coverage report
 ```
 
-### E2E Tests (Cypress)
+### Component Testing (Cypress)
 
-**Ubicación**: `cypress/e2e/`
+**Ubicación**: `cypress/component/`
 
-**Configuración**: `cypress.config.ts`
+**Mejores Prácticas**:
+- **data-cy**: Utilizar siempre atributos `data-cy` para los selectores (ej: `data-cy="header"`) para asegurar la estabilidad de los tests frente a cambios de diseño.
+- **Estabilidad**: Evitar selecciones complejas basadas en texto o estructura HTML profunda.
 
 **Ejecutar**:
 ```bash
-pnpm cypress:open   # Interactive
+pnpm cypress:open   # Interactivo
 pnpm cypress:run    # Headless
+pnpm cypress:component:coverage # Headless con reporte de cobertura
 ```
 
 ### 🧪 Flujo de Desarrollo de Tests
