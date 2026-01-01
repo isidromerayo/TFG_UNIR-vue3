@@ -1,6 +1,7 @@
 import HeaderComponent from '../../src/components/HeaderComponent.vue'
 import { createRouter, createMemoryHistory } from 'vue-router'
 
+// Test for HeaderComponent using best practices (data-cy)
 describe('HeaderComponent', () => {
   const router = createRouter({
     history: createMemoryHistory(),
