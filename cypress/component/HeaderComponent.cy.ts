@@ -29,6 +29,9 @@ describe('HeaderComponent', () => {
   })
 
   it('should have navigation', () => {
-    cy.get('nav').should('exist')
+    // Look for the navbar by ID
+    cy.get('#navbar').should('exist')
+    // Check for a specific menu item
+    cy.contains('a', 'Home').should('exist')
   })
 })
