@@ -33,7 +33,7 @@
     "security:outdated": "pnpm outdated"
   },
   "dependencies": {
-    "vue": "^3.5.17"
+    "vue": "^3.5.26"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.13.4",
