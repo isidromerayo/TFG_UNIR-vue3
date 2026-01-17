@@ -3,9 +3,9 @@
 ## 📋 Información General
 
 **Proyecto**: TFG UNIR - Frontend Vue3  
-**Framework**: Vue 3.5.25 + Vite 6.4.1  
-**Lenguaje**: TypeScript 5.8.3  
-**Package Manager**: pnpm 10.x  
+**Framework**: Vue 3.5.26 + Vite 7.3.0  
+**Lenguaje**: TypeScript 5.9.2  
+**Package Manager**: pnpm  
 **Propósito**: Aplicación web frontend para sistema de gestión de cursos online
 
 ---
@@ -15,34 +15,34 @@
 ### Stack Tecnológico
 
 **Core**:
-- Vue 3.5.25 (Composition API)
-- Vite 6.4.1 (Build tool)
-- TypeScript 5.8.3
-- Vue Router 4.6.3
+- Vue 3.5.26 (Composition API)
+- Vite 7.3.0 (Build tool)
+- TypeScript 5.9.2
+- Vue Router 4.6.4
 - Vuex 4.1.0 (State management)
 
 **UI/UX**:
-- SweetAlert2 11.26.4 (Alertas)
+- SweetAlert2 11.26.17 (Alertas)
 - CSS/SCSS personalizado
 
 **HTTP Client**:
-- Axios 1.13.2
+- Axios 1.10.0
 
 **Testing**:
-- Vitest 3.2.4 (Unit tests)
-- @vitest/ui 3.2.4 (Test UI)
-- @vitest/coverage-v8 3.2.4 (Coverage)
+- Vitest 4.0.16 (Unit tests)
+- @vitest/ui 4.0.16 (Test UI)
+- @vitest/coverage-v8 4.0.16 (Coverage)
 - @testing-library/vue 8.1.0
-- @testing-library/jest-dom 6.9.1
+- @testing-library/jest-dom 6.6.3
 - Cypress 15.8.1 (E2E & Component Testing)
 
 **Linting & Formatting**:
-- ESLint 9.39.1
+- ESLint 9.39.2
 - eslint-plugin-vue 10.3.0
-- Prettier 3.6.2
+- Prettier 3.7.4
 
 **Validation**:
-- Yup 1.7.1
+- Yup 1.6.1
 
 ---
 
