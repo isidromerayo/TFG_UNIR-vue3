@@ -29,4 +29,6 @@ coverage
 *.sw?
 
 #
-package-lock.json
+package-lock.json# Backup files
+*.backup
+pnpm-list-*.txt
