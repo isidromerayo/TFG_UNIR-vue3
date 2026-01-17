@@ -166,6 +166,15 @@ pnpm cypress:open
 
 # Cypress E2E (headless)
 pnpm cypress:run
+
+# Cypress Component (headless)
+pnpm cypress:component
+
+# Cypress Component (interactivo)
+pnpm cypress:component:open
+
+# Cypress Component con coverage
+pnpm cypress:component:coverage
 ```
 
 ### Calidad de Código
@@ -792,22 +801,29 @@ pnpm lint                # Linter
 # Si añades/modificas componentes, crear/actualizar tests
 # Ubicación: tests/unit/componentes/[ComponentName].spec.ts
 
-# Ejecutar tests después de cada cambio
+# 1. Tests unitarios headless
 pnpm run test-headless
 
-# Verificar cobertura
-pnpm run test-headless-cc
+# 2. Tests de componentes (Cypress)
+pnpm run cypress:component
 
 # REGLA: No continuar si los tests fallan
 # OBJETIVO: Mantener >70% cobertura general
 ```
 
 **Flujo de Testing**:
-1. **Crear test** para nuevo componente
-2. **Ejecutar** `pnpm run test-headless` 
-3. **Verificar** que todos los tests pasan
-4. **Revisar cobertura** con `pnpm run test-headless-cc`
-5. **Arreglar** cualquier test que falle antes de continuar
+1. **Crear test** para nuevo componente.
+2. **Ejecutar** `pnpm run test-headless` y `pnpm run cypress:component`.
+3. **Verificar** que todos los tests pasan.
+4. **Revisar cobertura** con `pnpm run test-headless-cc`.
+5. **Arreglar** cualquier test que falle antes de continuar.
+
+#### **FLUJO OBLIGATORIO PARA AGENTES**:
+
+1. **Linter**: `pnpm lint`
+2. **Tests**: `pnpm run test-headless && pnpm run cypress:component`
+3. **Build**: `pnpm build`
+4. **Commit**: Solo si los pasos anteriores son verdes.
 
 ### 4. Build
 ```bash
