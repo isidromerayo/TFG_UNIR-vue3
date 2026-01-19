@@ -60,7 +60,7 @@
     "axios": "^1.10.0",
     "cypress": "^15.8.1",
     "eslint": "^9.39.2",
-    "eslint-plugin-vue": "~10.6.2",
+    "eslint-plugin-vue": "~10.7.0",
     "istanbul-lib-coverage": "^3.2.2",
     "jiti": "^2.4.2",
     "jsdom": "^27.4.0",
