@@ -48,5 +48,20 @@ describe('App Store', () => {
         const store = useAppStore()
         store.setIsLoggedIn(true)
         expect(store.isLoggedIn).toBe(true)
+        expect(store.getIsLoggedIn).toBe(true)
+    })
+
+    it('covers all getters', () => {
+        const store = useAppStore()
+        const usuario = { id: 1, username: 'test', email: 'test@test.com' }
+        const carrito = [{ curso: { id: 1, titulo: 'C1' } as any, precio: 50 }]
+
+        store.setUsuario(usuario)
+        store.setCarrito(carrito)
+        store.setTotalCarrito(50)
+
+        expect(store.getUsuario).toEqual(usuario)
+        expect(store.getCarrito).toEqual(carrito)
+        expect(store.getTotalCarrito).toBe(50)
     })
 })

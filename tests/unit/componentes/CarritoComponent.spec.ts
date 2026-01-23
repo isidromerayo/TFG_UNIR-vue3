@@ -99,13 +99,17 @@ describe('CarritoComponent', () => {
 
   it('borra un producto del carrito', async () => {
     const item = { curso: { id: 1, titulo: 'Curso 1' }, precio: 100 }
-
     await wrapper.vm.borrarProducto(item)
-
     expect(store.removeCursoCarrito).toHaveBeenCalledWith(item)
   })
 
   it('muestra el total correcto del carrito', () => {
     expect(wrapper.text()).toContain('300')
+    expect(wrapper.find('.total-carrito').text()).toContain('300')
+  })
+
+  it('ejecuta setup correctamente', () => {
+    expect(wrapper.vm.carrito).toHaveLength(2)
+    expect(wrapper.vm.totalCompra).toBe(300)
   })
 })

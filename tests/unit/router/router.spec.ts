@@ -34,22 +34,40 @@ describe('Router', () => {
   })
 
   describe('navigation guards', () => {
-    it('redirects to /acceso if accessing protected route without token', async () => {
-      ;(getToken as any).mockReturnValue(null)
-      
+    it('redirects to /acceso if accessing protected route /mis-cursos without token', async () => {
+      ; (getToken as any).mockReturnValue(null)
+
       router.push('/mis-cursos')
       await router.isReady()
-      
+
       expect(router.currentRoute.value.path).toBe('/acceso')
     })
 
-    it('allows access to protected route if token exists', async () => {
-      ;(getToken as any).mockReturnValue('fake-token')
-      
+    it('allows access to protected route /mis-cursos if token exists', async () => {
+      ; (getToken as any).mockReturnValue('fake-token')
+
       router.push('/mis-cursos')
       await router.isReady()
-      
+
       expect(router.currentRoute.value.name).toBe('mis-cursos')
+    })
+
+    it('redirects to /acceso if accessing protected route /mis-datos without token', async () => {
+      ; (getToken as any).mockReturnValue(null)
+
+      router.push('/mis-datos')
+      await router.isReady()
+
+      expect(router.currentRoute.value.path).toBe('/acceso')
+    })
+
+    it('allows access to protected route /mis-datos if token exists', async () => {
+      ; (getToken as any).mockReturnValue('fake-token')
+
+      router.push('/mis-datos')
+      await router.isReady()
+
+      expect(router.currentRoute.value.name).toBe('mis-datos')
     })
   })
 
