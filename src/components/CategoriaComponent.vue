@@ -28,8 +28,7 @@ import { defineComponent,ref,onMounted } from 'vue';
 import axios from 'axios';
 import { API_URL } from '../utils/constants.js'
 import { useRoute } from 'vue-router';
-import {Curso} from '../model/curso'
-import { Categoria } from '@/model/categoria';
+import type { Curso, Categoria } from '../types/models'
 
 export default defineComponent({
     name: "CategoriaComponent",

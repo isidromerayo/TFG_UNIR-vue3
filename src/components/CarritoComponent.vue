@@ -8,7 +8,7 @@
       <div v-if="carrito.length !== 0">
         <h2>Cursos a comprar</h2>
         <ul>
-          <li v-for="item in carrito" class="curso-carrito" :key="item.id">{{ item.titulo }} - {{ item.precio }} <button class="btn btn-warning borrar-curso-carrito"
+          <li v-for="item in carrito" class="curso-carrito" :key="item.curso.id">{{ item.curso.titulo }} - {{ item.precio }} <button class="btn btn-warning borrar-curso-carrito"
               @click="borrarProducto(item)">borrar</button>
           </li>
         </ul>
@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { defineComponent, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useAppStore } from '../stores/app';
 import Swal from 'sweetalert2';
 import { getToken } from '../services/session'
 import { useRouter } from 'vue-router';
@@ -35,10 +35,10 @@ export default defineComponent({
   name: 'CarritoComponent',
 
   setup() {
-    const store = useStore()
+    const store = useAppStore()
 
-    const carrito = computed(() => store.state.carrito)
-    const totalCompra = computed(() => store.state.totalCarrito)
+    const carrito = computed(() => store.carrito)
+    const totalCompra = computed(() => store.totalCarrito)
 
     const router = useRouter();
 
@@ -56,7 +56,7 @@ export default defineComponent({
         }).then((result) => {
           if (result.isConfirmed) {
             console.log("inicio de transacción de compra")
-            store.dispatch("cleanCarrito")
+            store.cleanCarrito()
             router.push("/mis-cursos");
             Swal.fire('Compra','Procesada la compra correctamente');
           }
@@ -66,7 +66,7 @@ export default defineComponent({
       }
     }
     const borrarProducto = (item:any) => {
-      store.dispatch("removeCursoCarrito", item)
+      store.removeCursoCarrito(item)
     }
 
     return {

@@ -70,16 +70,16 @@
 import SliderComponent from './SliderComponent.vue'
 import axios from 'axios';
 import { API_URL } from '../utils/constants'
-import { Actualizacion } from '../model/actualizacion'
+import type { Actualizacion, Curso } from '../types/models'
 
 export default {
   name: "HomeComponent",
   components: { SliderComponent },
   data() {
     return ({
-      cursos: [{id:'',titulo:'',descripcion:'',fechaActualizacion:'',valoracionMedia:''}],
-      opiniones: [{id:'',comentario:'',puntuacion:''}],
-      actualizaciones: this.actualizaciones
+      cursos: [] as Curso[],
+      opiniones: [] as any[],
+      actualizaciones: [] as Curso[]
     })
   },
   mounted() {
