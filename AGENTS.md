@@ -911,8 +911,8 @@ git push origin feature/my-feature
 | Métrica | Valor |
 |---------|-------|
 | Componentes | 18 |
-| Tests totales | 76 |
-| Cobertura | ~70% |
+| Tests totales | 70 |
+| Cobertura | 94.77% |
 | Dependencias | 668 |
 | Vulnerabilidades | 0 |
 | Tamaño del build | ~60 KB |
@@ -925,7 +925,8 @@ git push origin feature/my-feature
 - [x] Migración a pnpm
 - [x] Infraestructura de seguridad
 - [x] CI/CD con GitHub Actions
-- [x] Tests unitarios básicos
+- [x] Migración a Pinia & TS Estricto
+- [x] Cobertura de tests >90%
 - [x] Documentación completa
 
 ### Pendiente 📋
@@ -938,6 +939,6 @@ git push origin feature/my-feature
 
 ---
 
-**Última actualización**: 1 de enero de 2026  
-**Versión**: 0.1.0  
+**Última actualización**: 23 de enero de 2026  
+**Versión**: 0.2.1  
 **Mantenedor**: @isidromerayo
