@@ -15,10 +15,10 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 
 - **Framework**: Vue 3.5.26
 - **Build Tool**: Vite 7.3.0
-- **Lenguaje**: TypeScript 5.9.2
+- **Language**: TypeScript 5.9.2 (Strict Mode)
 - **Package Manager**: pnpm
 - **Router**: Vue Router 4.6.4
-- **State Management**: Vuex 4.1.0
+- **State Management**: Pinia 3.0.4
 - **HTTP Client**: Axios 1.10.0
 - **UI/Alerts**: SweetAlert2 11.26.17
 - **Testing**: Vitest + Testing Library, Cypress (E2E & Component Testing)
@@ -127,8 +127,8 @@ TFG_UNIR-vue3/
 │   ├── model/          # Modelos de datos
 │   ├── router/         # Configuración de rutas
 │   ├── services/       # Servicios API
-│   ├── stores/         # Vuex store
-│   ├── types/          # Tipos TypeScript
+│   ├── stores/         # Pinia store
+│   ├── types/          # Tipos & Interfaces TypeScript
 │   ├── utils/          # Utilidades
 │   ├── views/          # Vistas/Páginas
 │   ├── App.vue         # Componente raíz
@@ -356,7 +356,7 @@ timeline
 - [Vue 3 Documentation](https://vuejs.org/)
 - [Vite Documentation](https://vitejs.dev/)
 - [Vue Router Documentation](https://router.vuejs.org/)
-- [Vuex Documentation](https://vuex.vuejs.org/)
+- [Pinia Documentation](https://pinia.vuejs.org/)
 - [Vitest Documentation](https://vitest.dev/)
 - [pnpm Documentation](https://pnpm.io/)
 

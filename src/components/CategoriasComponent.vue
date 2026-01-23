@@ -19,7 +19,7 @@
 import { ref, defineComponent, onMounted } from 'vue';
 import axios from 'axios';
 import { API_URL } from '../utils/constants.js'
-import { Categoria } from '@/model/categoria';
+import type { Categoria } from '../types/models';
 
 
 export default defineComponent({

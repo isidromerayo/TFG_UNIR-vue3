@@ -8,7 +8,7 @@
             <p class="descripcion">Creado: {{ curso?.fechaCreacion }}/ actualizado: {{ curso?.fechaActualizacion }}</p>
             <p v-if="curso?.instructor" class="info-instructor">Instructor: {{ curso.instructor.nombre }} {{
                 curso.instructor.apellidos }} <i>"{{ curso.instructor.descripcion }}"</i></p>
-            <p><button type="button" class="btn btn-primary borrar-form" @click="addCursoCarritoEvent(curso); mensajeOk()">Comprar
+            <p><button v-if="curso" type="button" class="btn btn-primary borrar-form" @click="addCursoCarritoEvent(curso); mensajeOk()">Comprar
                     curso</button></p>
 
         </section>
@@ -21,8 +21,8 @@ import { useRoute } from 'vue-router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { API_URL } from '../utils/constants'
-import { useStore } from 'vuex'
-import { Curso } from '../model/curso'
+import { useAppStore } from '../stores/app'
+import type { Curso } from '../types/models'
 
 export default defineComponent({
     name: "CursoComponent",
@@ -30,9 +30,9 @@ export default defineComponent({
     setup() {
         const route = useRoute()
         const curso_id = route.params['id'] as string;
-        const curso = ref<Curso>(new Curso());
+        const curso = ref<Curso | null>(null);
         
-        const store = useStore()
+        const store = useAppStore()
         
         onMounted(() => {
             getCursosId(curso_id);
@@ -51,7 +51,7 @@ export default defineComponent({
         }
 
         const addCursoCarritoEvent = (curso:Curso) => {
-            store.dispatch("addCursoCarrito", { curso: curso, precio: curso.precio })
+            store.addCursoCarrito({ curso: curso, precio: curso.precio || 0 })
         }
         return {
             curso,

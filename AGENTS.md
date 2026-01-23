@@ -17,9 +17,9 @@
 **Core**:
 - Vue 3.5.26 (Composition API)
 - Vite 7.3.0 (Build tool)
-- TypeScript 5.9.2
+- TypeScript 5.9.2 (Strict Mode)
 - Vue Router 4.6.4
-- Vuex 4.1.0 (State management)
+- Pinia 3.0.4 (State management)
 
 **UI/UX**:
 - SweetAlert2 11.26.17 (Alertas)
@@ -90,10 +90,10 @@ TFG_UNIR-vue3/
 │   │   └── index.ts
 │   ├── services/               # API services
 │   │   └── session.ts
-│   ├── stores/                 # Vuex store
-│   │   └── index.ts
-│   ├── types/                  # TypeScript types
-│   │   └── vuex.d.ts
+│   ├── stores/                 # Pinia stores
+│   │   └── app.ts
+│   ├── types/                  # TypeScript types & interfaces
+│   │   └── models.ts
 │   ├── utils/                  # Utility functions
 │   ├── views/                  # Page views
 │   ├── App.vue                 # Root component
@@ -269,40 +269,31 @@ pnpm security:outdated
 
 ---
 
-## 🔄 Estado Global (Vuex)
+## 🔄 Estado Global (Pinia)
 
 ### Store Structure
 
 ```typescript
-// stores/index.ts
-{
-  state: {
-    // Estado de la aplicación
-  },
-  mutations: {
-    // Mutaciones síncronas
-  },
-  actions: {
-    // Acciones asíncronas
-  },
-  getters: {
-    // Computed properties
-  }
-}
+// stores/app.ts
+import { defineStore } from 'pinia'
+
+export const useAppStore = defineStore('app', {
+  state: () => ({ ... }),
+  actions: { ... },
+  getters: { ... }
+})
 ```
 
 ### Uso en Componentes
 
 ```typescript
-import { useStore } from 'vuex'
+import { useAppStore } from '@/stores/app'
 
-const store = useStore()
-// Acceder al estado
-store.state.property
-// Commit mutations
-store.commit('mutationName', payload)
-// Dispatch actions
-store.dispatch('actionName', payload)
+const store = useAppStore()
+// Acceder al estado directamente
+store.property
+// Ejecutar acciones directamente
+store.actionName(payload)
 ```
 
 ---

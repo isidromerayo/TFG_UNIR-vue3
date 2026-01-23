@@ -1,9 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { createStore } from 'vuex'
+import { createTestingPinia } from '@pinia/testing'
+import { useAppStore } from '@/stores/app'
 import CarritoComponent from '@/components/CarritoComponent.vue'
 import { getToken } from '@/services/session'
 import Swal from 'sweetalert2'
+import { setActivePinia } from 'pinia'
 
 // Mock de vue-router
 const mockPush = vi.fn()
@@ -26,47 +28,42 @@ vi.mock('@/services/session', () => ({
 }))
 
 describe('CarritoComponent', () => {
-  let store: any
   let wrapper: any
+  let store: any
 
   beforeEach(() => {
-    // Limpiar todos los mocks
     vi.clearAllMocks()
 
-    // Crear store con estado inicial
-    store = createStore({
-      state: {
-        carrito: [
-          { id: 1, titulo: 'Curso 1', precio: 100 },
-          { id: 2, titulo: 'Curso 2', precio: 200 }
-        ],
-        totalCarrito: 300
+    const pinia = createTestingPinia({
+      initialState: {
+        app: {
+          carrito: [
+            { curso: { id: 1, titulo: 'Curso 1' }, precio: 100 },
+            { curso: { id: 2, titulo: 'Curso 2' }, precio: 200 }
+          ],
+          totalCarrito: 300
+        }
       },
-      actions: {
-        cleanCarrito: vi.fn(),
-        removeCursoCarrito: vi.fn()
+      stubActions: false,
+    })
+    setActivePinia(pinia)
+
+    wrapper = mount(CarritoComponent, {
+      global: {
+        plugins: [pinia],
       }
     })
 
-    // Crear wrapper con store
-    wrapper = mount(CarritoComponent, {
-      global: {
-        plugins: [store],
-        mocks: {
-          $store: store
-        }
-      }
-    })
+    store = useAppStore()
   })
 
   it('muestra alerta de éxito al realizar la compra correctamente', async () => {
     vi.mocked(getToken).mockReturnValue('fake-token')
     vi.mocked(Swal.fire).mockResolvedValue({ isConfirmed: true, isDenied: false, isDismissed: false } as any)
-    const dispatchSpy = vi.spyOn(store, 'dispatch')
 
     await wrapper.vm.comprar()
 
-    expect(dispatchSpy).toHaveBeenCalledWith('cleanCarrito')
+    expect(store.cleanCarrito).toHaveBeenCalled()
     expect(mockPush).toHaveBeenCalledWith('/mis-cursos')
     expect(Swal.fire).toHaveBeenCalledWith('Compra', 'Procesada la compra correctamente')
   })
@@ -81,23 +78,19 @@ describe('CarritoComponent', () => {
   })
 
   it('muestra mensaje cuando el carrito está vacío', () => {
-    store = createStore({
-      state: {
-        carrito: [],
-        totalCarrito: 0
-      },
-      actions: {
-        cleanCarrito: vi.fn(),
-        removeCursoCarrito: vi.fn()
+    const pinia = createTestingPinia({
+      initialState: {
+        app: {
+          carrito: [],
+          totalCarrito: 0
+        }
       }
     })
+    setActivePinia(pinia)
 
     wrapper = mount(CarritoComponent, {
       global: {
-        plugins: [store],
-        mocks: {
-          $store: store
-        }
+        plugins: [pinia],
       }
     })
 
@@ -105,15 +98,14 @@ describe('CarritoComponent', () => {
   })
 
   it('borra un producto del carrito', async () => {
-    const item = { id: 1, titulo: 'Curso 1', precio: 100 }
-    const dispatchSpy = vi.spyOn(store, 'dispatch')
+    const item = { curso: { id: 1, titulo: 'Curso 1' }, precio: 100 }
 
     await wrapper.vm.borrarProducto(item)
 
-    expect(dispatchSpy).toHaveBeenCalledWith('removeCursoCarrito', item)
+    expect(store.removeCursoCarrito).toHaveBeenCalledWith(item)
   })
 
   it('muestra el total correcto del carrito', () => {
     expect(wrapper.text()).toContain('300')
   })
-}) 
+})

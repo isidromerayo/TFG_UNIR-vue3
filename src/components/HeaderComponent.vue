@@ -56,7 +56,7 @@ import { ref, defineComponent, onMounted, onUpdated } from 'vue';
 import Swal from 'sweetalert2';
 import { removeToken, getToken, removeUser } from '../services/session'
 import { API_URL } from '../utils/constants'
-import { Categoria } from '../model/categoria'
+import type { Categoria } from '../types/models'
 
 
 export default defineComponent({
