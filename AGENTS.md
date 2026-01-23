@@ -912,7 +912,7 @@ git push origin feature/my-feature
 |---------|-------|
 | Componentes | 18 |
 | Tests totales | 70 |
-| Cobertura | 94.77% |
+| Cobertura | 95.66% |
 | Dependencias | 668 |
 | Vulnerabilidades | 0 |
 | Tamaño del build | ~60 KB |
