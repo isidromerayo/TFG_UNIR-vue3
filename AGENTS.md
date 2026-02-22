@@ -20,7 +20,7 @@ pnpm preview      # Preview build
 
 ### Testing
 
-```bash
+````bash
 pnpm test:unit              # Watch mode
 pnpm test-headless          # Single run
 pnpm test-headless-cc       # With coverage
@@ -31,10 +31,22 @@ pnpm test-headless tests/unit/componentes/NombreComponent.spec.ts
 # Run SINGLE test by name
 pnpm test-headless -t "test name"
 
+# Run ALL tests (Vitest + Cypress)
+pnpm test:all              # Single run all tests
+pnpm test:all:ci          # With coverage
+
 # Cypress
-pnpm cypress:component      # Component tests
-pnpm cypress:open           # Interactive
-```
+pnpm cypress:component    # Component tests (headless)
+pnpm cypress:open         # Interactive
+pnpm cypress:e2e          # E2E tests
+
+### Security
+
+```bash
+pnpm security             # Run security check script
+pnpm security:audit       # npm audit
+pnpm security:outdated    # Check outdated packages
+````
 
 ### Quality
 
