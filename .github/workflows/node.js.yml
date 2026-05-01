@@ -122,7 +122,7 @@ jobs:
 
     - name: Comment coverage on PR
       if: github.event_name == 'pull_request' && steps.coverage-check.outputs.coverage-exists == 'true'
-      uses: romeovs/lcov-reporter-action@v0.3.1
+      uses: romeovs/lcov-reporter-action@dda1c9b1fa1622b225e9acd87a248751dbcc6ada # v0.3.1
       continue-on-error: true
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
