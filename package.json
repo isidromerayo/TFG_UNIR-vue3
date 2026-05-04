@@ -70,7 +70,7 @@
     "nyc": "^17.1.0",
     "prettier": "3.8.1",
     "sweetalert2": "^11.26.24",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.3",
     "vite": "^7.3.2",
     "vite-plugin-istanbul": "^6.0.2",
     "vite-plugin-vue-devtools": "^7.7.9",
