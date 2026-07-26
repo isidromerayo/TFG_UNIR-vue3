@@ -83,6 +83,7 @@ cypress/
 - **Every PR** must review and update `README.md` and/or `AGENTS.md` if the change affects dependencies, scripts, project structure, or toolchain.
 - `README.md` versions must match `package.json` (version, Node requirements, dependency versions).
 - If a directory or config is added/removed, update the project structure section in both files.
+- **PR must be created with the documentation included** — do not open a PR with code changes and plan to update docs later.
 
 ## Branch & PR workflow
 
@@ -91,6 +92,7 @@ cypress/
 - **Direct to main** is allowed only for: trivial doc/config edits, automated dependabot patch bumps.
 - **PR required** before merging any branch into `main`.
 - **Pre-commit order** must pass on the branch before opening a PR.
+- **PR description**: include summary of changes, affected areas, and testing steps performed.
 
 ## Gotchas
 
