@@ -57,7 +57,7 @@
     "@vue/eslint-config-typescript": "^14.7.0",
     "@vue/test-utils": "^2.4.10",
     "@vue/tsconfig": "^0.8.1",
-    "axios": "^1.15.2",
+    "axios": "^1.18.0",
     "cypress": "^15.14.2",
     "eslint": "^9.39.4",
     "eslint-plugin-cypress": "5.2.1",
@@ -71,7 +71,7 @@
     "prettier": "3.8.1",
     "sweetalert2": "^11.26.24",
     "typescript": "~5.9.3",
-    "vite": "^7.3.2",
+    "vite": "^7.3.5",
     "vite-plugin-istanbul": "^6.0.2",
     "vite-plugin-vue-devtools": "^7.7.9",
     "vitest": "^4.1.5",
@@ -81,9 +81,22 @@
   },
   "pnpm": {
     "overrides": {
-      "qs": "6.14.2",
-      "js-yaml": "4.1.1",
-      "lodash": "^4.17.23"
+      "qs": "6.15.2",
+      "js-yaml": "4.3.0",
+      "lodash": "^4.17.23",
+      "shell-quote": ">=1.9.0",
+      "postcss": ">=8.5.18",
+      "ws": ">=8.21.0",
+      "uuid": ">=11.1.1",
+      "fast-uri": ">=3.1.4",
+      "form-data": ">=4.0.6",
+      "js-cookie": ">=3.0.7",
+      "systeminformation": ">=5.31.7",
+      "tmp": ">=0.2.6",
+      "@babel/plugin-transform-modules-systemjs": ">=7.29.4",
+      "@babel/core": ">=7.29.6",
+      "yaml": ">=2.8.3",
+      "esbuild": ">=0.28.1"
     }
   }
 }
