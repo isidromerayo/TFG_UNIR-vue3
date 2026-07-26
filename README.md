@@ -13,14 +13,14 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 
 ## 🚀 Tecnologías
 
-- **Framework**: Vue 3.5.26
-- **Build Tool**: Vite 7.3.0
-- **Language**: TypeScript 5.9.2 (Strict Mode)
+- **Framework**: Vue 3.5.33
+- **Build Tool**: Vite 7.3.5
+- **Language**: TypeScript 5.9.3 (Strict Mode)
 - **Package Manager**: pnpm
 - **Router**: Vue Router 4.6.4
 - **State Management**: Pinia 3.0.4
-- **HTTP Client**: Axios 1.10.0
-- **UI/Alerts**: SweetAlert2 11.26.17
+- **HTTP Client**: Axios 1.18.0
+- **UI/Alerts**: SweetAlert2 11.26.24
 - **Testing**: Vitest + Testing Library, Cypress (E2E & Component Testing)
 
 ## 📦 Instalación
@@ -115,7 +115,6 @@ pnpm cypress:component:open
 # Headless
 pnpm cypress:component
 ```
-```
 
 ## 📁 Estructura del Proyecto
 
@@ -124,7 +123,6 @@ TFG_UNIR-vue3/
 ├── src/
 │   ├── assets/          # Recursos estáticos
 │   ├── components/      # Componentes Vue
-│   ├── model/          # Modelos de datos
 │   ├── router/         # Configuración de rutas
 │   ├── services/       # Servicios API
 │   ├── stores/         # Pinia store
@@ -155,7 +153,6 @@ TFG_UNIR-vue3/
 ## 📚 Documentación
 
 - **[AGENTS.md](./AGENTS.md)** - Contexto completo del proyecto para agentes IA
-- **[PULL_REQUEST.md](./PULL_REQUEST.md)** - Documentación de la PR
 
 ## 🔒 Seguridad y Mantenimiento
 
@@ -366,6 +363,6 @@ Este proyecto es parte del TFG de UNIR - Frameworks frontend JavaScript: Anális
 
 ---
 
-**Versión**: 0.1.0  
+**Versión**: 0.2.0  
 **Node.js**: 20.x  
 **Package Manager**: pnpm
