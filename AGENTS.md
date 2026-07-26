@@ -1,153 +1,100 @@
-# AGENTS.md - Vue3 Project Guide
+# AGENTS.md
 
-## Project
+## Stack
 
-- **Stack**: Vue 3.5 + TypeScript 5.9 + Vite 7 + Pinia
-- **Package Manager**: pnpm
-- **Testing**: Vitest + Cypress
-
----
+Vue 3.5 + TypeScript 5.9 + Vite 7 + Pinia + pnpm. Single-package repo (not a real monorepo despite `pnpm-workspace.yaml`).
 
 ## Commands
 
-### Development
-
 ```bash
-pnpm dev          # Dev server (localhost:5173)
-pnpm build        # Production build
-pnpm preview      # Preview build
+pnpm dev                # Vite dev server (localhost:5173)
+pnpm build              # Production build
+pnpm lint               # ESLint autofix (run before type-check)
+pnpm type-check         # vue-tsc --build
+pnpm test:unit          # Vitest in watch mode
+pnpm test-headless      # Vitest single run
+pnpm test-headless-cc   # Vitest with coverage
+pnpm cypress:component  # Cypress component tests (headless)
+pnpm cypress:open       # Cypress interactive
+pnpm cypress:e2e        # Cypress E2E (expects app on localhost:4173)
 ```
 
-### Testing
+### Single test
 
-````bash
-pnpm test:unit              # Watch mode
-pnpm test-headless          # Single run
-pnpm test-headless-cc       # With coverage
-
-# Run SINGLE test file
-pnpm test-headless tests/unit/componentes/NombreComponent.spec.ts
-
-# Run SINGLE test by name
+```bash
+pnpm test-headless tests/unit/componentes/HeaderComponent.spec.ts
 pnpm test-headless -t "test name"
-
-# Run ALL tests (Vitest + Cypress)
-pnpm test:all              # Single run all tests
-pnpm test:all:ci          # With coverage
-
-# Cypress
-pnpm cypress:component    # Component tests (headless)
-pnpm cypress:open         # Interactive
-pnpm cypress:e2e          # E2E tests
-
-### Security
-
-```bash
-pnpm security             # Run security check script
-pnpm security:audit       # npm audit
-pnpm security:outdated    # Check outdated packages
-````
-
-### Quality
-
-```bash
-pnpm type-check    # TypeScript check
-pnpm lint          # ESLint with autofix
-pnpm format        # Prettier
 ```
 
----
+### Mandatory pre-commit order
 
-## Code Style
-
-### Vue Component Structure
-
-```vue
-<script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
-
-defineProps<{ title: string }>()
-const emit = defineEmits<{ (e: 'update', value: string): void }>()
-
-const count = ref(0)
-const double = computed(() => count.value * 2)
-
-const increment = () => {
-  count.value++
-}
-
-onMounted(() => {
-  /* ... */
-})
-</script>
-
-<template>
-  <!-- Template -->
-</template>
-
-<style scoped>
-/* Styles */
-</style>
+```bash
+pnpm lint && pnpm type-check && pnpm test-headless && pnpm cypress:component && pnpm build
 ```
 
-### Imports
+## Project structure
 
-- Use path alias: `@/` → `./src/`
-- Order: external → internal → types
+```
+src/
+  main.ts              # Entry — creates app with router + Pinia
+  App.vue
+  router/index.ts      # Vue Router
+  stores/              # Pinia stores
+  services/            # API layer (axios)
+  components/          # PascalCase + Component suffix
+  views/               # Route-level views
+  types/               # TypeScript types
+  utils/
+tests/
+  setup.ts             # Global Vitest setup (mocks axios, vue-router, localStorage)
+  unit/
+    componentes/       # Component specs (bulk of tests)
+    servicios/
+    stores/
+    router/
+    views/
+cypress/
+  component/           # Cypress component tests (very few, prefer Vitest)
+  e2e/
+```
 
-### Naming
+## Test setup quirks
+
+- `tests/setup.ts` globally mocks **axios**, **vue-router** (useRoute/useRouter), and **localStorage** — tests don't need to set these up individually.
+- `router-link` and `router-view` are globally stubbed.
+- Vitest resolves `vue` to `vue/dist/vue.esm-bundler.js` for template compilation in tests.
+- Coverage has **80% thresholds** (branches, functions, lines, statements) for SonarQube.
+- Cypress coverage uses Istanbul/nyc; Vitest coverage uses v8 — they are separate systems.
+
+## Code conventions
 
 - **Components**: `PascalCase` + `Component` suffix (e.g., `HeaderComponent.vue`)
-- **Files TS**: `camelCase` (e.g., `sessionService.ts`)
-- **Tests**: `kebab-case.spec.ts`
-- **Variables/Functions**: `camelCase`
-- **Constants**: `UPPER_SNAKE_CASE`
+- **TS files**: `camelCase` (e.g., `sessionService.ts`)
+- **Test files**: `*.spec.ts` (Vitest), `*.cy.ts` (Cypress)
+- **Path alias**: `@/` → `src/`
+- **Imports order**: external → internal → types
+- **ESLint**: `no-unused-vars` = warn, `no-explicit-any` = off, `require-v-for-key` = error
+- **Error display**: SweetAlert2
+- **Form validation**: yup
+- **HTTP client**: axios (via services layer)
 
-### TypeScript
+## Documentation policy
 
-- Type all props, emits, variables, functions
-- Avoid `any` - use specific types or `unknown`
-- Use interfaces for complex objects
-- Strict mode enabled
+- **Every PR** must review and update `README.md` and/or `AGENTS.md` if the change affects dependencies, scripts, project structure, or toolchain.
+- `README.md` versions must match `package.json` (version, Node requirements, dependency versions).
+- If a directory or config is added/removed, update the project structure section in both files.
 
-### ESLint Rules
+## Branch & PR workflow
 
-- `@typescript-eslint/no-unused-vars`: warn
-- `@typescript-eslint/no-explicit-any`: off
-- `vue/require-v-for-key`: error
+- **Always branch** for: new features, bug fixes, security/vulnerability fixes, refactorings.
+- **Branch naming**: `feat/<name>`, `fix/<name>`, `chore/<name>`, `security/<name>`.
+- **Direct to main** is allowed only for: trivial doc/config edits, automated dependabot patch bumps.
+- **PR required** before merging any branch into `main`.
+- **Pre-commit order** must pass on the branch before opening a PR.
 
----
+## Gotchas
 
-## Mandatory Workflow
-
-```bash
-pnpm lint
-pnpm type-check
-pnpm test-headless && pnpm cypress:component
-pnpm build
-```
-
-**Do NOT commit if these steps fail.**
-
----
-
-## Best Practices
-
-### Vue 3
-
-- Use `<script setup lang="ts">`
-- Type props with TypeScript
-- Use `computed` for derived values
-- `v-show` vs `v-if`: show for frequent visibility
-
-### Error Handling
-
-- Try/catch for async operations
-- Display errors with SweetAlert2
-- Type API errors
-
-### Testing
-
-- Mock external dependencies (axios, sweetalert2)
-- Use `data-cy` attributes for Cypress selectors
-- Test behavior, not implementation
+- Cypress E2E expects a running app on port 4173 (`pnpm preview`).
+- Cypress component tests are minimal (1 file) — use Vitest for new unit/component tests.
+- `CYPRESS_COVERAGE=true` enables Istanbul instrumentation in vite.config.ts — needed for Cypress coverage scripts.
+- Prettier only formats `src/` (`pnpm format`).
