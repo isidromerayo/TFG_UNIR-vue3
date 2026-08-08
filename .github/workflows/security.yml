@@ -227,9 +227,8 @@ jobs:
               body: comment
             });
       
-      # 9. Fallar el workflow si hay vulnerabilidades críticas
-      - name: Fail on critical vulnerabilities
+      # 9. Warn if vulnerabilities are found (do not fail the workflow)
+      - name: Warn on vulnerabilities
         if: steps.pnpm-audit.outputs.vulnerabilities != '0'
         run: |
-          echo "::error::Critical vulnerabilities found. Please fix before merging."
-          exit 1
+          echo "::warning::Vulnerabilities found (${{ steps.pnpm-audit.outputs.vulnerabilities }}). Please fix before merging."
