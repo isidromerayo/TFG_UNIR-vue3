@@ -66,7 +66,7 @@ jobs:
           pnpm audit --json > pnpm-audit.json || true
           
           if [ -s pnpm-audit.json ]; then
-            VULNS=$(jq '.metadata.vulnerabilities' pnpm-audit.json)
+            VULNS=$(jq '.metadata.vulnerabilities | add // 0' pnpm-audit.json)
             echo "Vulnerabilities found: $VULNS" >> $GITHUB_STEP_SUMMARY
             echo "vulnerabilities=$VULNS" >> $GITHUB_OUTPUT
           else
