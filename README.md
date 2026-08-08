@@ -220,6 +220,8 @@ pnpm build
 
 El proyecto incluye workflows de CI/CD configurados en `.github/workflows/`:
 
+Todos los workflows usan **Node.js 22.x** (vía `actions/setup-node@v7`) y `pnpm` 10.x, y fijan las actions a commits SHA completos para garantizar builds inmutables.
+
 #### Pipeline de Tests (tests.yml)
 
 Se ejecuta automáticamente en:
@@ -230,13 +232,13 @@ Se ejecuta automáticamente en:
 1. **Unit Tests (Vitest)**: Ejecuta tests unitarios con cobertura.
 2. **Component Tests (Cypress)**: Ejecuta tests de componentes en aislamiento.
 3. **E2E Tests (Cypress)**: Ejecuta tests de extremo a extremo sobre el build de producción.
-4. **Coverage Report**: Fusiona los reportes de Vitest y Cypress para un reporte unificado.
+4. **Coverage Report**: Fusiona los reportes de Vitest y Cypress para un reporte unificado (umbral ≥ 80%).
 
 #### Pipeline Principal (node.js.yml)
 
 **Pasos**:
 1. **Checkout** - Descarga el código
-2. **Setup Node.js** - Configura Node.js 20.x
+2. **Setup Node.js** - Configura Node.js 22.x
 3. **Install pnpm** - Instala pnpm 10.x
 4. **Cache** - Cachea el store de pnpm
 5. **Install** - Instala dependencias con `--frozen-lockfile`
@@ -244,14 +246,20 @@ Se ejecuta automáticamente en:
 7. **Build** - Compila el proyecto
 8. **Test** - Ejecuta tests con coverage
 9. **Audit** - Verifica vulnerabilidades
+10. **SonarQube** - Análisis de calidad de código (SonarCloud, gate de cobertura ≥ 80%)
+
+#### CodeQL (codeql.yml)
+
+Análisis estático de seguridad en push a `main` y PRs:
+- `github/codeql-action/init@<sha>` + `analyze@<sha>` con el análisis `javascript-typescript` y SARIF subido al tab **Security → Code Scanning**.
 
 #### Security Workflow (security.yml)
 
 Auditoría de seguridad multi-herramienta:
-- Ejecución diaria automática (2 AM UTC)
-- Ejecución en push/PR
-- 5 herramientas: pnpm audit, npm audit, Snyk, OSV Scanner, outdated check
-- Generación de reportes y alertas automáticas
+- Ejecución diaria automática (2 AM UTC), push a `main` y PRs a `main`
+- Herramientas: pnpm audit, npm audit, outdated check, Snyk (opcional vía `SNYK_TOKEN`), OSV Scanner (`google/osv-scanner-action/osv-scanner-action@<sha>`, serie v2.5.0)
+- Sube reportes como artifacts y crea issues/comentarios automáticos en caso de vulnerabilidades (permisos `issues: write` y `pull-requests: write`)
+- Pasos con secretos (`SNYK_TOKEN`) protegidos con `if: env.X != ''` (los secretos no son válidos en condiciones `if:`)
 
 **Beneficios**:
 - ✅ Builds reproducibles con lockfile congelado
