@@ -23,6 +23,7 @@ jobs:
       contents: read
       security-events: write
       actions: read
+      issues: write
     env:
       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     
