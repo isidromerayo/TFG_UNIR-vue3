@@ -23,6 +23,8 @@ jobs:
       contents: read
       security-events: write
       actions: read
+    env:
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
     
     steps:
       - name: Checkout code
@@ -106,11 +108,9 @@ jobs:
       # 4. Auditoría con Snyk (si está configurado)
       - name: Snyk Security Scan
         id: snyk
-        if: ${{ secrets.SNYK_TOKEN != '' }}
+        if: env.SNYK_TOKEN != ''
         uses: snyk/actions/node@master
         continue-on-error: true
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: --severity-threshold=high --json-file-output=snyk-report.json
       
