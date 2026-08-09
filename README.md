@@ -20,7 +20,7 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 - **Router**: Vue Router 4.6.4
 - **State Management**: Pinia 3.0.4
 - **HTTP Client**: Axios 1.18.0
-- **UI/Alerts**: SweetAlert2 11.26.24
+- **UI/Alerts**: SweetAlert2 11.26.25
 - **Testing**: Vitest + Testing Library, Cypress (E2E & Component Testing)
 
 ## 📦 Instalación
