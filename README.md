@@ -1,4 +1,4 @@
-# TFG UNIR - Frontend Vue3
+# TFG UNIR - Vue3
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=isidromerayo_TFG_UNIR-vue3&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=isidromerayo_TFG_UNIR-vue3)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=isidromerayo_TFG_UNIR-vue3&metric=coverage)](https://sonarcloud.io/summary/new_code?id=isidromerayo_TFG_UNIR-vue3)
@@ -6,6 +6,47 @@
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=isidromerayo_TFG_UNIR-vue3&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=isidromerayo_TFG_UNIR-vue3)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=isidromerayo_TFG_UNIR-vue3&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=isidromerayo_TFG_UNIR-vue3)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=isidromerayo_TFG_UNIR-vue3&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=isidromerayo_TFG_UNIR-vue3)
+
+# Universidad Internacional de La Rioja
+
+## Escuela Superior de Ingeniería y Tecnología 
+
+### Grado en Ingeniería Informática
+
+#### TFG: Frameworks frontend JavaScript: Análisis y estudio práctico
+
+##### Vue3
+
+## 📅 Ciclo de Vida del Framework Vue
+
+Actualmente, el ecosistema Vue se encuentra en una fase de madurez centrada en la versión 3.x, mientras que la versión 2.x ha llegado al final de su ciclo de vida.
+
+### Estado de las Versiones
+
+| Versión | Estado | Fecha de Lanzamiento | Fin de Soporte (EOL) |
+|---------|--------|----------------------|----------------------|
+| **Vue 3** | **Estable / Actual** | 18 de Septiembre 2020 | - |
+| **Vue 2** | **End of Life (EOL)** | - | 31 de Diciembre 2023 |
+
+> ⚠️ **Vue 2 EOL**: Desde el 31 de diciembre de 2023, Vue 2 ya no recibe nuevas funcionalidades, correcciones de errores ni parches de seguridad. Se recomienda encarecidamente migrar a Vue 3.
+
+### Política de Lanzamientos
+
+- **Versiones Menores**: Se lanzan aproximadamente cada 3-6 meses e incluyen nuevas funcionalidades no disruptivas.
+- **Soporte LTS (Long Term Support)**: La última versión menor de una versión mayor (ej. 3.x) entra en soporte LTS por 18 meses (solo correcciones de seguridad) una vez que se lanza la siguiente versión mayor.
+
+### Cronología
+
+```mermaid
+timeline
+    title Historia Reciente de Vue
+    2020-09 : Vue 3.0 "One Piece" Released
+    2022-02 : Vue 3 se convierte en la versión por defecto
+    2023-12 : Vue 2 llega a End of Life (EOL)
+    2024-Presente : Vue 3 Ecosistema Maduro (Vite, Pinia/Vuex, Vitest)
+```
+
+## 🚀 Descripción
 
 Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gestión de cursos online.
 
@@ -326,35 +367,6 @@ chmod +x migrate-to-pnpm.sh
 ### Type Support para `.vue` en TypeScript
 
 TypeScript no puede manejar información de tipos para imports `.vue` por defecto. Usamos `vue-tsc` para type checking. En editores, necesitas Volar para que el servicio de lenguaje TypeScript reconozca los tipos `.vue`.
-
-## 📅 Ciclo de Vida del Framework Vue
-
-Actualmente, el ecosistema Vue se encuentra en una fase de madurez centrada en la versión 3.x, mientras que la versión 2.x ha llegado al final de su ciclo de vida.
-
-### Estado de las Versiones
-
-| Versión | Estado | Fecha de Lanzamiento | Fin de Soporte (EOL) |
-|---------|--------|----------------------|----------------------|
-| **Vue 3** | **Estable / Actual** | 18 de Septiembre 2020 | - |
-| **Vue 2** | **End of Life (EOL)** | - | 31 de Diciembre 2023 |
-
-> ⚠️ **Vue 2 EOL**: Desde el 31 de diciembre de 2023, Vue 2 ya no recibe nuevas funcionalidades, correcciones de errores ni parches de seguridad. Se recomienda encarecidamente migrar a Vue 3.
-
-### Política de Lanzamientos
-
-- **Versiones Menores**: Se lanzan aproximadamente cada 3-6 meses e incluyen nuevas funcionalidades no disruptivas.
-- **Soporte LTS (Long Term Support)**: La última versión menor de una versión mayor (ej. 3.x) entra en soporte LTS por 18 meses (solo correcciones de seguridad) una vez que se lanza la siguiente versión mayor.
-
-### Cronología
-
-```mermaid
-timeline
-    title Historia Reciente de Vue
-    2020-09 : Vue 3.0 "One Piece" Released
-    2022-02 : Vue 3 se convierte en la versión por defecto
-    2023-12 : Vue 2 llega a End of Life (EOL)
-    2024-Presente : Vue 3 Ecosistema Maduro (Vite, Pinia/Vuex, Vitest)
-```
 
 ## 📖 Recursos
 
