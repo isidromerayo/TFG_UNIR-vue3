@@ -1,5 +1,12 @@
 import { defineConfig } from 'cypress'
-import codeCoverageTask from '@cypress/code-coverage/task'
+import registerCodeCoverageTasks from '@cypress/code-coverage/task'
+
+type CodeCoverageTask = (
+  on: Cypress.PluginEvents,
+  config: Cypress.PluginConfigOptions,
+) => void
+
+const codeCoverageTask = registerCodeCoverageTasks as CodeCoverageTask
 
 export default defineConfig({
   e2e: {
