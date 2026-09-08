@@ -100,3 +100,6 @@ cypress/
 - Cypress component tests are minimal (1 file) — use Vitest for new unit/component tests.
 - `CYPRESS_COVERAGE=true` enables Istanbul instrumentation in vite.config.ts — needed for Cypress coverage scripts.
 - Prettier only formats `src/` (`pnpm format`).
+- `pnpm.overrides` in package.json pins transitive deps for CVE fixes (`pnpm audit` must stay clean). Dependabot PRs strip these entries from the lockfile (known bug) — regenerating with `pnpm install --lockfile-only` on the branch fixes CI.
+- pnpm 10 blocks cypress postinstall — after a cypress version bump run `pnpm exec cypress install` before `pnpm cypress:*` scripts.
+- `cypress.config.ts` is loaded as ESM (repo has `"type": "module"`) — use `import`, not `require`.
