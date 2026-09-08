@@ -48,8 +48,8 @@ importers:
         specifier: ^3.14.7
         version: 3.14.7(@babel/core@7.29.7)(@babel/preset-env@7.28.5(@babel/core@7.29.7))(babel-loader@10.0.0(@babel/core@7.29.7)(webpack@5.104.1))(cypress@15.21.1)(webpack@5.104.1)
       '@cypress/vue':
-        specifier: ^6.0.3
-        version: 6.0.3(cypress@15.21.1)(vue@3.5.33(typescript@5.9.3))
+        specifier: ^7.0.0
+        version: 7.0.0(cypress@15.21.1)(vue@3.5.33(typescript@5.9.3))
       '@istanbuljs/nyc-config-typescript':
         specifier: ^1.0.2
         version: 1.0.2(nyc@17.1.0)
@@ -244,10 +244,6 @@ packages:
 
   '@babel/helper-member-expression-to-functions@7.28.5':
     resolution: {integrity: sha512-cwM7SBRZcPCLgl8a7cY0soT1SptSzAlMH39vwiRpOQkJlh53r5hdHwLSCZpQdVLT39sZt+CRpNwYG4Y2v77atg==}
-    engines: {node: '>=6.9.0'}
-
-  '@babel/helper-module-imports@7.28.6':
-    resolution: {integrity: sha512-l5XkZK7r7wa9LucGw9LwZyyCUscb4x37JWTPz7swwFE/0FMQAGpiWUZn8u9DzkSBWEcK25jmvubfpw2dnAMdbw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/helper-module-imports@7.29.7':
@@ -813,9 +809,9 @@ packages:
     resolution: {integrity: sha512-y20e+e6dFYkOUUJLVUZTsJRuTiXZaUQ32WD+R/ux/HBybbTx4ge7cNINcua0pU8+SNkKuRbOF12mBmzuzM8n5w==}
     engines: {node: '>= 14.17.0'}
 
-  '@cypress/vue@6.0.3':
-    resolution: {integrity: sha512-nJyjzvEaqD7i8NZ0mXudlwkth7+26OCM27x3SC9swFsN4NELe8+6yNch3z/Ja5Bq+tSwpP8LsF0O7zDHN2Q7zQ==}
-    engines: {node: '>=18'}
+  '@cypress/vue@7.0.0':
+    resolution: {integrity: sha512-NPkUYflPuxw1q4Jys5WAseMUet9+lqHiFdXC19qSz7tRcJT4tATezly28QOgxnv7ZVxYL7QbOqfAxBJRu+0mWg==}
+    engines: {node: ^22.0.0 || ^24.0.0 || >=26.0.0}
     peerDependencies:
       '@cypress/webpack-dev-server': '*'
       cypress: '>=7.0.0'
@@ -4291,13 +4287,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@babel/helper-module-imports@7.28.6':
-    dependencies:
-      '@babel/traverse': 7.29.0
-      '@babel/types': 7.29.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@babel/helper-module-imports@7.29.7':
     dependencies:
       '@babel/traverse': 7.29.8
@@ -5002,7 +4991,7 @@ snapshots:
       tough-cookie: 5.1.2
       tunnel-agent: 0.6.0
 
-  '@cypress/vue@6.0.3(cypress@15.21.1)(vue@3.5.33(typescript@5.9.3))':
+  '@cypress/vue@7.0.0(cypress@15.21.1)(vue@3.5.33(typescript@5.9.3))':
     dependencies:
       cypress: 15.21.1
       vue: 3.5.33(typescript@5.9.3)
@@ -5609,7 +5598,7 @@ snapshots:
 
   '@vue/babel-plugin-jsx@1.5.0(@babel/core@7.29.7)':
     dependencies:
-      '@babel/helper-module-imports': 7.28.6
+      '@babel/helper-module-imports': 7.29.7
       '@babel/helper-plugin-utils': 7.28.6
       '@babel/plugin-syntax-jsx': 7.28.6(@babel/core@7.29.7)
       '@babel/template': 7.28.6
@@ -5627,7 +5616,7 @@ snapshots:
     dependencies:
       '@babel/code-frame': 7.29.0
       '@babel/core': 7.29.7
-      '@babel/helper-module-imports': 7.28.6
+      '@babel/helper-module-imports': 7.29.7
       '@babel/helper-plugin-utils': 7.28.6
       '@babel/parser': 7.29.3
       '@vue/compiler-sfc': 3.5.33
