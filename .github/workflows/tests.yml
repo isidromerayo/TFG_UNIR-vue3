@@ -23,7 +23,7 @@ jobs:
     - name: Install pnpm
       uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       with:
-        version: 10
+        version: 10.17.1
 
     - name: Get pnpm store directory
       shell: bash
@@ -67,7 +67,7 @@ jobs:
     - name: Install pnpm
       uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       with:
-        version: 10
+        version: 10.17.1
 
     - name: Get pnpm store directory
       shell: bash
@@ -132,7 +132,7 @@ jobs:
     - name: Install pnpm
       uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       with:
-        version: 10
+        version: 10.17.1
 
     - name: Get pnpm store directory
       shell: bash
@@ -205,7 +205,7 @@ jobs:
     - name: Install pnpm
       uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       with:
-        version: 10
+        version: 10.17.1
 
     - name: Download Vitest coverage artifact
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
