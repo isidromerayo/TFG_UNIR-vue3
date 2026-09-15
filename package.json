@@ -1,6 +1,6 @@
 {
   "name": "frontend-vue",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "private": true,
   "packageManager": "pnpm@10.17.1",
   "type": "module",

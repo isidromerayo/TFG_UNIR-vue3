@@ -55,7 +55,7 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 ## 🚀 Tecnologías
 
 - **Framework**: Vue 3.5.33
-- **Build Tool**: Vite 7.3.5
+- **Build Tool**: Vite 7.3.6
 - **Language**: TypeScript 5.9.3 (Strict Mode)
 - **Package Manager**: pnpm
 - **Router**: Vue Router 4.6.4
@@ -68,8 +68,8 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 
 ### Prerequisitos
 
-- Node.js 20.x o superior
-- pnpm 8.0.0 o superior
+- Node.js 22.x o superior
+- pnpm 10.17.1 (fijada en `packageManager`, resuelta con corepack)
 
 ### Instalar pnpm
 
@@ -383,6 +383,6 @@ Este proyecto es parte del TFG de UNIR - Frameworks frontend JavaScript: Anális
 
 ---
 
-**Versión**: 0.2.0  
-**Node.js**: 20.x  
+**Versión**: 0.2.2  
+**Node.js**: 22.x  
 **Package Manager**: pnpm
