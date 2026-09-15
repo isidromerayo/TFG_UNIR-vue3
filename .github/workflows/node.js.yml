@@ -30,7 +30,7 @@ jobs:
     - name: Install pnpm
       uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
       with:
-        version: 10
+        version: 10.17.1
 
     - name: Get pnpm store directory
       shell: bash
