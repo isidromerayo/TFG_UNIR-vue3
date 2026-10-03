@@ -13,15 +13,15 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Setup Node.js
-      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22.x'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       with:
         version: 10.17.1
 
@@ -31,7 +31,7 @@ jobs:
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
     - name: Setup pnpm cache
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ${{ env.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -45,7 +45,7 @@ jobs:
       run: pnpm test-headless-cc
 
     - name: Upload Vitest coverage artifact
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: vitest-coverage
         path: coverage/
@@ -57,15 +57,15 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Setup Node.js
-      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22.x'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       with:
         version: 10.17.1
 
@@ -75,7 +75,7 @@ jobs:
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
     - name: Setup pnpm cache
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ${{ env.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -83,7 +83,7 @@ jobs:
           ${{ runner.os }}-pnpm-store-
 
     - name: Cache Cypress binary
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/Cypress
         key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -100,7 +100,7 @@ jobs:
       run: pnpm cypress:component:coverage
 
     - name: Upload Cypress coverage artifact
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: cypress-coverage
         path: coverage/cypress/
@@ -108,7 +108,7 @@ jobs:
 
     - name: Upload Cypress artifacts
       if: always()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: cypress-artifacts
         path: |
@@ -122,15 +122,15 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Setup Node.js
-      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22.x'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       with:
         version: 10.17.1
 
@@ -140,7 +140,7 @@ jobs:
         echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
     - name: Setup pnpm cache
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ${{ env.STORE_PATH }}
         key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -148,7 +148,7 @@ jobs:
           ${{ runner.os }}-pnpm-store-
 
     - name: Cache Cypress binary
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
       with:
         path: ~/.cache/Cypress
         key: ${{ runner.os }}-cypress-${{ hashFiles('**/pnpm-lock.yaml') }}
@@ -176,7 +176,7 @@ jobs:
 
     - name: Upload E2E artifacts
       if: always()
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: e2e-artifacts
         path: |
@@ -195,26 +195,26 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Setup Node.js
-      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+      uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
       with:
         node-version: '22.x'
 
     - name: Install pnpm
-      uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa
+      uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       with:
         version: 10.17.1
 
     - name: Download Vitest coverage artifact
-      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: vitest-coverage
         path: coverage/
 
     - name: Download Cypress coverage artifact
-      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
       with:
         name: cypress-coverage
         path: coverage/cypress/
@@ -257,7 +257,7 @@ jobs:
 
     - name: Comment coverage on PR
       if: steps.coverage-check.outputs.coverage-exists == 'true'
-      uses: romeovs/lcov-reporter-action@dda1c9b1fa1622b225e9acd87a248751dbcc6ada
+      uses: romeovs/lcov-reporter-action@dda1c9b1fa1622b225e9acd87a248751dbcc6ada # v0.3.1
       continue-on-error: true
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}

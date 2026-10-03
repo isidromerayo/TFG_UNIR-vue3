@@ -46,3 +46,22 @@ updates:
         update-types:
           - "minor"
           - "patch"
+
+  # Mantener actualizadas las acciones usadas por los workflows
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    groups:
+      actions-minors:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+      actions-majors:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
