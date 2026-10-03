@@ -79,10 +79,16 @@ const localStorageMock = (() => {
   };
 })();
 
+Object.defineProperty(globalThis, 'localStorage', {
+  value: localStorageMock,
+  configurable: true,
+  writable: true,
+});
+
+vi.stubGlobal('localStorage', localStorageMock);
+
 // Configuración global antes de las pruebas
 beforeAll(() => {
-  global.localStorage = localStorageMock;
-  
   // Configurar mocks por defecto
   axiosMock.get.mockResolvedValue({ data: {} });
   axiosMock.post.mockResolvedValue({ data: {} });
