@@ -111,7 +111,7 @@ jobs:
       - name: Snyk Security Scan
         id: snyk
         if: env.SNYK_TOKEN != ''
-        uses: snyk/actions/node@12140f4059e244892ae643824a95459a102120dd # master @ 2026-08-03
+        uses: snyk/actions/node@b075801f26076be9bb50521154cafab73f44da0c # master @ 2026-08-03
         continue-on-error: true
         with:
           args: --severity-threshold=high --json-file-output=snyk-report.json
