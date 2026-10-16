@@ -264,3 +264,8 @@ jobs:
         if: steps.pnpm-audit-dev.outputs.vulnerabilities != '' && steps.pnpm-audit-dev.outputs.vulnerabilities != '0'
         run: |
           echo "::warning::Dev/toolchain vulnerabilities found (${{ steps.pnpm-audit-dev.outputs.vulnerabilities }}). Production gate passed; review accepted risks in SECURITY_AUDIT_ANALYSIS.md."
+
+      # 10. Advisories aceptados (sin parche upstream): falla si ya hay fix publicado
+      #     Regla y registro: docs/security/accepted-advisories.md
+      - name: Accepted advisories recheck (unpatched only)
+        run: ./scripts/check-accepted-advisories.sh
