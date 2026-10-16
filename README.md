@@ -210,7 +210,17 @@ pnpm audit --json
 pnpm audit --audit-level=moderate
 ```
 
-**Estado actual**: ✅ 0 vulnerabilidades conocidas
+**Estado actual**: ✅ 0 vulnerabilidades accionables
+
+- Alertas de Dependabot: `shell-quote` (`GHSA-pqg4-j6r4-53mv` / `CVE-2026-102422`, transitiva de `npm-run-all2`) corregida con el override `>=1.11.0` (lock en `1.12.0`). `source-map-js` (`GHSA-68fv-2mgg-jv7q`) corregida con el override `>=1.2.2`.
+- `pnpm audit`: queda **1 advisory aceptado**, sin versión parcheada publicada:
+  - `braces` (`GHSA-vfj7-8cjw-p6xm`, `<=3.0.3`) → entra por `@vue/eslint-config-typescript > fast-glob > micromatch`, solo tooling de desarrollo. Se revisará cuando el upstream publique un fix.
+
+Los pins de dependencias transitivas afectadas por CVEs viven en los `overrides` de [`pnpm-workspace.yaml`](./pnpm-workspace.yaml); el lock no se edita a mano. Tras cambiar un override hay que regenerarlo:
+
+```bash
+pnpm install --lockfile-only
+```
 
 ⚠️ **Importante**: `pnpm audit` solo consulta la npm Advisory Database. Para una seguridad completa, usa el script multi-herramienta:
 
