@@ -4,8 +4,12 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Madrid"
     open-pull-requests-limit: 10
+    versioning-strategy: increase
     groups:
       # Agrupar actualizaciones de Vue
       vue:
@@ -47,11 +51,23 @@ updates:
           - "minor"
           - "patch"
 
+    labels:
+      - "dependencies"
+      - "automated"
+
+    commit-message:
+      prefix: "chore"
+      prefix-development: "chore"
+      include: "scope"
+
   # Mantener actualizadas las acciones usadas por los workflows
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "Europe/Madrid"
     open-pull-requests-limit: 5
     groups:
       actions-minors:
@@ -65,3 +81,10 @@ updates:
           - "*"
         update-types:
           - "major"
+
+    labels:
+      - "github-actions"
+      - "automated"
+
+    commit-message:
+      prefix: "ci"
