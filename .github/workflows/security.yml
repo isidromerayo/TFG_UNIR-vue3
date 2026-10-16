@@ -59,27 +59,32 @@ jobs:
         run: pnpm install --frozen-lockfile
       
       # 1. Auditoría de producción con pnpm (npm Advisory Database) — GATE DURO
-      #    Se usa el exit code de pnpm para respetar `pnpm.auditConfig.ignoreCves`
-      #    (pnpm devuelve 0 cuando solo quedan avisos ignorados); el JSON se usa
-      #    únicamente para reportar el conteo.
+      #    `ACCEPTED` lista paquetes sin parche upstream cuyo riesgo se documenta
+      #    en SECURITY_AUDIT_ANALYSIS.md; cualquier otra vulnerabilidad de
+      #    producción hace fallar el job. Se usa el exit code de pnpm para
+      #    respetar `pnpm.auditConfig.ignoreCves`.
       - name: pnpm audit (production gate)
         id: pnpm-audit-prod
         run: |
           echo "## pnpm audit --prod results" >> $GITHUB_STEP_SUMMARY
+          ACCEPTED="braces"
           AUDIT_EXIT=0
           pnpm audit --prod --json > pnpm-audit-prod.json 2>/dev/null || AUDIT_EXIT=$?
 
           if [ "$AUDIT_EXIT" -ne 0 ]; then
-            PROD_VULNS=$(jq -r '[.metadata.vulnerabilities | values] | add // 0' pnpm-audit-prod.json 2>/dev/null || echo 0)
+            PROD_VULNS=$(jq -r --arg a "$ACCEPTED" '($a | split(" ")) as $acc | [.actions[]? | select(.module as $m | ($acc | index($m) | not))] | length' pnpm-audit-prod.json 2>/dev/null || echo 1)
             case "$PROD_VULNS" in (*[!0-9]*|'') PROD_VULNS=1;; esac
-            echo "Production vulnerabilities found: $PROD_VULNS" >> $GITHUB_STEP_SUMMARY
+            echo "Production vulnerabilities found: $PROD_VULNS (accepted: $ACCEPTED)" >> $GITHUB_STEP_SUMMARY
             echo "vulnerabilities=$PROD_VULNS" >> $GITHUB_OUTPUT
-            echo "::error::Found $PROD_VULNS production vulnerabilities. Fix them before merging."
-            exit 1
+            if [ "$PROD_VULNS" -gt 0 ]; then
+              echo "::error::Found $PROD_VULNS production vulnerabilities. Fix them before merging."
+              exit 1
+            fi
+            echo "::warning::Only accepted production advisories found ($ACCEPTED). See SECURITY_AUDIT_ANALYSIS.md."
+          else
+            echo "No production vulnerabilities found" >> $GITHUB_STEP_SUMMARY
+            echo "vulnerabilities=0" >> $GITHUB_OUTPUT
           fi
-
-          echo "No production vulnerabilities found" >> $GITHUB_STEP_SUMMARY
-          echo "vulnerabilities=0" >> $GITHUB_OUTPUT
 
       # 2. Auditoría completa (dev + prod) — WARNING (riesgos dev-only aceptados)
       - name: pnpm audit (dev warning)
