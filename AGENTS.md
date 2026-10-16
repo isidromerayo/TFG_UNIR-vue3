@@ -71,6 +71,7 @@ pnpm lint && pnpm type-check && pnpm test-headless && pnpm cypress:component && 
 
 - **pnpm >=11 ignores the `pnpm` field in `package.json`.** All pnpm settings, including `overrides`, live in `pnpm-workspace.yaml`.
 - Transitive dependency pins for CVE fixes are in `pnpm-workspace.yaml` under `overrides`. `pnpm audit` must stay clean.
+- **Advisories aceptados (sin parche upstream)**: un advisory sólo se acepta si no hay versión parcheada publicada, y debe quedar registrado en `docs/security/accepted-advisories.md`. Se revisan en cada iteración con `pnpm security:accepted` (paso *Accepted advisories recheck* de `security.yml`), que **falla** en cuanto OSV publique un fix: entonces toca subir la dependencia y retirar el silencio (`ACCEPTED` del gate / dismissal de Dependabot) en la misma PR.
 - pnpm 12 blocks build scripts by default. `pnpm-workspace.yaml` already lists `allowBuilds` for `cypress` and `esbuild`. If postinstall still fails, run `pnpm approve-builds cypress esbuild && pnpm install`.
 - CI uses **pnpm 10.x** and **Node 22.x**; both respect `pnpm-workspace.yaml` overrides/allowBuilds.
 - **Dependabot strips overrides from the lockfile** (known bug). Fix any Dependabot branch with `pnpm install --lockfile-only` and push.
@@ -78,6 +79,7 @@ pnpm lint && pnpm type-check && pnpm test-headless && pnpm cypress:component && 
 
 ```bash
 pnpm security           # multi-tool audit script (pnpm audit, npm audit, outdated, optional snyk/osv)
+pnpm security:accepted  # revisa los advisories aceptados (sin parche) contra OSV
 pnpm security:audit     # pnpm audit
 pnpm security:outdated  # pnpm outdated
 ```

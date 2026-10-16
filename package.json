@@ -30,6 +30,7 @@
     "test:all:ci": "pnpm test:coverage && pnpm cypress:component:coverage",
     "coverage:report": "echo 'Coverage report generated at coverage/index.html'",
     "security": "./scripts/security-check.sh",
+    "security:accepted": "./scripts/check-accepted-advisories.sh",
     "security:audit": "pnpm audit",
     "security:outdated": "pnpm outdated"
   },
