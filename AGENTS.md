@@ -13,6 +13,7 @@ pnpm preview            # preview production build (localhost:4173)
 pnpm lint               # ESLint --fix; unused-vars warnings are expected
 pnpm type-check         # vue-tsc --build (uses project references)
 pnpm format             # prettier --write src/
+pnpm a11y               # pa11y-ci audit (htmlcs+axe, WCAG2AA) — requires dev server on :5173
 ```
 
 ### Testing
@@ -68,6 +69,7 @@ pnpm lint && pnpm type-check && pnpm test-headless && pnpm cypress:component && 
 - `cypress.config.ts` is ESM (`"type": "module"`) — use `import`.
 
 ## pnpm & security
+- **pa11y uses system Chrome**: `.pa11yci` points `chromeLaunchConfig.executablePath` at `/usr/bin/google-chrome-stable`. Reports land in `reports/a11y/` (gitignored). Requires dev server on :5173 and backend on :8080 for `/categorias`, `/categoria/:id`, `/curso/:id`.
 
 - **pnpm >=11 ignores the `pnpm` field in `package.json`.** All pnpm settings, including `overrides`, live in `pnpm-workspace.yaml`.
 - Transitive dependency pins for CVE fixes are in `pnpm-workspace.yaml` under `overrides`. `pnpm audit` must stay clean.

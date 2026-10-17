@@ -19,6 +19,10 @@
   padding: 2em !important;
 }
 
+.listado-categorias a {
+  text-decoration: underline;
+}
+
 .detalle-curso, .portada-cards, .detalle_opinion {
   padding: 2.5em !important;
 }

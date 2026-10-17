@@ -1,6 +1,6 @@
 <template>
     <div class="container pagina-datos">
-        <h1>{{ curso?.titulo }}</h1>
+        <h1>{{ curso?.titulo || 'Cargando...' }}</h1>
         <section class="detalle-curso">
             <p>{{ curso?.descripcion }}</p>
             <p class="description">Valoración: <b>{{ curso?.valoracionMedia }}/5</b></p>

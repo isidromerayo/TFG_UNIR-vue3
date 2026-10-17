@@ -190,6 +190,7 @@ TFG_UNIR-vue3/
 | `pnpm test-headless-cc` | Tests con coverage |
 | `pnpm lint` | Linter con autofix |
 | `pnpm format` | Formatter |
+| `pnpm a11y` | Auditoría de accesibilidad pa11y (htmlcs+axe, WCAG2AA) — requiere dev server en :5173 |
 
 ## 📚 Documentación
 
