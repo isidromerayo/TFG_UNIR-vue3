@@ -7,31 +7,31 @@
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label for="nombre" class="label">Nombre (*)</label>
-                        <input type="text" class="form-control" name="nombre" v-model="formData.nombre"
-                            placeholder="indique su nombre" aria-label="indique su nombre"
+                        <input type="text" class="form-control" id="nombre" name="nombre" v-model="formData.nombre"
+                            placeholder="indique su nombre"
                             :class="{ error: formError.nombre }" />
                         <span v-if="formError.nombre" class="error-form">{{ formError.nombre }}</span>
                     </div>
                     <div class="col-md-8 form-group">
                         <label for="apellidos" class="label">Apellidos (*)</label>
-                        <input type="text" class="form-control" name="apellidos" v-model="formData.apellidos"
-                            placeholder="indique sus apellidos" aria-label="indique sus apellidos"
+                        <input type="text" class="form-control" id="apellidos" name="apellidos" v-model="formData.apellidos"
+                            placeholder="indique sus apellidos"
                             :class="{ error: formError.apellidos }" />
                             <span v-if="formError.apellidos" class="error-form">{{ formError.apellidos }}</span>
 
                     </div>
                     <div class="col-md-8 form-group">
                         <label for="email" class="label">Correo electrónico (*)</label>
-                        <input type="email" class="form-control" name="email" v-model="formData.email"
-                            placeholder="indique su correo electrónico" aria-label="indique su correo electrónico"
+                        <input type="email" class="form-control" id="email" name="email" v-model="formData.email"
+                            placeholder="indique su correo electrónico"
                             :class="{ error: formError.email }" />
                             <span v-if="formError.email" class="error-form">{{ formError.email }}</span>
 
                     </div>
                     <div class="col-md-6 form-group">
                         <label for="pass" class="label">Contraseña (*)</label>
-                        <input type="password" class="form-control" name="pass" v-model="formData.password"
-                            placeholder="indique su contraseña" aria-label="indique su contraseña"
+                        <input type="password" class="form-control" id="pass" name="pass" v-model="formData.password"
+                            placeholder="indique su contraseña"
                             :class="{ error: formError.password }" />
                             <span v-if="formError.password" class="error-form">{{ formError.password }}</span>
 
@@ -41,9 +41,9 @@
                         (*) campos obligatorios
                     </div>
                     <div class="text-center signup-form-button">
-                        <button type="submit" class="btn btn-primary" aria-label="registrarse en el portal">Registrar</button>
+                        <button type="submit" class="btn btn-primary">Registrar</button>
                         <button type="button" class="btn btn-warning borrar-form"
-                            aria-label="limpiar formulario de registro" @click="borrarForm">Borrar</button>
+                            @click="borrarForm">Borrar</button>
                     </div>
 
                 </div>

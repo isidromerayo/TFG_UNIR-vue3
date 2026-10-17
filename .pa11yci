@@ -1,0 +1,29 @@
+{
+	"defaults": {
+		"standard": "WCAG2AA",
+		"runners": ["htmlcs", "axe"],
+		"levelCapWhenNeedsReview": "warning",
+		"timeout": 60000,
+		"wait": 2000,
+		"hideElements": "#__vue-devtools-container__",
+		"chromeLaunchConfig": {
+			"executablePath": "/usr/bin/google-chrome-stable",
+			"args": ["--no-sandbox", "--disable-dev-shm-usage"]
+		},
+		"reporters": [
+			"cli",
+			["json", { "fileName": "./reports/a11y/report.json" }],
+			["pa11y-ci-reporter-html", { "destination": "./reports/a11y", "includeZeroIssues": true }]
+		]
+	},
+	"urls": [
+		"http://localhost:5173/home",
+		"http://localhost:5173/categorias",
+		"http://localhost:5173/categoria/2",
+		"http://localhost:5173/curso/12",
+		"http://localhost:5173/carrito",
+		"http://localhost:5173/acceso",
+		"http://localhost:5173/registro",
+		"http://localhost:5173/ruta-inexistente"
+	]
+}

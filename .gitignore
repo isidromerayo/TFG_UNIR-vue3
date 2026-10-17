@@ -32,3 +32,6 @@ coverage
 package-lock.json# Backup files
 *.backup
 pnpm-list-*.txt
+
+# Accessibility reports
+/reports
