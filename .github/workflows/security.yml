@@ -67,7 +67,7 @@ jobs:
         id: pnpm-audit-prod
         run: |
           echo "## pnpm audit --prod results" >> $GITHUB_STEP_SUMMARY
-          ACCEPTED=""
+          ACCEPTED="extract-zip"
           AUDIT_EXIT=0
           pnpm audit --prod --json > pnpm-audit-prod.json 2>/dev/null || AUDIT_EXIT=$?
 
@@ -95,7 +95,7 @@ jobs:
 
           if [ -s pnpm-audit.json ]; then
             # Accepted dev-only packages without upstream patch (see SECURITY_AUDIT_ANALYSIS.md)
-            ACCEPTED=""
+            ACCEPTED="extract-zip"
             TOTAL=$(jq -r '.metadata.vulnerabilities | add // 0' pnpm-audit.json 2>/dev/null || echo 0)
             ACCEPTED_COUNT=$(jq '[.advisories[] | select(.module_name as $m | ("'$ACCEPTED'" | split(" ") | index($m)))] | length' pnpm-audit.json 2>/dev/null || echo 0)
             case "$TOTAL" in (*[!0-9]*|'') TOTAL=0;; esac

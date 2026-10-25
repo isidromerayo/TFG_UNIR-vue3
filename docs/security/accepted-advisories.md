@@ -36,6 +36,25 @@ pnpm security:accepted          # o: ./scripts/check-accepted-advisories.sh
 ```json accepted-advisories
 {
   "ecosystem": "npm",
-  "advisories": []
+  "advisories": [
+    {
+      "id": "GHSA-jmr9-qjv8-65gv",
+      "package": "extract-zip",
+      "version": "2.0.1",
+      "route": ".>pa11y-ci>puppeteer>@puppeteer/browsers>extract-zip",
+      "severity": "high",
+      "scope": "dev",
+      "reason": "Sin parche upstream: todas las versiones (<=2.0.1) vulnerables (patched <0.0.0). Dev-only via pa11y-ci/puppeteer. Extraccion de zips de Chromium en CI, sin entrada controlada por atacante."
+    },
+    {
+      "id": "GHSA-7pqw-9j4j-h8q3",
+      "package": "extract-zip",
+      "version": "2.0.1",
+      "route": ".>pa11y-ci>puppeteer>@puppeteer/browsers>extract-zip",
+      "severity": "high",
+      "scope": "dev",
+      "reason": "Sin parche upstream: todas las versiones (<=2.0.1) vulnerables (patched <0.0.0). Dev-only via pa11y-ci/puppeteer. Extraccion de zips de Chromium en CI, sin entrada controlada por atacante."
+    }
+  ]
 }
 ```
