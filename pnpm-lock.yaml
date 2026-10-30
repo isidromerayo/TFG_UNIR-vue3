@@ -5,34 +5,34 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  qs: '>=6.16.0'
-  js-yaml: ^4.3.2
-  nanoid@<3.3.17: ^3.3.17
-  nanoid@>=4.0.0 <5.1.16: ^5.1.16
+  '@babel/core': '>=7.29.6'
+  '@babel/plugin-transform-modules-systemjs': '>=7.29.4'
+  basic-ftp: '>=6.2.1'
   brace-expansion@<1.1.21: ^1.1.21
   brace-expansion@>=2.0.0 <2.1.7: ^2.1.7
   brace-expansion@>=3.0.0 <3.0.9: ^3.0.9
   brace-expansion@>=4.0.0 <5.0.12: ^5.0.12
   browserslist: '>=4.28.7'
-  fflate: '>=0.8.3'
-  postcss-selector-parser: '>=7.1.3'
-  lodash: ^4.17.23
-  shell-quote: '>=1.11.0'
-  source-map-js: '>=1.2.2'
-  postcss: '>=8.5.18'
-  ws: '>=8.21.0'
-  uuid: '>=11.1.1'
+  esbuild: '>=0.28.1'
   fast-uri: '>=4.2.3'
+  fflate: '>=0.8.3'
+  follow-redirects: '>=1.16.1'
   form-data: '>=4.0.6'
   js-cookie: '>=3.0.7'
-  systeminformation: '>=5.31.7'
+  js-yaml: ^4.3.2
+  lodash: ^4.17.23
+  nanoid@<3.3.17: ^3.3.17
+  nanoid@>=4.0.0 <5.1.16: ^5.1.16
+  postcss: '>=8.5.18'
+  postcss-selector-parser: '>=7.1.3'
+  qs: '>=6.16.1'
+  shell-quote: '>=1.11.0'
+  source-map-js: '>=1.2.2'
+  systeminformation: '>=5.33.14'
   tmp: '>=0.2.6'
-  '@babel/plugin-transform-modules-systemjs': '>=7.29.4'
-  '@babel/core': '>=7.29.6'
+  uuid: '>=11.1.1'
+  ws: '>=8.21.0'
   yaml: '>=2.8.3'
-  esbuild: '>=0.28.1'
-  follow-redirects: '>=1.16.1'
-  basic-ftp: '>=6.2.1'
   zod: '>=4.6.6'
 
 importers:
@@ -3957,8 +3957,8 @@ packages:
     engines: {node: '>=22.12.0'}
     hasBin: true
 
-  qs@6.16.0:
-    resolution: {integrity: sha512-h6fhOIaRrID2CbEY2fqs+7t+UXZo+MLAnU5gRIq85uFtdiUPCdsApMlHhXogKVM4HM2DVbIjGNTTYH2OcmP1vA==}
+  qs@6.17.1:
+    resolution: {integrity: sha512-jd3COkaKVgGUW+ZHyEHCG9bH7RoaaiWuMgzsIBjUMVjLAaWGWpoUAVwljVvBHxRu/2qEHnadLGZrkutYUBPQJA==}
     engines: {node: '>=0.6'}
 
   queue-microtask@1.2.3:
@@ -4275,8 +4275,8 @@ packages:
     resolution: {integrity: sha512-Bh7QjT8/SuKUIfObSXNHNSK6WHo6J1tHCqJsuaFDP7gP0fkzSfTxI8y85JrppZ0h8l0maIgc2tfuZQ6/t3GtnQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
 
-  systeminformation@5.33.13:
-    resolution: {integrity: sha512-GtyakkchTQKymM1WeAB652zi3rM1q00RKdc+jZe9KGstuc/mWUwAnQGN/RE5gVYvHIR8xYOUIUD9irVKDtA0wA==}
+  systeminformation@5.33.19:
+    resolution: {integrity: sha512-Zm7wGeCG7PqfvzegMJIzrxICopWqYCeLATVmvxOOci1isLcNVKgY4Fr0hhYQzvc7cgtK3377jQVChTFAnznOiA==}
     engines: {node: '>=10.0.0'}
     os: [darwin, linux, win32, freebsd, openbsd, netbsd, sunos, android]
     hasBin: true
@@ -5826,7 +5826,7 @@ snapshots:
       json-stringify-safe: 5.0.1
       mime-types: 2.1.35
       performance-now: 2.1.0
-      qs: 6.16.0
+      qs: 6.17.1
       safe-buffer: 5.2.1
       tough-cookie: 5.1.2
       tunnel-agent: 0.6.0
@@ -7353,7 +7353,7 @@ snapshots:
       proxy-from-env: 1.0.0
       request-progress: 3.0.0
       supports-color: 8.1.1
-      systeminformation: 5.33.13
+      systeminformation: 5.33.19
       tmp: 0.2.7
       tree-kill: 1.2.2
       untildify: 4.0.0
@@ -9107,7 +9107,7 @@ snapshots:
       - utf-8-validate
       - yauzl
 
-  qs@6.16.0:
+  qs@6.17.1:
     dependencies:
       es-define-property: 1.0.1
       side-channel: 1.1.1
@@ -9477,7 +9477,7 @@ snapshots:
     dependencies:
       '@pkgr/core': 0.2.9
 
-  systeminformation@5.33.13: {}
+  systeminformation@5.33.19: {}
 
   tapable@2.3.3: {}
 
