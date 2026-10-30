@@ -1,0 +1,6 @@
+# Codacy configuration
+# Workflow files reference GitHub secrets (SONAR_TOKEN, GITHUB_TOKEN) by name,
+# which triggers false positives in the secrets detector. CI config is not
+# application code, so it is excluded from analysis.
+exclude_paths:
+  - .github/workflows/**
