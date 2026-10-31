@@ -1,0 +1,120 @@
+name: A11y audit (pa11y)
+
+# Auditoría WCAG2AA informativa: no forma parte de ningún gate de merge.
+# - Corre los lunes (schedule) y bajo demanda (workflow_dispatch).
+# - Job PoC: levanta la imagen postgres-tfg del proyecto con base de datos vacía
+#   (el backend crea el schema vía ddl-auto=update) hasta que se publique una
+#   imagen de BD con los datos semilla. En CI las rutas dinámicas (/categorias,
+#   /categoria/2, /curso/12) se auditan en estado "sin datos"; el audit completo
+#   con datos reales se ejecuta local (scripts/podman-pod.sh del backend +
+#   recursos/db/postgresql).
+# - pa11y usa el Chrome del runner (ubuntu-latest trae google-chrome-stable),
+#   igual que en local vía .pa11yci chromeLaunchConfig.executablePath.
+
+on:
+  schedule:
+    - cron: '0 3 * * 1' # lunes 03:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  a11y:
+    name: pa11y-ci
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+        with:
+          version: 10.17.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22.x'
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Probe system Chrome (pa11y apunta a /usr/bin/google-chrome-stable)
+        run: google-chrome-stable --version
+
+      - name: Start PostgreSQL (imagen del proyecto; PoC sin datos semilla)
+        run: |
+          # La imagen fija POSTGRES_DB/POSTGRES_USER; la contraseña es el default
+          # ya público del docker-compose.yml del backend (fixture de desarrollo,
+          # no un secreto). Arranca vacía: el backend crea el schema.
+          docker run -d --name pg-tfg --network host \
+            -e POSTGRES_PASSWORD=tfg_un1r_PWD \
+            docker.io/isidromerayo/postgres-tfg:1.1
+          for i in $(seq 1 30); do
+            docker exec pg-tfg pg_isready -U user_tfg -d tfg_unir && break
+            sleep 2
+          done
+          docker exec pg-tfg pg_isready -U user_tfg -d tfg_unir
+
+      - name: Start Spring Boot backend
+        run: |
+          # POSTGRES_PASSWORD tfg_un1r_PWD: valor por defecto ya público en el
+          # docker-compose.yml y application.properties del backend (fixture de
+          # desarrollo, no un secreto).
+          docker run -d --name api-tfg --network host \
+            -e SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/tfg_unir \
+            -e SPRING_DATASOURCE_USERNAME=user_tfg \
+            -e SPRING_DATASOURCE_PASSWORD=tfg_un1r_PWD \
+            docker.io/isidromerayo/spring-backend-tfg:0.7.1
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:8080/api/categorias >/dev/null && break
+            sleep 2
+          done
+          # Si el backend no responde, el job falla con mensaje claro (no hay
+          # que confundir un fallo de infra con hallazgos de accesibilidad).
+          # /categorias devuelve 200 con lista vacía en la PoC (BD sin datos).
+          curl -sf http://localhost:8080/api/categorias >/dev/null \
+            || { echo "::error::Backend no disponible en :8080"; exit 1; }
+
+      - name: Start Vite dev server (:5173)
+        run: |
+          pnpm dev >/tmp/dev-server.log 2>&1 &
+          for i in $(seq 1 60); do
+            curl -sf http://localhost:5173/home >/dev/null && break
+            sleep 2
+          done
+          curl -sf http://localhost:5173/home >/dev/null \
+            || { echo "::error::Dev server no disponible en :5173"; tail -50 /tmp/dev-server.log; exit 1; }
+
+      - name: Run pa11y-ci audit (informativo)
+        # pa11y-ci sale con código != 0 si encuentra errores WCAG. Es
+        # informativo: no debe tumbar el job, el resumen lo reporta abajo.
+        continue-on-error: true
+        run: pnpm a11y
+
+      - name: Resumen en el Step Summary
+        if: always()
+        run: |
+          if [ ! -f reports/a11y/report.json ]; then
+            echo "::error::pa11y-ci no generó reports/a11y/report.json — fallo del toolchain, revisar este job"
+            exit 1
+          fi
+          # report.json: { total, passes, errors, results: { "<url>": [issues] } }
+          jq -r '. as $d |
+            "## Auditoría de accesibilidad (pa11y, WCAG2AA)",
+            "",
+            "| Total URLs | Sin errores | Con errores |",
+            "|---|---|---|",
+            "| \($d.total) | \($d.passes) | \($d.errors) |",
+            "",
+            ($d.results | to_entries[] | select(.value | length > 0) |
+              "⚠️ \(.key) — \(.value | length) issues (\(.value | map(.type) | unique | join(", ")))")
+          ' reports/a11y/report.json >> "$GITHUB_STEP_SUMMARY"
+          echo "Detalle HTML en el artifact a11y-reports (index.html + un HTML por URL)." >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload a11y reports
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: a11y-reports
+          path: reports/a11y/
+          retention-days: 14

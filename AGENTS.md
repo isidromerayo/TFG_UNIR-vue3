@@ -69,7 +69,9 @@ pnpm lint && pnpm type-check && pnpm test-headless && pnpm cypress:component && 
 - `cypress.config.ts` is ESM (`"type": "module"`) — use `import`.
 
 ## pnpm & security
-- **pa11y uses system Chrome**: `.pa11yci` points `chromeLaunchConfig.executablePath` at `/usr/bin/google-chrome-stable`. Reports land in `reports/a11y/` (gitignored). Requires dev server on :5173 and backend on :8080 for `/categorias`, `/categoria/:id`, `/curso/:id`.
+- **pa11y uses system Chrome**: `.pa11yci` points `chromeLaunchConfig.executablePath` at `/usr/bin/google-chrome-stable`. Reports land in `reports/a11y/` (gitignored). Requires dev server on :5173 and backend on :8080 for `/categorias`, `/categoria/:id`, `/curso/:id`. Full guide: `docs/accessibility.md`.
+- **pa11y stack (unificado 2026-10-31 con angular y react)**: `pa11y@10` + `pa11y-ci@5` + `pa11y-ci-reporter-html@9`; engines exigen Node ≥ 22.13. Con `pa11y-ci@5` (puppeteer 25) `extract-zip` ya NO existe en el árbol — los advisories aceptados ligados a esa ruta se retiraron (2026-10-31). El reporter 9 requiere pa11y-ci 5 vía su propiedad `supports`, pero **pa11y-ci no la valida**: la única prueba de compatibilidad es ejecutar `pnpm a11y`. Ningún check de PR corre pa11y (`a11y.yml` es semanal/dispatch, informativo) — verde de CI ≠ a11y funcionando.
+- **pa11y upgrade policy**: bump `pa11y-ci` and `pa11y-ci-reporter-html` in the same branch (never reporter-only past a pa11y-ci major), re-lock locally, verify `pnpm-workspace.yaml` overrides survive, run `pnpm a11y` (dev server + backend) AND `./scripts/check-accepted-advisories.sh` before merging — if an accepted advisory's route left the tree, remove its registry entry and the `ACCEPTED` silencing in `security.yml` in the same PR. Close Dependabot PRs for this tree and apply the bump manually.
 
 - **pnpm >=11 ignores the `pnpm` field in `package.json`.** All pnpm settings, including `overrides`, live in `pnpm-workspace.yaml`.
 - Transitive dependency pins for CVE fixes are in `pnpm-workspace.yaml` under `overrides`. `pnpm audit` must stay clean.

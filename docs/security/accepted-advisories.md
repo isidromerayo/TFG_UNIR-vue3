@@ -33,28 +33,21 @@ pnpm security:accepted          # o: ./scripts/check-accepted-advisories.sh
 
 ## Registro
 
+Estado actual: **0 advisories aceptados**.
+
 ```json accepted-advisories
 {
   "ecosystem": "npm",
-  "advisories": [
-    {
-      "id": "GHSA-jmr9-qjv8-65gv",
-      "package": "extract-zip",
-      "version": "2.0.1",
-      "route": ".>pa11y-ci>puppeteer>@puppeteer/browsers>extract-zip",
-      "severity": "high",
-      "scope": "dev",
-      "reason": "Sin parche upstream: todas las versiones (<=2.0.1) vulnerables (patched <0.0.0). Dev-only via pa11y-ci/puppeteer. Extraccion de zips de Chromium en CI, sin entrada controlada por atacante."
-    },
-    {
-      "id": "GHSA-7pqw-9j4j-h8q3",
-      "package": "extract-zip",
-      "version": "2.0.1",
-      "route": ".>pa11y-ci>puppeteer>@puppeteer/browsers>extract-zip",
-      "severity": "high",
-      "scope": "dev",
-      "reason": "Sin parche upstream: todas las versiones (<=2.0.1) vulnerables (patched <0.0.0). Dev-only via pa11y-ci/puppeteer. Extraccion de zips de Chromium en CI, sin entrada controlada por atacante."
-    }
-  ]
+  "advisories": []
 }
 ```
+
+## Historial de retiradas
+
+- **2026-10-31** — se retiran `GHSA-jmr9-qjv8-65gv` y `GHSA-7pqw-9j4j-h8q3` (`extract-zip@2.0.1`,
+  dev-only, ruta `.>pa11y-ci>puppeteer>@puppeteer/browsers>extract-zip`). Motivo: el paquete ya
+  **no existe** en el árbol tras subir `pa11y-ci` a 5.0.0 (puppeteer 25 usa
+  `@puppeteer/browsers` 3.x sin `extract-zip`); verificado con `pnpm audit` (0 en prod, sin
+  coincidencias de `extract-zip`) y `pnpm-lock.yaml` sin entradas. Se elimina también el silencio
+  `ACCEPTED="extract-zip"` del gate de `security.yml` en la misma PR. No hay dismissal de
+  Dependabot asociado (los avisos eran dev-only, fuera de las alertas de seguridad de Dependabot).

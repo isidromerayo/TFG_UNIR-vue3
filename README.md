@@ -157,6 +157,25 @@ pnpm cypress:component:open
 pnpm cypress:component
 ```
 
+## ♿ a11y: Auditoría de accesibilidad (pa11y)
+
+Audita la app en marcha contra **WCAG 2.2 AA** (`standard: WCAG2AA` en `.pa11yci`) con los dos runners de pa11y (`htmlcs` + `axe` — axe es el que detecta contraste de color, como las extensiones de navegador).
+
+```bash
+pnpm dev                # 1. servidor en http://localhost:5173
+pnpm a11y               # 2. audita las rutas públicas listas en .pa11yci
+```
+
+- Stack: `pa11y@10` + `pa11y-ci@5` + `pa11y-ci-reporter-html@9`. Node ≥ 22.13 requerido (engines del paquete).
+- Informes: `reports/a11y/` (gitignored) — resumen `index.html` + un HTML por URL + `report.json`.
+- URLs auditadas: `/home`, `/categorias`, `/categoria/2`, `/curso/12`, `/carrito`, `/acceso`, `/registro` y `/ruta-inexistente`.
+- `/categorias`, `/categoria/:id` y `/curso/:id` necesitan el backend Spring Boot en `:8080` para pintar datos reales; `/categoria/2` y `/curso/12` asumen las filas del dataset semilla local (`recursos/db/postgresql/` en el workspace). Ajusta `.pa11yci` si tu dataset difiere.
+- Chrome: el ejecutable de puppeteer no se descarga en este proyecto, así que `.pa11yci` apunta `chromeLaunchConfig.executablePath` a `/usr/bin/google-chrome-stable`. Para una ejecución puntual `pnpm exec pa11y <url>`, exporta `PUPPETEER_EXECUTABLE_PATH=/usr/bin/google-chrome-stable` (la CLI de pa11y no lee `.pa11yci`).
+- El overlay de devtools de Vue queda fuera del audit vía `hideElements: #__vue-devtools-container__`.
+- Los informes HTML los genera `pa11y-ci-reporter-html` (el reporter compatible con pa11y-ci). Ojo: `pa11y-reporter-html`, con nombre parecido, es un reporter de **pa11y** y **no** funciona dentro de `reporters` de pa11y-ci (pa11y-ci descarta los valores de retorno). La única validación fiable de la compatibilidad reporter↔pa11y-ci es ejecutar `pnpm a11y`: ningún check del pipeline de PR corre pa11y (el workflow `a11y.yml` es semanal/dispatch, no gate).
+- El código de salida es distinto de cero si hay errores WCAG: es **informativo** (no hay gate de a11y en el pipeline de merge). El workflow `a11y.yml` corre la auditoría semanalmente + bajo demanda con el backend y la imagen PostgreSQL del proyecto en contenedor (PoC: la BD arranca sin los datos semilla hasta que publiquemos una imagen de BD con dataset — en CI las rutas dinámicas se auditan en estado "sin datos"; el audit completo con datos reales es el local), sube `reports/a11y/` como artifact y publica el resumen en el Step Summary; solo se pone rojo si falla el toolchain, no si hay issues.
+- Referencia completa (opciones de `.pa11yci`, política de upgrade del árbol pa11y): [docs/accessibility.md](./docs/accessibility.md).
+
 ## 📁 Estructura del Proyecto
 
 ```
@@ -195,6 +214,7 @@ TFG_UNIR-vue3/
 ## 📚 Documentación
 
 - **[AGENTS.md](./AGENTS.md)** - Contexto completo del proyecto para agentes IA
+- **[docs/accessibility.md](./docs/accessibility.md)** - Guía de uso de pa11y (auditoría de accesibilidad, política de upgrade, job CI)
 
 ## 🔒 Seguridad y Mantenimiento
 
