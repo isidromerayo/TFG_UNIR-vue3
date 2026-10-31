@@ -231,10 +231,14 @@ pnpm audit --json
 pnpm audit --audit-level=moderate
 ```
 
-**Estado actual**: ✅ 0 vulnerabilidades accionables
+**Estado actual**: ✅ 0 vulnerabilidades accionables (`pnpm audit` y `pnpm audit --prod` limpios)
 
-- Alertas de Dependabot: `shell-quote` (`GHSA-pqg4-j6r4-53mv` / `CVE-2026-102422`, transitiva de `npm-run-all2`) corregida con el override `>=1.11.0` (lock en `1.12.0`). `source-map-js` (`GHSA-68fv-2mgg-jv7q`) corregida con el override `>=1.2.2`.
-- `pnpm audit`: **0 vulnerabilidades** (el advisory retirado `braces` / `GHSA-vfj7-8cjw-p6xm` ya no aplica).
+- Sweep de 2026-10-31 (issue #237): resueltos los 5 advisories dev/toolchain que el audit reportaba —
+  `systeminformation` (`GHSA-3f7j-7jwc-fxfj` high + `GHSA-4vjg-vx72-qq4g` low) y `qs` (`GHSA-6pq8-jhm2-2vcw`)
+  subiendo los suelos de sus overrides; `minimatch` (`GHSA-g3hv-75wg-m249`) y `glob` (`GHSA-3g3m-2fjr-6pw4`)
+  con overrides acotados por rango (`minimatch@<4` y `minimatch@>=9 <11.0.1` a `^11.0.3`,
+  `glob@>=9 <14.0.2` a `^14.0.3`, `test-exclude@<8` a `^8.0.0`), ya que no hay parche por línea menor.
+- Alertas de Dependabot históricas ya cerradas: `shell-quote` (`GHSA-pqg4-j6r4-53mv`), `source-map-js` (`GHSA-68fv-2mgg-jv7q`), `braces` (`GHSA-vfj7-8cjw-p6xm`, retirado).
 
 Los pins de dependencias transitivas afectadas por CVEs viven en los `overrides` de [`pnpm-workspace.yaml`](./pnpm-workspace.yaml); el lock no se edita a mano. Tras cambiar un override hay que regenerarlo:
 
