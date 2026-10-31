@@ -24,6 +24,7 @@
 | 10 `src/components/*.vue` | `axios.x` → `api.x` con rutas relativas al `baseURL` (p. ej. \`api.get('categorias/1')\`); imports de axios/API_URL sin uso eliminados; import muerto de axios en `MisCursosComponent` fuera |
 | `tests/setup.ts` | **sin cambios**: el mock global ya contemplaba `create` + `interceptors` — la instancia compartida encaja en el mock existente |
 | 9 `tests/unit/componentes/*.spec.ts` | Se eliminan los mocks locales de axios (5 bare + 3 factory incompletos sin `create` que habrían roto la carga de `utils/api.ts`) → rige el mock global de `setup.ts`; aserciones de URL ajustadas a rutas relativas |
+| `tests/unit/utils/api.spec.ts` (**nuevo**, 2ª iteración) | 14 tests espejo del api.spec de React: config (baseURL/headers/timeout/validateStatus), política de retry (no reintenta POST/4xx/canceladas; reintenta 5xx y red en GET con backoff 0.5/1/1.5 s con fake timers) y enriquecimiento de errores preservando `response`/`status`. Sube la cobertura del archivo nuevo a ~97% stmts y resuelve el gate Sonar de "Coverage on New Code ≥ 80%". |
 | `README.md` | HTTP Client: Axios 1.21.0 + mención de la instancia compartida (política de docs: versiones coherentes) |
 
 ## Silencios / overrides
@@ -37,7 +38,7 @@
 - `pnpm install --frozen-lockfile` → OK tras el bump.
 - `pnpm lint` → 0 errores (7 warnings unused-vars preexistentes; main tenía 9).
 - `pnpm type-check` → OK (requirió import type-only por `verbatimModuleSyntax`).
-- `pnpm test-headless` → 20/20 archivos, 70/70 tests.
+- `pnpm test-headless` → 21/21 archivos, 84/84 tests (70 + 14 del api.spec); `test-headless-cc`: `src/utils` 97.14% stmts / 92.85% branches.
 - `pnpm cypress:component` → 3/3.
 - `pnpm build` → OK.
 - `pnpm audit` → sin vulnerabilidades.
