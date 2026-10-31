@@ -8,7 +8,7 @@ interface ApiRetryConfig extends InternalAxiosRequestConfig {
 // Custom retry configuration
 const RETRY_CONFIG = {
     maxRetries: 3,
-    retryDelay: 1000
+    retryDelay: 500
 };
 
 // Only idempotent methods are retried (never POST/PUT/PATCH/DELETE)
