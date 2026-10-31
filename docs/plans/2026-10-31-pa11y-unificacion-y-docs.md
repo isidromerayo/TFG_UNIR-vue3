@@ -2,7 +2,7 @@
 
 - **Fecha**: 2026-10-31
 - **Herramienta/modelo**: OpenCode · Qwen3.8 Flash
-- **Estado**: in progress
+- **Estado**: done (2026-10-31)
 
 ## Contexto
 
@@ -68,6 +68,6 @@ sola rama propia, con la documentación de pa11y y el job `a11y.yml` incluidos.
 
 ## Pendiente al cerrar
 
-- [ ] Primera corrida `workflow_dispatch` de `a11y.yml` tras el merge.
-- [ ] Cerrar PRs #258 y #273 con referencia a esta PR.
-- [ ] Actualizar submodule `vue3/` del monorepo.
+- [x] Primera corrida workflow_dispatch (31-oct 14:08 UTC): 8/8 URLs, 0 errores — run 41208732090. Nota PoC: BD del job sin datos (opción B).
+- [x] PRs Dependabot #258 y #273 cerradas con referencia a esta PR (#279).
+- [x] Monorepo: PR #27 mergeada (de3b19f), vue3/ apuntando a main con este cambio.
