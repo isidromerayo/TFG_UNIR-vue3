@@ -38,6 +38,8 @@ export default defineComponent({
         const buscarCursosPorTexto = (query_string: string) => {
             api.get(`cursos/search/findByTituloContaining?titulo=${query_string}`).then(response => {
                 cursos.value = response.data._embedded.cursos
+            }).catch((error: unknown) => {
+                console.log(error)
             })
         }
         

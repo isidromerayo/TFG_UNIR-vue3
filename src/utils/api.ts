@@ -46,9 +46,9 @@ api.interceptors.response.use(undefined, async (err: AxiosError) => {
         throw new Error(err.message);
     }
 
-    const retryCount = (config as ApiRetryConfig)._retryCount || 0;
+    const retryCount = (config as ApiRetryConfig)._retryCount ?? 0;
     const canRetry = retryCount < RETRY_CONFIG.maxRetries
-        && RETRYABLE_METHODS.has((config.method || '').toLowerCase())
+        && RETRYABLE_METHODS.has((config.method ?? '').toLowerCase())
         && isTransientError(err);
 
     if (!canRetry) {
@@ -69,18 +69,19 @@ api.interceptors.response.use(
     (response) => {
         return response;
     },
-    (error) => {
-        let errorMessage;
+    (error: AxiosError) => {
+        let errorMessage: string;
 
         if (error.response) {
             // Server responded with error status
-            errorMessage = error.response.data?.message || 'Server Error';
+            const data = error.response.data as { message?: string } | undefined;
+            errorMessage = data?.message ?? 'Server Error';
         } else if (error.request) {
             // Request made but no response
             errorMessage = 'No se pudo conectar con el servidor. Por favor, verifique su conexión a internet.';
         } else {
             // Request setup error
-            errorMessage = error.message || 'Request setup error';
+            errorMessage = error.message ?? 'Request setup error';
         }
 
         // Keep message readable while preserving response/status/code
