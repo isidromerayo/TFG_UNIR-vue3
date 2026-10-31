@@ -81,7 +81,7 @@ api.interceptors.response.use(
             errorMessage = 'No se pudo conectar con el servidor. Por favor, verifique su conexión a internet.';
         } else {
             // Request setup error
-            errorMessage = error.message ?? 'Request setup error';
+            errorMessage = error.message;
         }
 
         // Keep message readable while preserving response/status/code
