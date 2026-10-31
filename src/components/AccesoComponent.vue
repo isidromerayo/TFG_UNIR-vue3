@@ -24,9 +24,8 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { setUser , setToken } from '../services/session'
-import { API_URL } from '../utils/constants.js'
 
-import axios from 'axios';
+import api from '../utils/api';
 import Swal from 'sweetalert2';
 
 export default defineComponent({
@@ -38,7 +37,7 @@ export default defineComponent({
         // Removed unused schemaForm assignment
 
         const loginUsuario = () => {
-            axios.post(`${API_URL}auth`, formLogin.value).then(response => {
+            api.post(`auth`, formLogin.value).then(response => {
                 Swal.fire('Acceso', 'Logeado correctamente');
                 setToken(response.data.token);
                 setUser(JSON.stringify(response.data));

@@ -68,8 +68,7 @@
 <script lang="ts">
 
 import SliderComponent from './SliderComponent.vue'
-import axios from 'axios';
-import { API_URL } from '../utils/constants'
+import api from '../utils/api';
 import type { Actualizacion, Curso } from '../types/models'
 
 export default {
@@ -84,22 +83,22 @@ export default {
   },
   mounted() {
     const actualizaciones: Actualizacion[] = []
-    const url_cursos = `${API_URL}cursos/search/selectMorePoints`;
-    axios.get(url_cursos).then(response => {
+    const url_cursos = `cursos/search/selectMorePoints`;
+    api.get(url_cursos).then(response => {
       this.cursos = response.data._embedded.cursos
     }).catch(error => {
       console.log(error)
     })
-    const url_valoraciones = `${API_URL}valoraciones/search/selectLastOpinions`;
+    const url_valoraciones = `valoraciones/search/selectLastOpinions`;
 
-    axios.get(url_valoraciones).then(response => {
+    api.get(url_valoraciones).then(response => {
       this.opiniones = response.data._embedded.valoraciones
     }).catch(error => {
       console.log(error)
     })
-    const url_actualizaciones = `${API_URL}cursos/search/selectLastUpdates`;
+    const url_actualizaciones = `cursos/search/selectLastUpdates`;
 
-    axios.get(url_actualizaciones).then(response => {
+    api.get(url_actualizaciones).then(response => {
       this.actualizaciones = response.data._embedded.cursos;
     }).catch(error => {
       console.log(error)

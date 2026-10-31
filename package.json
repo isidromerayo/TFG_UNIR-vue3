@@ -36,6 +36,7 @@
     "security:outdated": "pnpm outdated"
   },
   "dependencies": {
+    "axios": "^1.21.0",
     "pinia": "^4.1.0",
     "sweetalert2": "^11.26.25",
     "vue": "^3.5.44"
@@ -61,7 +62,6 @@
     "@vue/eslint-config-typescript": "^14.9.0",
     "@vue/test-utils": "^2.5.1",
     "@vue/tsconfig": "^0.8.1",
-    "axios": "^1.20.0",
     "cypress": "^15.21.1",
     "eslint": "^9.39.5",
     "eslint-plugin-cypress": "5.2.1",

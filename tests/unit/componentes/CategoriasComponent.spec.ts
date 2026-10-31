@@ -2,9 +2,6 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import CategoriasComponent from '@/components/CategoriasComponent.vue'
 import axios from 'axios'
-
-vi.mock('axios')
-
 describe('CategoriasComponent', () => {
   const mockCategorias = [
     { id: 1, nombre: 'Programación', descripcion: 'Cursos de código' },

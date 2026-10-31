@@ -11,12 +11,6 @@ vi.mock('sweetalert2', () => ({
   }
 }))
 
-// Mock de axios
-vi.mock('axios', () => ({
-  default: {
-    post: vi.fn()
-  }
-}))
 
 // Mock de router
 const push = vi.fn()

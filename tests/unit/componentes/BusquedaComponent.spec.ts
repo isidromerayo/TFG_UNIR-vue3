@@ -6,7 +6,6 @@ import axios from 'axios';
 import BusquedaComponent from '@/components/BusquedaComponent.vue';
 
 // Mocks
-vi.mock('axios');
 const mockedAxios = vi.mocked(axios, true);
 
 // Mock vue-router

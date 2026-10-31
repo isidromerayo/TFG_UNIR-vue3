@@ -60,7 +60,7 @@ Aplicación web frontend desarrollada en Vue 3 con Vite para un sistema de gesti
 - **Package Manager**: pnpm
 - **Router**: Vue Router 4.6.4
 - **State Management**: Pinia 4.0.3
-- **HTTP Client**: Axios 1.18.0
+- **HTTP Client**: Axios 1.21.0 (instancia compartida en `src/utils/api.ts` — timeout, interceptors y retry para métodos idempotentes)
 - **UI/Alerts**: SweetAlert2 11.26.25
 - **Testing**: Vitest + Testing Library, Cypress (E2E & Component Testing)
 

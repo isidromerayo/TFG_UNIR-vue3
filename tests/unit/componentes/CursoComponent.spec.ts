@@ -7,8 +7,6 @@ import { createTestingPinia } from '@pinia/testing'
 import { useAppStore } from '@/stores/app'
 import { useRoute } from 'vue-router'
 import { setActivePinia } from 'pinia'
-
-vi.mock('axios')
 vi.mock('sweetalert2', () => ({
   default: { fire: vi.fn() }
 }))
