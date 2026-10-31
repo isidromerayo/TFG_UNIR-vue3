@@ -5,34 +5,34 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  qs: '>=6.16.0'
-  js-yaml: ^4.3.2
-  nanoid@<3.3.17: ^3.3.17
-  nanoid@>=4.0.0 <5.1.16: ^5.1.16
+  '@babel/core': '>=7.29.6'
+  '@babel/plugin-transform-modules-systemjs': '>=7.29.4'
+  basic-ftp: '>=6.2.1'
   brace-expansion@<1.1.21: ^1.1.21
   brace-expansion@>=2.0.0 <2.1.7: ^2.1.7
   brace-expansion@>=3.0.0 <3.0.9: ^3.0.9
   brace-expansion@>=4.0.0 <5.0.12: ^5.0.12
   browserslist: '>=4.28.7'
-  fflate: '>=0.8.3'
-  postcss-selector-parser: '>=7.1.3'
-  lodash: ^4.17.23
-  shell-quote: '>=1.11.0'
-  source-map-js: '>=1.2.2'
-  postcss: '>=8.5.18'
-  ws: '>=8.21.0'
-  uuid: '>=11.1.1'
+  esbuild: '>=0.28.1'
   fast-uri: '>=4.2.3'
+  fflate: '>=0.8.3'
+  follow-redirects: '>=1.16.2'
   form-data: '>=4.0.6'
   js-cookie: '>=3.0.7'
+  js-yaml: ^4.3.2
+  lodash: ^4.17.23
+  nanoid@<3.3.17: ^3.3.17
+  nanoid@>=4.0.0 <5.1.16: ^5.1.16
+  postcss: '>=8.5.18'
+  postcss-selector-parser: '>=7.1.3'
+  qs: '>=6.16.0'
+  shell-quote: '>=1.11.0'
+  source-map-js: '>=1.2.2'
   systeminformation: '>=5.31.7'
   tmp: '>=0.2.6'
-  '@babel/plugin-transform-modules-systemjs': '>=7.29.4'
-  '@babel/core': '>=7.29.6'
+  uuid: '>=11.1.1'
+  ws: '>=8.21.0'
   yaml: '>=2.8.3'
-  esbuild: '>=0.28.1'
-  follow-redirects: '>=1.16.1'
-  basic-ftp: '>=6.2.1'
   zod: '>=4.6.6'
 
 importers:
@@ -2820,8 +2820,8 @@ packages:
   flatted@3.4.4:
     resolution: {integrity: sha512-5+ybhBZANEJxaH3X5evAFatUxLfEHSr7n6kYJ+1Qd0mUqr4eu9gIf6GDbWHf8RJijHrjjO8G+la14SlL2SeS1Q==}
 
-  follow-redirects@1.16.1:
-    resolution: {integrity: sha512-FNvFGzoMLWmE6Yj9spb/zjd7yiNCHiAW9/Tg9CXrQ8wuu32HtlJOwWO11OJafl5FfY3DxTdQ0vj42zU1kvv5jg==}
+  follow-redirects@1.16.2:
+    resolution: {integrity: sha512-/kVP2U8z596Ia0gwFrwyIeo74ta5aVmSeU1FfAUMAmcEP5EP7zydmag3SLiN64NaRKef3lxsq7i/g7ltJQDGow==}
     engines: {node: '>=4.0'}
     peerDependencies:
       debug: '*'
@@ -6938,7 +6938,7 @@ snapshots:
 
   axios@1.20.0:
     dependencies:
-      follow-redirects: 1.16.1
+      follow-redirects: 1.16.2
       form-data: 4.0.6
       https-proxy-agent: 5.0.1
       proxy-from-env: 2.1.0
@@ -7871,7 +7871,7 @@ snapshots:
 
   flatted@3.4.4: {}
 
-  follow-redirects@1.16.1: {}
+  follow-redirects@1.16.2: {}
 
   for-each@0.3.5:
     dependencies:
