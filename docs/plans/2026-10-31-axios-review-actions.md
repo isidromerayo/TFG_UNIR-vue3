@@ -57,5 +57,8 @@
 
 ## Estado
 
-- **Planned** → ejecutado y verificado en la iteración 2026-10-31.
+- **Planned** → ejecutado y verificado en la iteración 2026-10-31; ajustes de 2ª ronda
+  incorporados: backoff 0.5/1/1.5 s alineado con React, spec de cobertura del api
+  (`src/utils`) y hallazgos de Codacy corregidos (typing del interceptor, `??`,
+  catch en `BusquedaComponent`).
 - PR: `refactor/shared-axios-instance` (branch) → PR a `main`.
