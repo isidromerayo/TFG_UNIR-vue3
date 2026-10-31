@@ -28,9 +28,8 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router';
-import { API_URL } from '../utils/constants.js'
 
-import axios from 'axios';
+import api from '../utils/api';
 
 export default defineComponent({
     name: 'ValoracionComponent',
@@ -49,21 +48,21 @@ export default defineComponent({
         });
 
         const getValoracionPorId = (id:string)  => {
-            axios.get(`${API_URL}valoraciones/${id}`).then(response => {
+            api.get(`valoraciones/${id}`).then(response => {
                 valoracion.value = response.data
             }).catch(error => {
                 console.log(error)
             })     
         }
         const getValoracionPorIdCurso = (id:string) => {
-            axios.get(`${API_URL}valoraciones/${id}/curso`).then(response => {
+            api.get(`valoraciones/${id}/curso`).then(response => {
                 curso.value = response.data
             }).catch(error => {
                 console.log(error)
             }) 
         }
         const getValoracionPorIdUsuario = (id:string) => {
-            axios.get(`${API_URL}valoraciones/${id}/estudiante`).then(response => {
+            api.get(`valoraciones/${id}/estudiante`).then(response => {
                 alumno.value = response.data
             }).catch(error => {
                 console.log(error)

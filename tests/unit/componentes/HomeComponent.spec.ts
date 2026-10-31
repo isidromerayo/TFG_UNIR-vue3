@@ -4,7 +4,6 @@ import HomeComponent from '@/components/HomeComponent.vue'
 import axios from 'axios'
 
 // Mock dependencies
-vi.mock('axios')
 vi.mock('@/components/SliderComponent.vue', () => ({
   default: { name: 'SliderComponent', template: '<div data-testid="slider-component"></div>' }
 }))

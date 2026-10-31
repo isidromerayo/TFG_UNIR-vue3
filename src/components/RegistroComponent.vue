@@ -56,10 +56,9 @@
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
 import { useRouter } from 'vue-router';
-import { API_URL } from '../utils/constants.js'
 
 import * as Yup from 'yup'
-import axios from 'axios';
+import api from '../utils/api';
 import Swal from 'sweetalert2';
 
 export default defineComponent({
@@ -89,8 +88,8 @@ export default defineComponent({
             try {
                 await schemaForm.validate(formData.value, { abortEarly: false, strict: false })
                 try {
-                    console.log('Sending POST request to /usuarios');
-                    axios.post(`${API_URL}/usuarios`, formData.value).then(response => {
+                    console.log('Sending POST request to usuarios');
+                    api.post(`usuarios`, formData.value).then(response => {
                         console.log('Response:', response);
                         Swal.fire('Alta', 'Se ha registrado su usuario correctamente, recibirá un correo para confirmar el alta');
                         borrarForm()

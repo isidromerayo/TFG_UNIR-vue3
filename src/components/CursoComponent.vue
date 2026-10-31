@@ -18,9 +18,8 @@
 <script lang="ts">
 import { ref, defineComponent, onMounted } from 'vue';
 import { useRoute } from 'vue-router';
-import axios from 'axios';
+import api from '../utils/api';
 import Swal from 'sweetalert2';
-import { API_URL } from '../utils/constants'
 import { useAppStore } from '../stores/app'
 import type { Curso } from '../types/models'
 
@@ -40,7 +39,7 @@ export default defineComponent({
         });
 
         const getCursosId = (curso_id: string) => {
-            axios.get(`${API_URL}cursos/${curso_id}`).then(response => {
+            api.get(`cursos/${curso_id}`).then(response => {
                 curso.value = response.data
             }).catch(error => {
                 console.log(error)

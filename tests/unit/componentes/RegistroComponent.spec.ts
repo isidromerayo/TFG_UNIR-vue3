@@ -21,12 +21,6 @@ vi.mock('sweetalert2', () => ({
   }
 }))
 
-// Mock de axios
-vi.mock('axios', () => ({
-  default: {
-    post: vi.fn()
-  }
-}))
 
 // Mock de router
 const mockRouter = {
@@ -112,7 +106,7 @@ describe('RegistroComponent', () => {
     // Esperar a que se procese
     await vi.waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
-        expect.stringContaining('/usuarios'),
+        expect.stringContaining('usuarios'),
         {
           nombre: TEST_DATA.FIRST_NAME,
           apellidos: TEST_DATA.LAST_NAME,

@@ -51,11 +51,10 @@
 <script lang="ts">
 
 import { RouterLink } from 'vue-router';
-import axios from 'axios';
+import api from '../utils/api';
 import { ref, defineComponent, onMounted, onUpdated } from 'vue';
 import Swal from 'sweetalert2';
 import { removeToken, getToken, removeUser } from '../services/session'
-import { API_URL } from '../utils/constants'
 import type { Categoria } from '../types/models'
 
 
@@ -67,7 +66,7 @@ export default defineComponent({
 
     onMounted(() => {
       isLoggedIn.value = (getToken()) ? true : false;
-      axios.get(`${API_URL}categorias?sort=nombre&size=5`).then(response => {
+      api.get(`categorias?sort=nombre&size=5`).then(response => {
         categorias.value = response.data._embedded.categorias
       }).catch(error => {
         console.log(error)

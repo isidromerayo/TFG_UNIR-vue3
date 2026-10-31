@@ -17,8 +17,7 @@
 
 <script lang="ts">
 import { ref, defineComponent, onMounted } from 'vue';
-import axios from 'axios';
-import { API_URL } from '../utils/constants.js'
+import api from '../utils/api';
 import type { Categoria } from '../types/models';
 
 
@@ -32,7 +31,7 @@ export default defineComponent({
     });
 
     const getCategoriasOrdenadasNombre = () => {
-      axios.get(`${API_URL}categorias?sort=nombre`).then(response => {
+      api.get(`categorias?sort=nombre`).then(response => {
         categorias.value = response.data._embedded.categorias
       }).catch(error => {
         console.log(error)

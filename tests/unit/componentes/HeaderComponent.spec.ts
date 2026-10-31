@@ -12,12 +12,6 @@ vi.mock('sweetalert2', () => ({
   }
 }))
 
-// Mock de axios
-vi.mock('axios', () => ({
-  default: {
-    get: vi.fn()
-  }
-}))
 
 // Mock de session services
 vi.mock('@/services/session', () => ({

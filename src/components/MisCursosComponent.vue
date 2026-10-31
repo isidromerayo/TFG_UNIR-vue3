@@ -10,7 +10,6 @@
 <script lang="ts">
 import { defineComponent, ref, computed } from 'vue'
 
-import axios from 'axios';
 import { USER } from '@/utils/constants';
 
 export default defineComponent({

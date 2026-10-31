@@ -3,8 +3,6 @@ import { mount } from '@vue/test-utils'
 import CategoriaComponent from '@/components/CategoriaComponent.vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-
-vi.mock('axios')
 vi.mock('vue-router', () => ({
   useRoute: vi.fn()
 }))
@@ -22,8 +20,8 @@ describe('CategoriaComponent', () => {
     })
 
     ;(axios.get as any).mockImplementation((url: string) => {
-      if (url.endsWith('/categorias/1')) return Promise.resolve({ data: mockCategoria })
-      if (url.endsWith('/cursos')) return Promise.resolve({ data: { _embedded: { cursos: mockCursos } } })
+      if (url.endsWith('categorias/1')) return Promise.resolve({ data: mockCategoria })
+      if (url.endsWith('cursos')) return Promise.resolve({ data: { _embedded: { cursos: mockCursos } } })
       return Promise.reject(new Error('Not found'))
     })
   })

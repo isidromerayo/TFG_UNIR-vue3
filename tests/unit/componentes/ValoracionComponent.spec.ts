@@ -3,8 +3,6 @@ import { mount, RouterLinkStub } from '@vue/test-utils'
 import ValoracionComponent from '@/components/ValoracionComponent.vue'
 import axios from 'axios'
 import { useRoute } from 'vue-router'
-
-vi.mock('axios')
 vi.mock('vue-router', () => ({
   useRoute: vi.fn()
 }))
@@ -41,8 +39,8 @@ describe('ValoracionComponent', () => {
     
     ;(axios.get as any).mockImplementation((url: string) => {
         if (url.endsWith('valoraciones/1')) return Promise.resolve({ data: mockValoracion })
-        if (url.endsWith('/curso')) return Promise.resolve({ data: mockCurso })
-        if (url.endsWith('/estudiante')) return Promise.resolve({ data: mockAlumno })
+        if (url.endsWith('curso')) return Promise.resolve({ data: mockCurso })
+        if (url.endsWith('estudiante')) return Promise.resolve({ data: mockAlumno })
         return Promise.reject(new Error(`Unknown URL: ${url}`))
     })
   })

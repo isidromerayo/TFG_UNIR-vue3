@@ -25,8 +25,7 @@
 
 <script lang="ts">
 import { defineComponent,ref,onMounted } from 'vue';
-import axios from 'axios';
-import { API_URL } from '../utils/constants.js'
+import api from '../utils/api';
 import { useRoute } from 'vue-router';
 import type { Curso, Categoria } from '../types/models'
 
@@ -51,7 +50,7 @@ export default defineComponent({
         });
 
         const getCategoriaId = (categoria_id:number) => {
-            axios.get(`${API_URL}categorias/${categoria_id}`).then(response => {
+            api.get(`categorias/${categoria_id}`).then(response => {
                 categoria.value = response.data
             }).catch(error => {
                 console.log(error)
@@ -59,7 +58,7 @@ export default defineComponent({
         }
 
         const getCursosCategoriaId = (categoria_id:number) => {
-            axios.get(`${API_URL}categorias/${categoria_id}/cursos`).then(response => {
+            api.get(`categorias/${categoria_id}/cursos`).then(response => {
                 cursos.value = response.data._embedded.cursos
             }).catch(error => {
                 console.log(error)
