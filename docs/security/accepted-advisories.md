@@ -51,3 +51,6 @@ Estado actual: **0 advisories aceptados**.
   coincidencias de `extract-zip`) y `pnpm-lock.yaml` sin entradas. Se elimina también el silencio
   `ACCEPTED="extract-zip"` del gate de `security.yml` en la misma PR. No hay dismissal de
   Dependabot asociado (los avisos eran dev-only, fuera de las alertas de seguridad de Dependabot).
+  En el sweep de la issue #237 (2026-10-31) se retiran además los `auditConfig.ignoreCves` de
+  `pnpm-workspace.yaml` (`CVE-2026-56876` → `GHSA-jmr9-qjv8-65gv` y `CVE-2026-19693` →
+  `GHSA-7pqw-9j4j-h8q3`, ambos extract-zip y ya fuera del árbol).
