@@ -39,7 +39,7 @@
     "axios": "^1.21.0",
     "pinia": "^4.1.0",
     "sweetalert2": "^11.26.25",
-    "vue": "^3.5.44"
+    "vue": "^3.5.45"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^4.1.2",
@@ -57,11 +57,11 @@
     "@vitest/coverage-v8": "^5.0.5",
     "@vitest/eslint-plugin": "^1.6.27",
     "@vitest/ui": "^5.0.5",
-    "@vue/compiler-sfc": "^3.5.44",
+    "@vue/compiler-sfc": "^3.5.45",
     "@vue/eslint-config-prettier": "^10.2.0",
     "@vue/eslint-config-typescript": "^14.9.0",
     "@vue/test-utils": "^2.5.1",
-    "@vue/tsconfig": "^0.8.1",
+    "@vue/tsconfig": "^0.9.1",
     "cypress": "^15.21.1",
     "eslint": "^9.39.5",
     "eslint-plugin-cypress": "5.2.1",
@@ -80,7 +80,7 @@
     "vite-plugin-istanbul": "^6.0.2",
     "vite-plugin-vue-devtools": "^7.7.9",
     "vitest": "^5.0.5",
-    "vue-router": "^4.6.4",
+    "vue-router": "^5.4.0",
     "vue-tsc": "^3.3.14",
     "yup": "^1.7.1"
   }
