@@ -45,7 +45,7 @@
     "@cypress/code-coverage": "^4.1.2",
     "@cypress/vue": "^7.0.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.2",
-    "@pinia/testing": "^1.0.3",
+    "@pinia/testing": "^2.0.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/user-event": "^14.6.8",
     "@testing-library/vue": "^8.1.0",
