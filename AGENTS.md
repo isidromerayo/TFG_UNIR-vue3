@@ -2,7 +2,7 @@
 
 ## Stack
 
-Vue 3.5 + TypeScript 5.9 + Vite 7 + Pinia + pnpm. Single-package repo (workspace root is `.`).
+Vue 3.5 + TypeScript 5.9 + Vite 8 + Pinia + pnpm. Single-package repo (workspace root is `.`).
 
 ## Commands
 
