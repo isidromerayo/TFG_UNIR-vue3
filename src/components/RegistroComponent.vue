@@ -31,8 +31,9 @@
                     <div class="col-md-6 form-group">
                         <label for="pass" class="label">Contraseña (*)</label>
                         <input type="password" class="form-control" id="pass" name="pass" v-model="formData.password"
-                            placeholder="indique su contraseña"
+                            placeholder="indique su contraseña" autocomplete="new-password" aria-describedby="pass-hint"
                             :class="{ error: formError.password }" />
+                            <small id="pass-hint" class="form-text text-muted">{{ passwordLengthHint }}</small>
                             <span v-if="formError.password" class="error-form">{{ formError.password }}</span>
 
 
@@ -60,6 +61,10 @@ import { useRouter } from 'vue-router';
 import * as Yup from 'yup'
 import api from '../utils/api';
 import Swal from 'sweetalert2';
+import {
+    PASSWORD_LENGTH_HINT,
+    passwordSchema,
+} from '../utils/passwordPolicy';
 
 export default defineComponent({
     name: 'RegistroComponent',
@@ -74,7 +79,7 @@ export default defineComponent({
             nombre: Yup.string().required(),
             apellidos: Yup.string().required(),
             email: Yup.string().email().required(),
-            password: Yup.string().required().min(4),
+            password: passwordSchema,
 
         })
         const borrarForm = () => {
@@ -118,7 +123,8 @@ export default defineComponent({
             formData,
             formError,
             borrarForm,
-            onRegister
+            onRegister,
+            passwordLengthHint: PASSWORD_LENGTH_HINT
         }
     }
 })
