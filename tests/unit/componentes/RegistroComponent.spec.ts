@@ -174,12 +174,16 @@ describe('RegistroComponent', () => {
     expect(wrapper.vm.formError.email).toBeDefined()
   })
 
+  it('muestra el rango de contraseña permitido', () => {
+    expect(wrapper.text()).toContain('Entre 8 y 72 caracteres.')
+  })
+
   it('valida longitud mínima de contraseña', async () => {
     // Llenar formulario con contraseña muy corta
     await wrapper.find('input[name="nombre"]').setValue(TEST_DATA.FIRST_NAME)
     await wrapper.find('input[name="apellidos"]').setValue('Pérez')
     await wrapper.find('input[name="email"]').setValue('juan@example.com')
-    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.SHORT_PASSWORD) // Menos de 4 caracteres
+    await wrapper.find('input[name="pass"]').setValue(TEST_DATA.SHORT_PASSWORD) // Menos de 8 caracteres
     
     // Enviar formulario
     await wrapper.find('form').trigger('submit.prevent')
