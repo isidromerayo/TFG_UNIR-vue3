@@ -1,9 +1,9 @@
 # Plan de Actualización de Cypress - Vue3
 
 **Fecha:** 2026-11-06  
-**Proyecto:** TFG_UNIR-vue3 (Vue 3.5.44 + Vite 7.3.7)  
+**Proyecto:** TFG_UNIR-vue3 (Vue 3.5.45 + Vite 8.3.7)  
 **Versión Objetivo:** Cypress 16.2.1 + plugins compatibles  
-**Estado:** Planificado  
+**Estado:** Completado (PR #295, mergeada el 2026-11-10)  
 **Prioridad:** MEDIA (segunda ejecución después de React)
 
 ---
@@ -33,10 +33,10 @@ Este documento describe el plan para actualizar Cypress en el proyecto Vue3. Act
 ### Versiones
 | Dependencia | Actual | Objetivo | Estado |
 |-------------|--------|----------|--------|
-| `cypress` | 15.21.1 | **16.2.1** | ❌ |
+| `cypress` | 16.2.1 | **16.2.1** | ✅ |
 | `@cypress/vue` | 7.0.1 | 7.0.1 | ✅ |
-| `@cypress/code-coverage` | 4.1.2 | **4.1.3** | ❌ |
-| `vite` | 7.3.7 | 7.3.7 | ✅ |
+| `@cypress/code-coverage` | 4.1.3 | **4.1.3** | ✅ |
+| `vite` | 8.3.7 | 8.3.7 | ✅ |
 | `vite-plugin-istanbul` | 6.0.2 | 6.0.2 | ✅ |
 
 ### Configuración Actual
@@ -197,10 +197,14 @@ gh pr create --title "chore: upgrade Cypress to 16.2.1" --body "See docs/plans/2
 - [ ] `pnpm audit --prod` ✅ 0 vulnerabilidades
 
 ### CI/CD (Después de PR)
-- [ ] Workflow `tests.yml` ✅ pasa completamente
-- [ ] Workflow `node.js.yml` ✅ pasa completamente
-- [ ] SonarCloud gate ✅ pasa (coverage ≥ 80%)
+- [x] Workflow `tests.yml` ✅ pasa completamente
+- [x] Workflow `node.js.yml` ✅ pasa completamente
+- [x] SonarCloud gate ✅ pasa (coverage ≥ 80%)
 - [ ] Codacy ✅ 0 new issues (si aplica)
+
+> Verificado el 2026-11-22 sobre el HEAD de `main`: check-runs en verde para `Unit Tests (Vitest)`,
+> `Component Tests (Cypress)`, `E2E Tests (Cypress)`, `SonarCloud Code Analysis` y `SonarCloud
+> Analysis`. Codacy no expone check-run en `main`, así que no se marca.
 
 ---
 
@@ -341,6 +345,6 @@ coverage: {
 
 ---
 
-**Estado:** ⏳ Planificado  
-**Próximos Pasos:** Ejecutar después de React  
+**Estado:** ✅ Completado (PR #295, 2026-11-10)  
+**Próximos Pasos:** Ninguno  
 **Relacionado:** Parte del plan global de actualización de Cypress en todos los frontend
