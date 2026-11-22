@@ -25,3 +25,9 @@ export  function getUser():string {
 export function removeUser():void {
     localStorage.removeItem(USER);
 }
+
+/** Elimina toda la sesión persistida (token y usuario). */
+export function clearSession():void {
+    removeToken();
+    removeUser();
+}

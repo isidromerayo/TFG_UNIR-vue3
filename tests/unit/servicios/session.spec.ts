@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
-import { setToken, getToken, removeToken, setUser, getUser, removeUser } from '@/services/session'
+import { setToken, getToken, removeToken, setUser, getUser, removeUser, clearSession } from '@/services/session'
 import { TOKEN, USER } from '@/utils/constants'
 
 describe('session service', () => {
@@ -29,5 +29,15 @@ describe('session service', () => {
 
   it('returns empty string when user is not in localStorage', () => {
     expect(getUser()).toBe('')
+  })
+
+  it('clearSession removes token and user at once', () => {
+    setToken('test-token')
+    setUser('test-user')
+
+    clearSession()
+
+    expect(localStorage.getItem(TOKEN)).toBeNull()
+    expect(localStorage.getItem(USER)).toBeNull()
   })
 })

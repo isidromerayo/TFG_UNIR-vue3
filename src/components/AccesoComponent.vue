@@ -26,6 +26,7 @@ import { defineComponent, ref } from 'vue'
 import { setUser , setToken } from '../services/session'
 
 import api from '../utils/api';
+import { authErrorMessage } from '../utils/api-error';
 import Swal from 'sweetalert2';
 
 export default defineComponent({
@@ -44,7 +45,10 @@ export default defineComponent({
                 //router.push('/mis-cursos')
                 location.replace('/mis-cursos')
             }).catch(error => {
-                Swal.fire('Problemas acceso', 'No se ha podido logear, revise usuario/contraseña', 'error');
+                // 401 credenciales · 403 sin permiso · 429 con Retry-After:
+                // el backend solo devuelve el token en el cuerpo del 200,
+                // todos los fallos se discriman por estado HTTP aquí.
+                Swal.fire('Problemas acceso', authErrorMessage(error), 'error');
 
             })
 
