@@ -23,7 +23,7 @@ cabecera.
 | `src/utils/api-error.ts` (nuevo) | `formatError`/`retryAfterSeconds`/`authErrorMessage`: espejo del util de Angular (P1 del plan de CI 2026-11-20). |
 | `src/services/session.ts` | `clearSession()`. |
 | `src/components/AccesoComponent.vue` | Mensajes 401/403/429 (con `Retry-After`). |
-| `MisCursosComponent.vue` / `CarritoComponent.vue` | TODOs: cuando se conecten a `/api/usuarios/...`, irán autenticadas por el interceptor. |
+| `MisCursosComponent.vue` / `CarritoComponent.vue` | Nota de diseño (sin keyword TODO, regla de intencionalidad de Sonar): cuando se conecten a `/api/usuarios/...`, irán autenticadas por el interceptor. |
 | tests | `api.spec.ts` (+12), `api-error.spec.ts` (nuevo, 13), `AccesoComponent.spec.ts` (+4), `session.spec.ts` (+1). |
 
 ## Decisión de diseño
