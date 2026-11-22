@@ -51,6 +51,7 @@ vi.mock('axios', () => ({
 
 const { default: api } = await import('@/utils/api')
 
+const requestHandler = requestHandlers[0]
 const retryHandler = responseHandlers[0]
 const errorHandler = responseHandlers[1]
 
@@ -213,6 +214,120 @@ describe('utils/api', () => {
 
       await expect(errorHandler.rejected(err)).rejects.toBe(err)
       expect(err.message).toBe('Invalid URL')
+    })
+  })
+
+  describe('interceptor de petición (Authorization)', () => {
+    const protectedConfig = (url: string, method = 'get') => ({
+      url,
+      method,
+      baseURL: API_URL,
+      headers: {} as Record<string, unknown>
+    })
+
+    it('registra el interceptor de petición', () => {
+      expect(requestHandlers).toHaveLength(1)
+      expect(typeof requestHandler.fulfilled).toBe('function')
+    })
+
+    it('añade la cabecera en rutas protegidas cuando hay token', () => {
+      localStorage.setItem('token', 'jwt-123')
+      const config = protectedConfig('usuarios/5/cursos')
+      expect(requestHandler.fulfilled(config).headers.Authorization).toBe('Bearer jwt-123')
+
+      const putConfig = protectedConfig('usuarios/5', 'put')
+      expect(requestHandler.fulfilled(putConfig).headers.Authorization).toBe('Bearer jwt-123')
+    })
+
+    it('no la añade al POST de login ni al POST de alta de usuario', () => {
+      localStorage.setItem('token', 'jwt-123')
+      expect(requestHandler.fulfilled(protectedConfig('auth', 'post')).headers.Authorization).toBeUndefined()
+      expect(requestHandler.fulfilled(protectedConfig('usuarios', 'post')).headers.Authorization).toBeUndefined()
+    })
+
+    it('no la añade en el catálogo público (GET categorias/cursos/valoraciones)', () => {
+      localStorage.setItem('token', 'jwt-123')
+      for (const url of ['categorias', 'cursos', 'cursos/12', 'valoraciones/3', 'categorias?page=1']) {
+        expect(requestHandler.fulfilled(protectedConfig(url)).headers.Authorization).toBeUndefined()
+      }
+    })
+
+    it('no la añade si no hay token o el token es la cadena "undefined"', () => {
+      expect(requestHandler.fulfilled(protectedConfig('usuarios/5/cursos')).headers.Authorization).toBeUndefined()
+
+      localStorage.setItem('token', 'undefined')
+      expect(requestHandler.fulfilled(protectedConfig('usuarios/5/cursos')).headers.Authorization).toBeUndefined()
+    })
+
+    it('no la añade en URLs absolutas de otro origen', () => {
+      localStorage.setItem('token', 'jwt-123')
+      const config = protectedConfig('https://otro-servidor.example.com/api/usuarios/5')
+      expect(requestHandler.fulfilled(config).headers.Authorization).toBeUndefined()
+    })
+
+    it('acepta cabeceras tipo AxiosHeaders (con set())', () => {
+      localStorage.setItem('token', 'jwt-123')
+      const set = vi.fn()
+      requestHandler.fulfilled({ url: 'usuarios/5', method: 'get', baseURL: API_URL, headers: { set } })
+      expect(set).toHaveBeenCalledWith('Authorization', 'Bearer jwt-123')
+    })
+  })
+
+  describe('manejo global de 401 en rutas protegidas', () => {
+    const mockLocation = (pathname: string) => {
+      const locationMock = { pathname, replace: vi.fn(), href: '' }
+      Object.defineProperty(window, 'location', { value: locationMock, writable: true })
+      return locationMock
+    }
+
+    const unauthorized = (url: string, method: string) => ({
+      response: { status: 401, data: { message: 'No autorizado' }, headers: {} },
+      config: { url, method, baseURL: API_URL, headers: {} },
+      message: 'Request failed with status code 401'
+    })
+
+    it('limpia la sesión y redirige a /acceso en un 401 de ruta protegida', async () => {
+      const locationMock = mockLocation('/mis-cursos')
+      localStorage.setItem('token', 'jwt-123')
+      localStorage.setItem('usuario', '{"username":"ana"}')
+
+      const err = unauthorized('usuarios/5/cursos', 'get')
+      await expect(errorHandler.rejected(err)).rejects.toBe(err)
+
+      expect(localStorage.getItem('token')).toBeNull()
+      expect(localStorage.getItem('usuario')).toBeNull()
+      expect(locationMock.replace).toHaveBeenCalledWith('/acceso')
+    })
+
+    it('no limpia la sesión en el 401 del propio login (el component muestra su error)', async () => {
+      const locationMock = mockLocation('/mis-cursos')
+      localStorage.setItem('token', 'jwt-123')
+
+      const err = unauthorized('auth', 'post')
+      await expect(errorHandler.rejected(err)).rejects.toBe(err)
+
+      expect(localStorage.getItem('token')).toBe('jwt-123')
+      expect(locationMock.replace).not.toHaveBeenCalled()
+    })
+
+    it('no redirige si ya se está en /acceso, pero sí limpia la sesión', async () => {
+      const locationMock = mockLocation('/acceso')
+      localStorage.setItem('token', 'jwt-123')
+
+      const err = unauthorized('usuarios/5', 'get')
+      await expect(errorHandler.rejected(err)).rejects.toBe(err)
+
+      expect(localStorage.getItem('token')).toBeNull()
+      expect(locationMock.replace).not.toHaveBeenCalled()
+    })
+
+    it('conserva el error original (status 401) tras el manejo global', async () => {
+      mockLocation('/mis-cursos')
+      localStorage.setItem('token', 'jwt-123')
+
+      const err = unauthorized('usuarios/5', 'get')
+      await expect(errorHandler.rejected(err)).rejects.toBe(err)
+      expect(err.response.status).toBe(401)
     })
   })
 

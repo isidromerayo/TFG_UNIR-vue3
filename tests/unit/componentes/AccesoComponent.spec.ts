@@ -68,4 +68,76 @@ describe('AccesoComponent', () => {
       expect(Swal.fire).toHaveBeenCalledWith('Problemas acceso', 'No se ha podido logear, revise usuario/contraseña', 'error')
     })
   })
+
+  it('muestra la redacción de credenciales para un 401', async () => {
+    await wrapper.find('input[type="email"]').setValue('test@example.com')
+    await wrapper.find('input[type="password"]').setValue('wrong-password')
+
+    vi.mocked(axios.post).mockRejectedValue({
+      response: { status: 401, data: { message: 'No autorizado' }, headers: {} }
+    })
+
+    await wrapper.find('button[type="submit"]').trigger('submit')
+
+    await vi.waitFor(() => {
+      expect(Swal.fire).toHaveBeenCalledWith('Problemas acceso', 'No se ha podido logear, revise usuario/contraseña', 'error')
+    })
+  })
+
+  it('muestra los segundos de Retry-After en un 429', async () => {
+    await wrapper.find('input[type="email"]').setValue('test@example.com')
+    await wrapper.find('input[type="password"]').setValue('password123')
+
+    vi.mocked(axios.post).mockRejectedValue({
+      response: { status: 429, data: {}, headers: { 'retry-after': '57' } }
+    })
+
+    await wrapper.find('button[type="submit"]').trigger('submit')
+
+    await vi.waitFor(() => {
+      expect(Swal.fire).toHaveBeenCalledWith(
+        'Problemas acceso',
+        'Demasiados intentos seguidos, vuelva a intentarlo en 57 segundos',
+        'error'
+      )
+    })
+  })
+
+  it('muestra un mensaje de límite genérico en un 429 sin Retry-After', async () => {
+    await wrapper.find('input[type="email"]').setValue('test@example.com')
+    await wrapper.find('input[type="password"]').setValue('password123')
+
+    vi.mocked(axios.post).mockRejectedValue({
+      response: { status: 429, data: {}, headers: {} }
+    })
+
+    await wrapper.find('button[type="submit"]').trigger('submit')
+
+    await vi.waitFor(() => {
+      expect(Swal.fire).toHaveBeenCalledWith(
+        'Problemas acceso',
+        'Demasiados intentos seguidos, espere unos minutos y vuelva a intentarlo',
+        'error'
+      )
+    })
+  })
+
+  it('muestra un mensaje propio para un 403', async () => {
+    await wrapper.find('input[type="email"]').setValue('test@example.com')
+    await wrapper.find('input[type="password"]').setValue('password123')
+
+    vi.mocked(axios.post).mockRejectedValue({
+      response: { status: 403, data: { message: 'Prohibido' }, headers: {} }
+    })
+
+    await wrapper.find('button[type="submit"]').trigger('submit')
+
+    await vi.waitFor(() => {
+      expect(Swal.fire).toHaveBeenCalledWith(
+        'Problemas acceso',
+        'No tiene permiso para realizar esta operación',
+        'error'
+      )
+    })
+  })
 }) 

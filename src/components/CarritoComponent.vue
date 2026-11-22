@@ -44,6 +44,9 @@ export default defineComponent({
 
     const comprar = () => {
 
+      // La comprobación de sesión es solo para la UX de redirección; cuando la
+      // compra llame a /api/usuarios/... no hará falta adjuntar el token a
+      // mano: el interceptor de @/utils/api añade Authorization automáticamente.
       if (!getToken()) {
         Swal.fire({ title: 'Debe tener iniciada sesión para comprar' })
         router.push("/acceso");

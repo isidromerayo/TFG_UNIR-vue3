@@ -15,7 +15,10 @@ import { USER } from '@/utils/constants';
 export default defineComponent({
     name: 'MisCursosComponent',
     setup() {
-        
+        // TODO: cuando este listado consuma /api/usuarios/{id}/cursos, no hará
+        // falta leer el token aquí para la petición: el interceptor de
+        // @/utils/api añade ya Authorization: Bearer <token>. La comprobación
+        // local se mantiene solo para la UX de "sin sesión".
         return {
             isLogin: localStorage.getItem("isLoggedIn"),
             usuario: localStorage.getItem(USER)   
