@@ -102,3 +102,22 @@ pnpm security:outdated  # pnpm outdated
 - Every PR must review and update `README.md` and/or `AGENTS.md` if it affects dependencies, scripts, project structure, or toolchain.
 - `README.md` versions must match `package.json` (project version, Node requirements, listed dependency versions).
 - Do not open a PR with code changes and plan to update docs later.
+
+## Branch policy (MUST)
+
+- **NEVER commit or push directly to `main`.** Everything goes through a branch + PR (squash
+  merge) with Conventional Commits.
+- **NEVER approve or merge a PR if ANY check is failing or pending — including checks GitHub
+  marks as non-required** ("Some non-required checks are failing" is a NO-GO). Wait until every
+  check is green (lint, type-check, tests, Cypress, build, Codacy, CodeQL, Sonar, security
+  scans). The responsibility is on the person or agent merging.
+- **Codacy PR gate:** the org's "Default coding standard" forced the legacy ESLint8 tool, whose
+  program could not type this repo (all `error typed` noise; decision recorded in the P2 of the
+  CI plan, 2026-11-22). Repo state now: standard unlinked, ESLint8 disabled, **ESLint9 enabled
+  in managed-patterns mode** — Codacy does not detect `eslint.config.ts` as a configuration
+  file, so `--configuration-file true` returns HTTP 409. Local `pnpm lint` (flat config +
+  `@vue/eslint-config-typescript` typed rules) remains the source of truth for TS findings.
+  To give the cloud the same power as local: rename `eslint.config.ts` → `eslint.config.mjs`
+  (drop the `Linter` type import and `satisfies`) in its own PR, then
+  `codacy tool eslint9 --configuration-file true` and reanalyze.
+
