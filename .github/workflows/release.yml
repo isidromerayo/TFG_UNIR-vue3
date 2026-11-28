@@ -1,0 +1,209 @@
+name: Release
+
+# Publica una version del frontend: asegura la version en package.json mediante
+# un PR de release (main no se toca por push directo), crea el tag, publica la
+# imagen en Docker Hub y crea la GitHub Release.
+#
+# El despliegue en Coolify lo gobierna la release: un despliegue automatico
+# detecta la ultima GitHub Release y actualiza la aplicacion.
+#
+# Si package.json ya esta en release_version (por ejemplo, porque el PR de la
+# funcionalidad subio la version), se omite el PR de release y se etiqueta el
+# commit actual de main.
+#
+# Requiere el secret RELEASE_TOKEN: un PAT con Contents: Read and write y
+# Pull requests: Read and write sobre este repo (crear y mergear el PR de
+# release). GITHUB_TOKEN bastaria para leer, pero no para crear PRs desde una
+# ejecucion con permisos de push en main.
+#
+# Secretos usados:
+#   RELEASE_TOKEN        PAT para push de la rama de release, PR y GitHub Release
+#   DOCKER_HUB_USERNAME  usuario de Docker Hub
+#   DOCKER_HUB_TOKEN     token de Docker Hub
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Version a publicar (X.Y.Z, sin prefijo v)'
+        required: true
+        type: string
+      dry_run:
+        description: 'Dry run: prepara la release sin PR, sin push, sin Docker y sin GitHub Release'
+        required: false
+        type: boolean
+        default: false
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release v${{ inputs.release_version }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Validate inputs
+        run: |
+          if ! echo "${{ inputs.release_version }}" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::Version invalida: '${{ inputs.release_version }}' (formato esperado X.Y.Z, sin prefijo v)"
+            exit 1
+          fi
+
+      - name: Check RELEASE_TOKEN
+        if: inputs.dry_run == false
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          if [ -z "$RELEASE_TOKEN" ]; then
+            echo "::error::Falta el secret RELEASE_TOKEN (PAT con Contents y Pull requests: Read and write)."
+            exit 1
+          fi
+
+      - name: Checkout main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN || secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '22.x'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+        with:
+          version: 10.17.1
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Check version is newer than the last tag
+        env:
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: |
+          latest=$(git tag --list 'v[0-9]*' --sort=-v:refname | head -1)
+          latest=${latest#v}
+          if [ -n "${latest}" ]; then
+            higher=$(printf '%s\n%s\n' "${latest}" "${RELEASE_VERSION}" | sort -V | tail -1)
+            if [ "${higher}" != "${RELEASE_VERSION}" ]; then
+              echo "::error::release_version (${RELEASE_VERSION}) debe ser mayor que la ultima version (${latest})"
+              exit 1
+            fi
+            echo "Ultima version publicada: ${latest}"
+          fi
+
+      - name: Prepare release version
+        id: version
+        env:
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: |
+          current=$(node -p "require('./package.json').version")
+          echo "current=${current}" >> "$GITHUB_OUTPUT"
+          if [ "$current" = "$RELEASE_VERSION" ]; then
+            echo "package.json ya esta en ${RELEASE_VERSION}; no hace falta PR de release"
+            echo "needs_pr=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "needs_pr=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create release PR and merge it
+        if: steps.version.outputs.needs_pr == 'true' && inputs.dry_run == false
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+          RELEASE_VERSION: ${{ inputs.release_version }}
+          BRANCH: release/${{ inputs.release_version }}
+        run: |
+          pnpm pkg set version="${RELEASE_VERSION}"
+          git checkout -B "${BRANCH}"
+          git add package.json
+          git commit -m "chore(release): ${RELEASE_VERSION}"
+          # force-with-lease: un reintento tras un fallo a medias reaprovecha la
+          # rama remota que dejo el run anterior en vez de fallar.
+          git push --force-with-lease origin "${BRANCH}"
+
+          # Reutilizar el PR si un run anterior lo creo y no llego a mergearlo.
+          pr_number=$(gh pr list --head "${BRANCH}" --state open \
+            --json number --jq '.[0].number // empty')
+          if [ -n "${pr_number}" ]; then
+            echo "Reutilizando el PR #${pr_number} de ${BRANCH}"
+          else
+            gh pr create \
+              --base main \
+              --head "${BRANCH}" \
+              --title "chore(release): ${RELEASE_VERSION}" \
+              --body "Release automatizada de v${RELEASE_VERSION}. El workflow Release crea este PR y lo mergea para que main no reciba pushes directos."
+          fi
+
+          gh pr merge "${BRANCH}" --squash --delete-branch
+
+          git checkout main
+          git pull origin main
+          test "$(node -p "require('./package.json').version")" = "${RELEASE_VERSION}"
+
+      - name: Tag release
+        if: inputs.dry_run == false
+        env:
+          RELEASE_VERSION: ${{ inputs.release_version }}
+        run: |
+          test "$(node -p "require('./package.json').version")" = "${RELEASE_VERSION}"
+          if git rev-parse "v${RELEASE_VERSION}" >/dev/null 2>&1; then
+            # Un reintento tras fallar Docker o la GitHub Release no debe
+            # quedar bloqueado por el tag que ya creo el run anterior.
+            tag_commit=$(git rev-parse "v${RELEASE_VERSION}^{commit}")
+            head_commit=$(git rev-parse HEAD)
+            if [ "${tag_commit}" != "${head_commit}" ]; then
+              echo "::error::El tag v${RELEASE_VERSION} ya existe y apunta a otro commit (${tag_commit})"
+              exit 1
+            fi
+            echo "El tag v${RELEASE_VERSION} ya existe en HEAD; continuo"
+          else
+            git tag -a "v${RELEASE_VERSION}" -m "v${RELEASE_VERSION}"
+            git push origin "v${RELEASE_VERSION}"
+          fi
+
+      - name: Log in to Docker Hub
+        if: inputs.dry_run == false
+        uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550 # v4.8.0
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+      - name: Build frontend image (dry run)
+        if: inputs.dry_run == true
+        run: |
+          docker build \
+            --build-arg VERSION="${{ inputs.release_version }}" \
+            -t "isidromerayo/frontend-vue-tfg:${{ inputs.release_version }}" .
+
+      - name: Publish Docker image
+        if: inputs.dry_run == false
+        run: |
+          docker build \
+            --build-arg VERSION="${{ inputs.release_version }}" \
+            -t "isidromerayo/frontend-vue-tfg:${{ inputs.release_version }}" \
+            -t "isidromerayo/frontend-vue-tfg:latest" .
+          docker push "isidromerayo/frontend-vue-tfg:${{ inputs.release_version }}"
+          docker push "isidromerayo/frontend-vue-tfg:latest"
+
+      - name: Create GitHub release
+        if: inputs.dry_run == false
+        env:
+          GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+        run: |
+          tag="v${{ inputs.release_version }}"
+          if gh release view "${tag}" >/dev/null 2>&1; then
+            echo "La GitHub Release ${tag} ya existe; continuo"
+          else
+            gh release create "${tag}" --title "${tag}" --generate-notes
+          fi

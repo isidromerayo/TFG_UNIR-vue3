@@ -105,6 +105,21 @@ pnpm build
 pnpm preview
 ```
 
+### Imagen Docker y despliegue
+
+La imagen de producción se construye con `Dockerfile` (build de Vite con pnpm y
+runtime `nginx-unprivileged`, puerto `8080`, usuario `nginx`):
+
+```bash
+docker build -t isidromerayo/frontend-vue-tfg:0.3.0 .
+docker run --rm -p 8080:8080 isidromerayo/frontend-vue-tfg:0.3.0
+```
+
+El workflow `Release` publica `isidromerayo/frontend-vue-tfg:<version>` y `:latest`
+en Docker Hub, crea el tag y la GitHub Release. El despliegue en el homelab
+(Coolify, `https://tfg-vue.estilolibre.eu`) lo gobierna la última release mediante
+un poller; la URL de la API se hornea en la build (`src/utils/constants.ts`).
+
 ### Type Checking
 
 ```bash
@@ -417,6 +432,6 @@ Este proyecto es parte del TFG de UNIR - Frameworks frontend JavaScript: Anális
 
 ---
 
-**Versión**: 0.2.2  
+**Versión**: 0.3.0  
 **Node.js**: 22.x  
 **Package Manager**: pnpm
